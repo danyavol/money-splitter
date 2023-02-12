@@ -8,6 +8,14 @@ const routes: Routes = [
         pathMatch: 'full'
     },
     {
+        path: 'groups',
+        loadChildren: () => import('./modules/groups/groups.module').then(m => m.GroupsModule)
+    },
+    {
+        path: 'people',
+        loadChildren: () => import('./modules/people/people.module').then(m => m.PeopleModule)
+    },
+    {
         path: 'folder/:id',
         loadChildren: () => import('./folder/folder.module').then(m => m.FolderPageModule)
     }
