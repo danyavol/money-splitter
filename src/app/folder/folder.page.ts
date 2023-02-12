@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GroupsCollection } from '../database/collectinos/groups.collection';
 
 @Component({
     selector: 'app-folder',
@@ -9,10 +10,25 @@ import { ActivatedRoute } from '@angular/router';
 export class FolderPage implements OnInit {
     public folder!: string;
 
-    constructor(private activatedRoute: ActivatedRoute) { }
+    groups$ = this.groupsCol.groups$;
+
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private groupsCol: GroupsCollection
+    ) { }
 
     ngOnInit() {
         this.folder = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    }
+
+    createGroup() {
+        this.groupsCol.createGroup({
+            name: "test",
+            members: [],
+            currency: "USD"
+        }).subscribe();
+
+        console.log(1);
     }
 
 }
