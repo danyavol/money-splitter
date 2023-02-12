@@ -1,0 +1,7 @@
+{
+  "name": "money-splitter",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
