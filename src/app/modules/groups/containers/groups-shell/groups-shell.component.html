@@ -4,5 +4,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-    <h1>Content</h1>
+    <ion-button (click)="createGroup()">Create group</ion-button>
+
+    <div>{{groups$ | async | json}}</div>
 </ion-content>
