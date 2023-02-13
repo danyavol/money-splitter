@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GroupsCollection } from '../database/collectinos/groups.collection';
+import { GroupsCollection } from '../database/collections/groups.collection';
 
 @Component({
     selector: 'app-folder',

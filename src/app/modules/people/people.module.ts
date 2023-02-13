@@ -2,12 +2,16 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
+import { PersonFormComponent } from "./components/person-form/person-form.component";
+import { EditPersonComponent } from "./containers/edit-person/edit-person.component";
 import { PeopleShellComponent } from "./containers/people-shell/people-shell.component";
 import { PeopleRoutingModule } from "./people-routing.module";
 
 @NgModule({
     declarations: [
-        PeopleShellComponent
+        PeopleShellComponent,
+        EditPersonComponent,
+        PersonFormComponent
     ],
     imports: [
         PeopleRoutingModule,

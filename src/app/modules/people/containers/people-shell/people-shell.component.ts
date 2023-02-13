@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MembersCollection } from 'src/app/database/collectinos/members.collection';
+import { Component } from '@angular/core';
+import { MembersCollection } from 'src/app/database/collections/members.collection';
 
 @Component({
     selector: 'app-people-shell',
@@ -7,17 +7,11 @@ import { MembersCollection } from 'src/app/database/collectinos/members.collecti
     styleUrls: ['./people-shell.component.scss'],
 })
 export class PeopleShellComponent {
-
     members$ = this.membersCol.members$;
 
-    constructor(
-        private membersCol: MembersCollection
-    ) { }
+    constructor(private membersCol: MembersCollection) {}
 
     createMember() {
-        console.log(1);
-        this.membersCol.createMember({
-            name: "test",
-        }).subscribe();
+        this.membersCol.createMember({ name: `First Name ${new Date().getMilliseconds()}` }).subscribe();
     }
 }

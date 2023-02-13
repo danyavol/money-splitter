@@ -1,17 +1,21 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>People</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="createMember()">
+                <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-    <div>{{members$ | async | json}}</div>
-
-    <ion-fab vertical="bottom" horizontal="end" >
-        <ion-fab-button (click)="createMember()">
-            <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
+<ion-content>
+    <ion-list lines="none">
+        <ion-item *ngFor="let member of members$ | async" [routerLink]="[member.id]">
+            <ion-avatar slot="start">
+                <img src="assets/avatar.svg" />
+            </ion-avatar>
+            <ion-label>{{member.name}}</ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>
-
-
