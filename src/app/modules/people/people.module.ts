@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
 import { PersonFormComponent } from "./components/person-form/person-form.component";
+import { CreatePersonComponent } from "./containers/create-person/create-person.component";
 import { EditPersonComponent } from "./containers/edit-person/edit-person.component";
 import { PeopleShellComponent } from "./containers/people-shell/people-shell.component";
 import { PeopleRoutingModule } from "./people-routing.module";
@@ -12,6 +13,7 @@ import { PeopleRoutingModule } from "./people-routing.module";
     declarations: [
         PeopleShellComponent,
         EditPersonComponent,
+        CreatePersonComponent,
         PersonFormComponent
     ],
     imports: [
