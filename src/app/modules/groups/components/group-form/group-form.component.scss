@@ -1,0 +1,15 @@
+.group-background {
+    margin-bottom: 40px;
+    background-color: var(--ion-color-success-tint);
+    height: 100px;
+    position: relative;
+
+    ion-avatar {
+        z-index: 1;
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        width: 100px;
+        height: 100px;
+    }
+}

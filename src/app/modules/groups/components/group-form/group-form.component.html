@@ -1,0 +1,28 @@
+<div class="group-background">
+    <ion-avatar slot="start">
+        <img src="assets/group.svg" />
+    </ion-avatar>
+</div>
+
+<ion-list [formGroup]="form">
+    <ion-item [counter]="true">
+        <ion-label>Name</ion-label>
+        <ion-input maxlength="20" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Members</ion-label>
+        <ion-select placeholder="Select members" [multiple]="true" formControlName="members">
+            <ion-select-option *ngFor="let member of members" [value]="member.id">
+                {{member.name}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label>Currency</ion-label>
+        <ion-select placeholder="Select currency" formControlName="currency">
+            <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+                {{currency}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+</ion-list>

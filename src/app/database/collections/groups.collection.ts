@@ -15,14 +15,15 @@ export class GroupsCollection {
         this.loadGroups();
     }
 
-    createGroup(group: Omit<Group, "id">): Observable<void> {
+    createGroup(group: Omit<Group, "id">): Observable<string> {
         const newGroup: Group = { ...group, id: uuid() };
 
         return this.groups$.pipe(
             first(),
             map(groups => ([...groups, newGroup])),
             switchMap(newGroups => this.saveGroups(newGroups).pipe(
-                tap(() => this.groupsSbj.next(newGroups))
+                tap(() => this.groupsSbj.next(newGroups)),
+                map(() => newGroup.id)
             ))
         );
     }

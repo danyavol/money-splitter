@@ -1,3 +1,23 @@
-<p>
-    create-group-shell works!
-</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button routerLink=".." routerDirection="back">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Create Group</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-group-form [form]="groupForm" [members]="(members$ | async) || []"></app-group-form>
+
+    <ion-list lines="none" class="ion-padding-top">
+        <ion-item>
+            <ion-button size="default" slot="end" (click)="createGroup()">
+                <ion-icon slot="start" name="add-outline"></ion-icon>
+                Create group
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>
