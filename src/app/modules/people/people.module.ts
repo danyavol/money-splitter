@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
 import { PersonFormComponent } from "./components/person-form/person-form.component";
@@ -16,7 +17,9 @@ import { PeopleRoutingModule } from "./people-routing.module";
     imports: [
         PeopleRoutingModule,
         IonicModule,
-        CommonModule
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
     ],
     exports: [RouterModule]
 })

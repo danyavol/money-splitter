@@ -8,5 +8,5 @@ import { PersonForm } from '../../interfaces/person-form.interface';
     styleUrls: ['./person-form.component.scss'],
 })
 export class PersonFormComponent {
-    @Input() form?: FormGroup<PersonForm>;
+    @Input() form!: FormGroup<PersonForm>;
 }

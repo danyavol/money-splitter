@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button routerLink="../" routerDirection="back">
+            <ion-button routerLink=".." routerDirection="back">
                 <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -13,7 +13,7 @@
 
     <ion-list lines="none" class="ion-padding-top">
         <ion-item>
-            <ion-button size="default" slot="end">
+            <ion-button size="default" slot="end" (click)="savePerson()">
                 <ion-icon slot="start" name="save-outline"></ion-icon>
                 Save person
             </ion-button>
