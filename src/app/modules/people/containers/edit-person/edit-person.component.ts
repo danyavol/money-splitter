@@ -12,7 +12,6 @@ import { PersonForm } from '../../interfaces/person-form.interface';
 })
 export class EditPersonComponent {
     memberId = this.route.snapshot.paramMap.get('memberId') || '';
-    member: Member | null = null;
     memberForm = new FormGroup<PersonForm>({
         name: new FormControl("", { nonNullable: true })
     });
@@ -25,21 +24,27 @@ export class EditPersonComponent {
         this.memberCol.getMember(this.memberId).subscribe(member => {
             if (member) {
                 this.memberForm.setValue({ name: member.name });
-                this.member = member;
             } else {
-                this.router.navigate([".."], { relativeTo: this.route });
+                this.navigateBack();
             }
         })
     }
 
     savePerson(): void {
-        if (!this.member) return;
-
-        this.memberCol.updateMember({
-            ...this.member,
+        this.memberCol.updateMember(this.memberId, {
             name: this.memberForm.getRawValue().name
         }).subscribe(() => {
-            this.router.navigate([".."], { relativeTo: this.route });
+            this.navigateBack();
         })
+    }
+
+    removePerson(): void {
+        this.memberCol.removeMember(this.memberId).subscribe(() => {
+            this.navigateBack();
+        });
+    }
+
+    private navigateBack(): void {
+        this.router.navigate([".."], { relativeTo: this.route });
     }
 }

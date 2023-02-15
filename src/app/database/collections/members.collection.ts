@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { first, map, Observable, of, ReplaySubject, switchMap, tap } from 'rxjs';
+import {
+    first,
+    map,
+    Observable,
+    of,
+    ReplaySubject,
+    switchMap,
+    tap,
+} from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Collection, Member } from '../storage.interface';
 import { StorageService } from '../storage.service';
@@ -36,16 +44,37 @@ export class MembersCollection {
         );
     }
 
-    updateMember(member: Member): Observable<void> {
+    updateMember(memberId: string, member: Partial<Member>): Observable<void> {
         return this.members$.pipe(
             first(),
             map((members) => {
-                const memberIndex = members.findIndex(
-                    (m) => m.id === member.id
-                );
+                const memberIndex = members.findIndex((m) => m.id === memberId);
                 if (memberIndex < 0) return;
 
-                members.splice(memberIndex, 1, member);
+                members.splice(memberIndex, 1, {
+                    ...members[memberIndex],
+                    ...member,
+                });
+                return members;
+            }),
+            switchMap((newMembers) => {
+                if (!newMembers) return of();
+
+                return this.saveMembers(newMembers).pipe(
+                    tap(() => this.membersSbj.next(newMembers))
+                );
+            })
+        );
+    }
+
+    removeMember(memberId: string): Observable<void> {
+        return this.members$.pipe(
+            first(),
+            map((members) => {
+                const memberIndex = members.findIndex((m) => m.id === memberId);
+                if (memberIndex < 0) return;
+
+                members.splice(memberIndex, 1);
                 return members;
             }),
             switchMap((newMembers) => {

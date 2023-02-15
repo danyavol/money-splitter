@@ -3,19 +3,25 @@
         <ion-title>People</ion-title>
         <ion-buttons slot="end">
             <ion-button routerLink="new">
-                <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+                <ion-icon slot="icon-only" name="person-add-outline" color="success"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-list lines="none">
-        <ion-item *ngFor="let member of members$ | async" [routerLink]="[member.id]">
+<ion-content *ngIf="members$ | async as members">
+    <ion-list lines="none" *ngIf="members.length; else noMembers">
+        <ion-item *ngFor="let member of members" [routerLink]="[member.id]">
             <ion-avatar slot="start">
                 <img src="assets/avatar.svg" />
             </ion-avatar>
             <ion-label>{{member.name}}</ion-label>
         </ion-item>
     </ion-list>
+
+    <ng-template #noMembers>
+        <div class="ion-margin-top ion-text-center">
+            <ion-text color="medium">You don't have any saved people</ion-text>
+        </div>
+    </ng-template>
 </ion-content>
