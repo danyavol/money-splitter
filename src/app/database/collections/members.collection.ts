@@ -6,11 +6,12 @@ import {
     of,
     ReplaySubject,
     switchMap,
-    tap,
+    tap
 } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Collection, Member } from '../storage.interface';
 import { StorageService } from '../storage.service';
+import { GroupsCollection } from './groups.collection';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +20,10 @@ export class MembersCollection {
     private membersSbj = new ReplaySubject<Member[]>(1);
     members$ = this.membersSbj.asObservable();
 
-    constructor(private storage: StorageService) {
+    constructor(
+        private storage: StorageService,
+        private groupsCol: GroupsCollection
+    ) {
         this.loadMembers();
     }
 
@@ -68,7 +72,15 @@ export class MembersCollection {
     }
 
     removeMember(memberId: string): Observable<void> {
-        return this.members$.pipe(
+        return this.groupsCol.groups$.pipe(
+            tap((groups) => {
+                const memberGroups = groups.filter(group => group.members.includes(memberId));
+                if (memberGroups.length) {
+                    const groupNames = memberGroups.map(g => `<strong>${g.name}</strong>`).join(', ') + '.'
+                    throw new Error("Error! This person is a member of:<br><br>" + groupNames);
+                }
+            }),
+            switchMap(() => this.members$),
             first(),
             map((members) => {
                 const memberIndex = members.findIndex((m) => m.id === memberId);

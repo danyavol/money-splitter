@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { BehaviorSubject, filter, first, from, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, filter, first, from, map, Observable, switchMap } from 'rxjs';
 import { Collection } from './storage.interface';
 
 @Injectable({
@@ -25,7 +25,9 @@ export class StorageService {
     public set<T>(collection: Collection, value: T): Observable<void> {
         return this.storageReady.pipe(
             filter(ready => ready),
-            switchMap(() => from(this.storage.set(collection, value))),
+            switchMap(() => from(this.storage.set(collection, value)).pipe(
+                map(() => undefined)
+            )),
             first()
         );
     }
