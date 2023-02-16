@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 
 @Component({
@@ -16,7 +17,7 @@ export class GroupsShellComponent {
             .createGroup({
                 name: 'test',
                 members: [],
-                currency: 'USD',
+                currency: Currency.USD,
             })
             .subscribe();
     }

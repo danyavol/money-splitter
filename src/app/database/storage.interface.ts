@@ -1,3 +1,5 @@
+import { Currency } from "../core/interfaces/currency.interface";
+
 export enum Collection {
     Groups = "groups",
     Members = "members",
@@ -9,7 +11,7 @@ export interface Group {
     id: string;
     name: string;
     members: string[];
-    currency: string;
+    currency: Currency;
 }
 
 export interface Member {

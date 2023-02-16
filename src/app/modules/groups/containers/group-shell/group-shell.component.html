@@ -1,0 +1,22 @@
+<ng-container *ngIf="group$ | async as group">
+    <ion-header>
+        <ion-toolbar>
+            <ion-buttons slot="start">
+                <ion-button routerLink=".." routerDirection="back">
+                    <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title>{{group.name}}</ion-title>
+            <ion-buttons slot="end">
+                <ion-button routerLink="edit">
+                    <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        {{group | json}}
+    </ion-content>
+</ng-container>
+

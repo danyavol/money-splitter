@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { Member } from 'src/app/database/storage.interface';
 import { PersonForm } from '../../interfaces/person-form.interface';
 
 @Component({
@@ -45,6 +44,6 @@ export class EditPersonComponent {
     }
 
     private navigateBack(): void {
-        this.router.navigate([".."], { relativeTo: this.route });
+        this.router.navigate(["/people"]);
     }
 }

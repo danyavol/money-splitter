@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -22,15 +22,14 @@ export class CreateGroupShellComponent {
     constructor(
         private groupsCol: GroupsCollection,
         private memberCol: MembersCollection,
-        private router: Router,
-        private route: ActivatedRoute
+        private router: Router
     ) {}
 
     createGroup(): void {
         this.groupsCol
             .createGroup(this.groupForm.getRawValue())
             .subscribe((groupId) => {
-                this.router.navigate([groupId], { relativeTo: this.route });
+                this.router.navigate(['/groups', groupId]);
             });
     }
 }
