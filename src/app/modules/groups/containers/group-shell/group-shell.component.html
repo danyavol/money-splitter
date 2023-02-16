@@ -16,7 +16,33 @@
     </ion-header>
 
     <ion-content>
-        {{group | json}}
+        <ion-row class="swiper-wrapper">
+            <ion-col class="swiper-segments">
+                <ion-segment [scrollable]="true" [formControl]="control">
+                    <ion-segment-button [value]="Slide.Expenses">
+                        Expenses
+                    </ion-segment-button>
+                    <ion-segment-button [value]="Slide.Transfers">
+                        Transfers
+                    </ion-segment-button>
+                    <ion-segment-button [value]="Slide.Totals">
+                        Totals
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-col>
+            <ion-col class="swiper-slides">
+                <ion-slides class="swiper" [options]="slideOpts" (ionSlideWillChange)="slideChanged($event)">
+                    <ion-slide>
+                        <h1>Slide 1</h1>
+                    </ion-slide>
+                    <ion-slide>
+                        <h1>Slide 2</h1>
+                    </ion-slide>
+                    <ion-slide>
+                        <h1>Slide 3</h1>
+                    </ion-slide>
+                </ion-slides>
+            </ion-col>
+        </ion-row>
     </ion-content>
 </ng-container>
-

@@ -1,0 +1,27 @@
+.swiper-wrapper {
+    height: 100%;
+    flex-direction: column;
+
+    .swiper-segments {
+        flex-grow: 0;
+        flex-basis: auto;
+        padding: 0;
+    }
+
+    .swiper-slides {
+        flex-grow: 1;
+        padding: 0;
+
+        .swiper {
+            height: 100%;
+        }
+    }
+}
+
+.swiper-slide {
+    display: block;
+}
+
+ion-segment.ios {
+    margin: 10px;
+}
