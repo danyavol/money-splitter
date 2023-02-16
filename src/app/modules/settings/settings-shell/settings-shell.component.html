@@ -1,0 +1,13 @@
+<ion-content>
+    <h1 class="ion-text-center">Settings</h1>
+    <ion-list *ngIf="settingsForm" [formGroup]="settingsForm">
+        <ion-item>
+            <ion-label>Theme</ion-label>
+            <ion-select interface="popover" placeholder="Select theme" formControlName="theme">
+                <ion-select-option [value]="Theme.System">System</ion-select-option>
+                <ion-select-option [value]="Theme.Light">Light</ion-select-option>
+                <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+</ion-content>

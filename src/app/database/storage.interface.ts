@@ -4,7 +4,8 @@ export enum Collection {
     Groups = "groups",
     Members = "members",
     Expenses = "expenses",
-    Transfers = "transfers"
+    Transfers = "transfers",
+    Settings = "settings"
 }
 
 export interface Group {
@@ -41,4 +42,14 @@ export interface Transfer {
     recipientId: string;
     title: string;
     amount: number;
+}
+
+export interface Settings {
+    theme: Theme;
+}
+
+export enum Theme {
+    System = "system",
+    Dark = "dark",
+    Light = "light"
 }
