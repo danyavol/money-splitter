@@ -3,7 +3,7 @@ import { first, map, Observable, ReplaySubject, switchMap, tap } from "rxjs";
 import { Collection, Settings, Theme } from "../storage.interface";
 import { StorageService } from "../storage.service";
 
-const defaultSettings: Settings = {
+export const defaultSettings: Settings = {
     theme: Theme.System
 };
 
