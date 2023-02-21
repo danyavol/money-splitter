@@ -31,6 +31,7 @@
         "@ionic/storage-angular": "^3.0.6",
         "@types/uuid": "^9.0.0",
         "cordova-sqlite-storage": "^6.1.0",
+        "imask": "^6.4.3",
         "ionicons": "^6.0.3",
         "localforage-cordovasqlitedriver": "^1.8.0",
         "rxjs": "~7.5.0",
