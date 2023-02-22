@@ -15,24 +15,16 @@
         <ion-input placeholder="Expense title"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>Amount</ion-label>
-        <ion-input type="text" currencyMask [formControl]="control"></ion-input>
-        <ion-text>PLN</ion-text>
+        <ion-label>PLN</ion-label>
+        <ion-input type="text" color="primary" inputmode="decimal" currencyMask [formControl]="control"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-datetime-button datetime="datetime">
-            <!-- <div slot="time-target">
-                123
-            </div> -->
-        </ion-datetime-button>
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
         <ion-modal [keepContentsMounted]="true">
             <ng-template>
                 <ion-datetime id="datetime" hourCycle="h23"></ion-datetime>
             </ng-template>
         </ion-modal>
-    </ion-item>
-    <ion-item>
-        {{control.value}}
     </ion-item>
 </ion-list>
