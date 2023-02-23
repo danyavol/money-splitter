@@ -10,5 +10,8 @@
 </ion-header>
 
 <ion-content>
-    <app-expense-form></app-expense-form>
+    <app-expense-form
+        [members]="(members$ | async) || []"
+        [currency]="currency$ | async"
+    ></app-expense-form>
 </ion-content>

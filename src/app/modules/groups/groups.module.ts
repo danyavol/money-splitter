@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { CurrencyMaskDirective } from 'src/app/core/directives/currency-mask.directive';
 import { ExpenseFormComponent } from './components/expense-form/expense-form.component';
 import { GroupFormComponent } from './components/group-form/group-form.component';
+import { PaidByControlComponent } from './components/paid-by-control/paid-by-control.component';
 import { CreateGroupShellComponent } from './containers/create-group-shell/create-group-shell.component';
 import { EditGroupShellComponent } from './containers/edit-group-shell/edit-group-shell.component';
 import { CreateExpenseShellComponent } from './containers/expenses/create-expense-shell/create-expense-shell.component';
@@ -23,7 +24,8 @@ import { GroupsRoutingModule } from './groups-routing.module';
         GroupShellComponent,
         ExpensesListShellComponent,
         CreateExpenseShellComponent,
-        ExpenseFormComponent
+        ExpenseFormComponent,
+        PaidByControlComponent
     ],
     imports: [
         GroupsRoutingModule,

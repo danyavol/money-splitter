@@ -1,0 +1,36 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.member {
+    .name-row {
+        font-weight: 500;
+    }
+
+    .info-row {
+        display: flex;
+
+        .amount-wrapper {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+
+            .currency {
+                color: var(--ion-color-medium);
+            }
+
+            ion-input {
+                --padding-top: 5px;
+                --padding-bottom: 5px;
+            }
+        }
+
+        .ration-wrapper {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            gap: 10px;
+        }
+    }
+}

@@ -32,6 +32,7 @@ export interface Expense {
 
 export interface ExpenseMember {
     memberId: string;
+    ration: number | null;
     amount: number;
 }
 

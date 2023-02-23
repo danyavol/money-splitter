@@ -1,0 +1,22 @@
+<div class="member" *ngFor="let member of members$ | async">
+    <div class="name-row">
+        {{member.name}}
+    </div>
+    <div class="info-row">
+        <div class="amount-wrapper">
+            <ion-label class="currency">{{currency}}</ion-label>
+            <ion-input type="text" color="primary" inputmode="decimal" currencyMask></ion-input>
+        </div>
+        <div class="ration-wrapper">
+            <ion-button shape="round" slot="icon-only" class="round-icon-button">
+                <ion-icon name="remove-outline"></ion-icon>
+            </ion-button>
+            <span>1x</span>
+            <ion-button shape="round"  slot="icon-only" class="round-icon-button">
+                <ion-icon name="add-outline"></ion-icon>
+            </ion-button>
+        </div>
+    </div>
+</div>
+
+<ion-button>Add member</ion-button>

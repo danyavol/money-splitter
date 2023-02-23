@@ -10,21 +10,29 @@
     split with
  -->
 
-<ion-list>
+<ion-list [formGroup]="form">
     <ion-item>
-        <ion-input placeholder="Expense title"></ion-input>
+        <ion-input placeholder="Expense title" formControlName="title"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>PLN</ion-label>
-        <ion-input type="text" color="primary" inputmode="decimal" currencyMask [formControl]="control"></ion-input>
+        <ion-label>{{currency}}</ion-label>
+        <ion-input type="text" color="primary" inputmode="decimal" currencyMask formControlName="amount"></ion-input>
     </ion-item>
     <ion-item>
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
         <ion-modal [keepContentsMounted]="true">
             <ng-template>
-                <ion-datetime id="datetime" hourCycle="h23"></ion-datetime>
+                <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
             </ng-template>
         </ion-modal>
+    </ion-item>
+    <ion-item>
+        <!-- <ion-label>Paid by</ion-label> -->
+        <app-paid-by-control
+            [members]="members"
+            [totalAmount]="form.get('amount')!.value || 0"
+            [currency]="currency"
+            formControlName="payers"></app-paid-by-control>
     </ion-item>
 </ion-list>
