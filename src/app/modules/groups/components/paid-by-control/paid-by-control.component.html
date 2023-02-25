@@ -1,22 +1,36 @@
-<div class="member" *ngFor="let member of members$ | async">
-    <div class="name-row">
-        {{member.name}}
-    </div>
-    <div class="info-row">
-        <div class="amount-wrapper">
-            <ion-label class="currency">{{currency}}</ion-label>
-            <ion-input type="text" color="primary" inputmode="decimal" currencyMask></ion-input>
-        </div>
-        <div class="ration-wrapper">
-            <ion-button shape="round" slot="icon-only" class="round-icon-button">
-                <ion-icon name="remove-outline"></ion-icon>
-            </ion-button>
-            <span>1x</span>
-            <ion-button shape="round"  slot="icon-only" class="round-icon-button">
-                <ion-icon name="add-outline"></ion-icon>
-            </ion-button>
-        </div>
-    </div>
-</div>
+<ng-container *ngIf="viewMembers$ | async as members">
+    <ion-text class="control-label">{{label}}</ion-text>
 
-<ion-button>Add member</ion-button>
+    <div class="members-wrapper">
+        <div class="member" *ngFor="let member of members; trackBy: trackByFn">
+            <div class="name-row">
+                {{member.name}}
+            </div>
+            <div class="info-row">
+                <div class="amount-wrapper">
+                    <ion-label class="currency">{{currency}}</ion-label>
+                    <ion-input type="text" color="primary" inputmode="decimal" currencyMask
+                        placeholder="0.00" (valueChange)="amountChange($event, member.memberId)"></ion-input>
+                </div>
+                <div class="ration-wrapper" *ngIf="members.length > 1">
+                    <ion-button shape="round" slot="icon-only" class="round-icon-button" [disabled]="member.ration === null" (click)="decreaseRation(member.memberId)">
+                        <ion-icon name="remove-outline"></ion-icon>
+                    </ion-button>
+                    <span class="ration">{{member.ration ? member.ration + "x" : ""}}</span>
+                    <ion-button shape="round" slot="icon-only" class="round-icon-button" [disabled]="member.ration === 99" (click)="increaseRation(member.memberId)">
+                        <ion-icon name="add-outline"></ion-icon>
+                    </ion-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-member-btn">
+        <ion-button fill="outline" size="small" (click)="selectPerson.modal?.present()">
+            <ion-icon name="add-outline"></ion-icon>
+            Add member
+        </ion-button>
+    </div>
+
+    <app-select-person #selectPerson [people]="(inputMembers$ | async) || []" [formControl]="selectedMemberIds"></app-select-person>
+</ng-container>

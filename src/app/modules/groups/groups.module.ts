@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { SelectPersonComponent } from 'src/app/core/components/select-person/select-person.component';
 import { CurrencyMaskDirective } from 'src/app/core/directives/currency-mask.directive';
 import { ExpenseFormComponent } from './components/expense-form/expense-form.component';
 import { GroupFormComponent } from './components/group-form/group-form.component';
@@ -33,7 +34,8 @@ import { GroupsRoutingModule } from './groups-routing.module';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        CurrencyMaskDirective
+        CurrencyMaskDirective,
+        SelectPersonComponent
     ],
     providers: [CurrencyMaskDirective],
     exports: [RouterModule],

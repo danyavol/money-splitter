@@ -1,6 +1,7 @@
 import {
-    Directive, OnInit,
+    Directive, EventEmitter, Host, OnInit,
     Optional,
+    Output,
     ViewContainerRef
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
@@ -12,6 +13,8 @@ import IMask from 'imask';
     standalone: true,
 })
 export class CurrencyMaskDirective implements OnInit {
+    @Output() valueChange = new EventEmitter<number>();
+
     readonly maskOptions: IMask.MaskedNumberOptions = {
         mask: Number, // enable number mask
 
@@ -27,7 +30,7 @@ export class CurrencyMaskDirective implements OnInit {
 
     constructor(
         @Optional() private input: IonInput,
-        @Optional() private control: NgControl,
+        @Optional() @Host() private control: NgControl,
         private ref: ViewContainerRef
     ) {}
 
@@ -46,6 +49,7 @@ export class CurrencyMaskDirective implements OnInit {
 
         mask.on('accept', () => {
             this.control?.control?.setValue(mask.typedValue);
+            this.valueChange.emit(mask.typedValue);
         });
     }
 }

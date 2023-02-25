@@ -1,0 +1,23 @@
+<ion-modal #modal class="select-person-modal">
+    <ng-template>
+        <ion-content>
+            <ion-list class="people">
+                <ion-item *ngFor="let person of checkboxPeople$ | async; trackBy: trackByFn" >
+                    <ion-checkbox slot="start" [value]="person.id" [checked]="person.checked" (ionChange)="checkedChange($any($event), person)"></ion-checkbox>
+                    <ion-avatar>
+                        <img src="assets/avatar.svg" />
+                    </ion-avatar>
+                    <ion-label>
+                        <h2>{{person.name}}</h2>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+
+            <div class="action-button">
+                <ion-buttons slot="end">
+                    <ion-button color="primary" (click)="modal.dismiss()">Ok</ion-button>
+                </ion-buttons>
+            </div>
+        </ion-content>
+    </ng-template>
+</ion-modal>

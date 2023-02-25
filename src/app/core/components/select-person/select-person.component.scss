@@ -1,0 +1,24 @@
+.select-person-modal {
+    --max-height: 50%;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    padding: 0 20px;
+}
+
+.action-button {
+    height: 56px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 16px;
+    border-top: 1px solid #d9d9d9;
+}
+
+ion-avatar {
+    margin: 5px 10px 5px 0;
+}
+
+.people.md {
+    height: calc(100% - 56px);
+    overflow: scroll;
+}

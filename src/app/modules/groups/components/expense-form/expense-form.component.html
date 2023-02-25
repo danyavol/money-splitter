@@ -1,22 +1,10 @@
-<!--
-    сумма
-
-    название
-
-    дата
-
-    payers
-
-    split with
- -->
-
 <ion-list [formGroup]="form">
     <ion-item>
         <ion-input placeholder="Expense title" formControlName="title"></ion-input>
     </ion-item>
     <ion-item>
         <ion-label>{{currency}}</ion-label>
-        <ion-input type="text" color="primary" inputmode="decimal" currencyMask formControlName="amount"></ion-input>
+        <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask formControlName="amount"></ion-input>
     </ion-item>
     <ion-item>
         <ion-datetime-button datetime="datetime"></ion-datetime-button>
@@ -28,11 +16,12 @@
         </ion-modal>
     </ion-item>
     <ion-item>
-        <!-- <ion-label>Paid by</ion-label> -->
         <app-paid-by-control
+            label="Paid by"
             [members]="members"
             [totalAmount]="form.get('amount')!.value || 0"
             [currency]="currency"
-            formControlName="payers"></app-paid-by-control>
+            formControlName="payers"
+        ></app-paid-by-control>
     </ion-item>
 </ion-list>

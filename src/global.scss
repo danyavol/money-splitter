@@ -35,3 +35,11 @@ html {
     --padding-start: 0.285rem;
     --padding-end: 0.285rem;
 }
+
+ion-checkbox {
+    --size: 25px;
+}
+
+ion-checkbox::part(container) {
+    border-radius: calc(var(--size) * 0.3);
+}
