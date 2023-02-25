@@ -1,22 +1,11 @@
 import { CommonModule } from '@angular/common';
-import {
-    Component, Input,
-    OnInit,
-    ViewChild
-} from '@angular/core';
-import {
-    ControlValueAccessor, NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CheckboxCustomEvent, IonicModule, IonModal } from '@ionic/angular';
-import {
-    BehaviorSubject,
-    combineLatest,
-    map,
-    Observable
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Member } from 'src/app/database/storage.interface';
 
-interface CheckedboxMember extends Member {
+interface ViewMember extends Member {
     checked: boolean;
 }
 
@@ -44,17 +33,18 @@ export class SelectPersonComponent implements OnInit, ControlValueAccessor {
     selectedIds = new Set<string>();
     selectedIds$ = new BehaviorSubject<Set<string>>(this.selectedIds);
     people$ = new BehaviorSubject<Member[]>([]);
-    checkboxPeople$!: Observable<CheckedboxMember[]>;
+    viewMembers$!: Observable<ViewMember[]>;
 
     onChange = (value: string[]) => {};
+    onTouched = () => {};
 
     ngOnInit(): void {
-        this.checkboxPeople$ = combineLatest([
+        this.viewMembers$ = combineLatest([
             this.people$.asObservable(),
             this.selectedIds$,
         ]).pipe(
             map(([people, ids]) => {
-                return people.map((p: any) => ({
+                return people.map((p) => ({
                     ...p,
                     checked: ids.has(p.id),
                 }));
@@ -62,17 +52,18 @@ export class SelectPersonComponent implements OnInit, ControlValueAccessor {
         );
     }
 
-    checkedChange(e: CheckboxCustomEvent, person: CheckedboxMember): void {
+    checkedChange(e: CheckboxCustomEvent, person: ViewMember): void {
         if (e.detail.checked === person.checked) return;
 
         if (e.detail.checked) this.selectedIds.add(e.detail.value);
         else this.selectedIds.delete(e.detail.value);
 
-        this.onChange(Array.from(this.selectedIds));
+        this.onTouched();
+        this.onChange(this.sortSelectedIds(Array.from(this.selectedIds)));
         this.selectedIds$.next(this.selectedIds);
     }
 
-    trackByFn(_index: number, person: CheckedboxMember): string {
+    trackByFn(_index: number, person: ViewMember): string {
         return person.id;
     }
 
@@ -87,5 +78,13 @@ export class SelectPersonComponent implements OnInit, ControlValueAccessor {
     registerOnChange(fn: (value: string[]) => void): void {
         this.onChange = fn;
     }
-    registerOnTouched(): void {}
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
+
+    sortSelectedIds(ids: string[]): string[] {
+        return this.people$.value
+            .filter((p) => ids.includes(p.id))
+            .map((p) => p.id);
+    }
 }
