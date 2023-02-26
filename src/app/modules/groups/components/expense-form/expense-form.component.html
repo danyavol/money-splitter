@@ -19,9 +19,12 @@
         <app-paid-by-control
             label="Paid by"
             [members]="members"
-            [totalAmount]="form.get('amount')!.value || 0"
+            [totalAmount]="form.get('amount')!.value"
             [currency]="currency"
             formControlName="payers"
         ></app-paid-by-control>
+    </ion-item>
+    <ion-item>
+        {{form.get("payers")!.value | json}}
     </ion-item>
 </ion-list>

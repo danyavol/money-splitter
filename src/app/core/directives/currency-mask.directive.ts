@@ -1,8 +1,13 @@
 import {
-    Directive, EventEmitter, Host, OnInit,
+    Directive,
+    EventEmitter,
+    Host,
+    Input,
+    OnInit,
     Optional,
     Output,
-    ViewContainerRef
+    SimpleChanges,
+    ViewContainerRef,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { IonInput } from '@ionic/angular';
@@ -13,7 +18,8 @@ import IMask from 'imask';
     standalone: true,
 })
 export class CurrencyMaskDirective implements OnInit {
-    @Output() valueChange = new EventEmitter<number>();
+    @Input() maskValue: number | null = null;
+    @Output() valueChange = new EventEmitter<number | null>();
 
     readonly maskOptions: IMask.MaskedNumberOptions = {
         mask: Number, // enable number mask
@@ -28,6 +34,11 @@ export class CurrencyMaskDirective implements OnInit {
         mapToRadix: [','], // symbols to process as radix
     };
 
+    private skipNextValueChange = false;
+    private element?: HTMLInputElement;
+    private mask?: IMask.InputMask<IMask.MaskedNumberOptions>;
+    private initialValue: number | null = null;
+
     constructor(
         @Optional() private input: IonInput,
         @Optional() @Host() private control: NgControl,
@@ -35,21 +46,54 @@ export class CurrencyMaskDirective implements OnInit {
     ) {}
 
     async ngOnInit() {
-        let elem: HTMLInputElement = this.ref.element.nativeElement;
+        this.element = this.ref.element.nativeElement;
 
         if (this.input) {
             let oldElem = await this.input.getInputElement();
 
             // Hack to remove all event listeners
-            elem = oldElem.cloneNode(true) as HTMLInputElement;
-            oldElem.parentNode!.replaceChild(elem, oldElem);
+            this.element = oldElem.cloneNode(true) as HTMLInputElement;
+            oldElem.parentNode!.replaceChild(this.element, oldElem);
         }
 
-        const mask = IMask(elem, this.maskOptions);
+        if (!this.element) return;
 
-        mask.on('accept', () => {
-            this.control?.control?.setValue(mask.typedValue);
-            this.valueChange.emit(mask.typedValue);
+        this.element.value = this.initialValue === null ? "" :  this.initialValue.toString();
+
+        this.mask = IMask(this.element, this.maskOptions);
+
+        this.mask.on('accept', () => {
+            if (this.skipNextValueChange) {
+                this.skipNextValueChange = false;
+                return;
+            }
+
+            const newValue = !this.mask!.value ? null : this.mask!.typedValue;
+            this.control?.control?.setValue(newValue);
+            this.valueChange.emit(newValue);
         });
+    }
+
+    ngOnChanges(currentValue: SimpleChanges) {
+        if ('maskValue' in currentValue) {
+            const value = currentValue['maskValue'].currentValue;
+
+            if (currentValue['maskValue'].firstChange) {
+                this.initialValue = value;
+            }
+
+            if (this.element && this.mask) {
+                if (
+                    typeof value === 'number' &&
+                    this.mask.typedValue !== value
+                ) {
+                    this.skipNextValueChange = true;
+                    this.mask.typedValue = value;
+                } else if (value === null && this.mask.value !== '') {
+                    this.skipNextValueChange = true;
+                    this.mask.value = '';
+                }
+            }
+        }
     }
 }

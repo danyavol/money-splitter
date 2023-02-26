@@ -10,7 +10,7 @@
                 <div class="amount-wrapper">
                     <ion-label class="currency">{{currency}}</ion-label>
                     <ion-input type="text" color="primary" inputmode="decimal" currencyMask
-                        placeholder="0.00" (valueChange)="amountChange($event, member.memberId)"></ion-input>
+                        placeholder="0.00" [maskValue]="member.amount" (valueChange)="amountChange($event, member.memberId)"></ion-input>
                 </div>
                 <div class="ration-wrapper" *ngIf="members.length > 1">
                     <ion-button shape="round" slot="icon-only" class="round-icon-button" [disabled]="member.ration === null" (click)="decreaseRation(member.memberId)">
@@ -27,8 +27,8 @@
 
     <div class="add-member-btn">
         <ion-button fill="outline" size="small" (click)="selectPerson.modal?.present()">
-            <ion-icon name="add-outline"></ion-icon>
-            Add member
+            <ion-icon slot="start" name="people"></ion-icon>
+            Select People
         </ion-button>
     </div>
 
