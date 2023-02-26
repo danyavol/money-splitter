@@ -12,35 +12,45 @@
 
 .members-wrapper {
     margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .member {
-    .name-row {
-        font-weight: 500;
-    }
 
     .info-row {
         display: flex;
+        align-items: flex-end;
+        gap: 20px;
 
         .amount-wrapper {
-            display: flex;
-            align-items: center;
             flex-grow: 1;
 
-            .currency {
-                color: var(--ion-color-medium);
+            .name-row {
+                font-weight: 500;
             }
 
-            ion-input {
-                --padding-top: 5px;
-                --padding-bottom: 5px;
+            .amount-row {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+
+                .currency {
+                    color: var(--ion-color-medium);
+                }
+
+                ion-input {
+                    --padding-top: 0;
+                    --padding-bottom: 5px;
+                    border-bottom: 1px solid var(--border-color);
+                }
             }
         }
 
         .ration-wrapper {
             display: flex;
             align-items: center;
-            height: 100%;
             gap: 10px;
 
             .ration {
@@ -54,5 +64,5 @@
 .add-member-btn {
     display: flex;
     justify-content: center;
-    margin: 5px 0;
+    margin: 10px 0 5px 0;
 }

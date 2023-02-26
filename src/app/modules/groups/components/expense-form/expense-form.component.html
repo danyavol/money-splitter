@@ -7,13 +7,15 @@
         <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask formControlName="amount"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <div>
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-        <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-                <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
-            </ng-template>
-        </ion-modal>
+            <ion-modal [keepContentsMounted]="true">
+                <ng-template>
+                    <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
+                </ng-template>
+            </ion-modal>
+        </div>
     </ion-item>
     <ion-item>
         <app-paid-by-control
@@ -25,6 +27,12 @@
         ></app-paid-by-control>
     </ion-item>
     <ion-item>
-        {{form.get("payers")!.value | json}}
+        <app-paid-by-control
+            label="Split between"
+            [members]="members"
+            [totalAmount]="form.get('amount')!.value"
+            [currency]="currency"
+            formControlName="debtors"
+        ></app-paid-by-control>
     </ion-item>
 </ion-list>

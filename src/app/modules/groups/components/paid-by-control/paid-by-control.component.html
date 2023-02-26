@@ -3,14 +3,18 @@
 
     <div class="members-wrapper">
         <div class="member" *ngFor="let member of members; trackBy: trackByFn">
-            <div class="name-row">
-                {{member.name}}
-            </div>
+
             <div class="info-row">
                 <div class="amount-wrapper">
-                    <ion-label class="currency">{{currency}}</ion-label>
-                    <ion-input type="text" color="primary" inputmode="decimal" currencyMask
-                        placeholder="0.00" [maskValue]="member.amount" (valueChange)="amountChange($event, member.memberId)"></ion-input>
+                    <div class="name-row">
+                        {{member.name}}
+                    </div>
+                    <div class="amount-row">
+                        <ion-text class="currency">{{currency}}</ion-text>
+                        <ion-input type="text" color="primary" inputmode="decimal" currencyMask
+                            placeholder="0.00" [maskValue]="member.amount" (valueChange)="amountChange($event, member.memberId)"></ion-input>
+                    </div>
+                    
                 </div>
                 <div class="ration-wrapper" *ngIf="members.length > 1">
                     <ion-button shape="round" slot="icon-only" class="round-icon-button" [disabled]="member.ration === null" (click)="decreaseRation(member.memberId)">
