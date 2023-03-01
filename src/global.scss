@@ -43,3 +43,12 @@ ion-checkbox {
 ion-checkbox::part(container) {
     border-radius: calc(var(--size) * 0.3);
 }
+
+// Hide error if untouched
+ion-item.ion-invalid.ion-untouched {
+    --highlight-background: var(--highlight-color-focused);
+
+    [slot="error"] {
+        display: none;
+    }
+}

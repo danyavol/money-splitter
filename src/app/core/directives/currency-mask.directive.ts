@@ -1,11 +1,11 @@
 import {
     Directive,
     EventEmitter,
-    Host,
     Input,
     OnInit,
     Optional,
     Output,
+    Self,
     SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
@@ -41,7 +41,7 @@ export class CurrencyMaskDirective implements OnInit {
 
     constructor(
         @Optional() private input: IonInput,
-        @Optional() @Host() private control: NgControl,
+        @Optional() @Self() private control: NgControl,
         private ref: ViewContainerRef
     ) {}
 

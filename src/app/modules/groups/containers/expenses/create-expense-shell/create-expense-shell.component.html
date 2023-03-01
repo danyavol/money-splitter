@@ -11,7 +11,17 @@
 
 <ion-content>
     <app-expense-form
+        [form]="form"
         [members]="(members$ | async) || []"
         [currency]="currency$ | async"
     ></app-expense-form>
+
+    <ion-list lines="none" class="ion-padding-top">
+        <ion-item>
+            <ion-button size="default" slot="end" (click)="createExpense()">
+                <ion-icon slot="start" name="add-outline"></ion-icon>
+                Add expense
+            </ion-button>
+        </ion-item>
+    </ion-list>
 </ion-content>

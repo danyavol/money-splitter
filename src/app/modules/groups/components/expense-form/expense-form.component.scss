@@ -1,3 +1,11 @@
 .total-amount {
     font-size: 24px;
 }
+
+:host .hidden {
+   --min-height: 0;
+
+    ion-input {
+        display: none;
+    }
+}

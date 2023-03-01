@@ -20,18 +20,18 @@ interface ViewMember extends ExpenseMember {
 }
 
 @Component({
-    selector: 'app-paid-by-control',
-    templateUrl: './paid-by-control.component.html',
-    styleUrls: ['./paid-by-control.component.scss'],
+    selector: 'app-expense-members-control',
+    templateUrl: './expense-members-control.component.html',
+    styleUrls: ['./expense-members-control.component.scss'],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: PaidByControlComponent,
+            useExisting: ExpenseMembersControlComponent,
         },
     ],
 })
-export class PaidByControlComponent implements ControlValueAccessor {
+export class ExpenseMembersControlComponent implements ControlValueAccessor {
     @Input() set members(value: Member[]) {
         this.inputMembers$.next(value);
     }
@@ -122,8 +122,7 @@ export class PaidByControlComponent implements ControlValueAccessor {
                 this.expenseMembers$.next(expenseMembers);
                 this.calculateAmounts(
                     this.getExpenseMembersCopy(),
-                    this.totalAmount$.value,
-                    true
+                    this.totalAmount$.value
                 );
                 this.triggerOnChange();
             });
@@ -156,7 +155,7 @@ export class PaidByControlComponent implements ControlValueAccessor {
         this.updateExpenseMember(newMember);
         this.calculateAmounts(
             this.getExpenseMembersCopy(),
-            this.totalAmount$.value,
+            this.totalAmount$.value
         );
         this.triggerOnChange();
     }
@@ -189,7 +188,8 @@ export class PaidByControlComponent implements ControlValueAccessor {
         this.updateExpenseMember(newMember);
         this.calculateAmounts(
             this.getExpenseMembersCopy(),
-            this.totalAmount$.value
+            this.totalAmount$.value,
+            newMember.memberId
         );
         this.triggerOnChange();
     }
@@ -201,11 +201,13 @@ export class PaidByControlComponent implements ControlValueAccessor {
     private calculateAmounts(
         expenseMembers: ExpenseMember[],
         totalAmount: number | null,
-        resetNonRationMembers = false
+        ignoredMember?: string
     ): void {
         // If only one user selected - he will pay everything
         if (expenseMembers.length === 1) {
-            expenseMembers[0].amount = totalAmount;
+            if (!ignoredMember || expenseMembers[0].memberId !== ignoredMember) {
+                expenseMembers[0].amount = totalAmount;
+            }
             expenseMembers[0].ration = null;
             this.expenseMembers$.next(expenseMembers);
             return;
@@ -216,8 +218,6 @@ export class PaidByControlComponent implements ControlValueAccessor {
                 if (member.ration) total.totalRation += member.ration;
 
                 if (!member.ration) {
-                    if (resetNonRationMembers)
-                        member.amount = null;
                     total.totalAmountWithoutRation += member.amount || 0;
                 }
 

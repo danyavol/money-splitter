@@ -1,10 +1,12 @@
 <ion-list [formGroup]="form">
-    <ion-item>
+    <ion-item *ngIf="form.get('title') as control">
         <ion-input placeholder="Expense title" formControlName="title"></ion-input>
+        <ion-note slot="error">Enter expense title</ion-note>
     </ion-item>
     <ion-item>
         <ion-label>{{currency}}</ion-label>
-        <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask formControlName="amount"></ion-input>
+        <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask
+            formControlName="amount"></ion-input>
     </ion-item>
     <ion-item>
         <div>
@@ -17,22 +19,34 @@
             </ion-modal>
         </div>
     </ion-item>
-    <ion-item>
-        <app-paid-by-control
-            label="Paid by"
-            [members]="members"
-            [totalAmount]="form.get('amount')!.value"
-            [currency]="currency"
-            formControlName="payers"
-        ></app-paid-by-control>
+
+    <app-expense-members-control
+        class="ion-padding-horizontal"
+        label="Paid by"
+        [members]="members"
+        [totalAmount]="form.get('amount')!.value"
+        [currency]="currency"
+        formControlName="payers"
+    ></app-expense-members-control>
+
+    <!-- Hack to show error state -->
+    <ion-item class="hidden">
+        <ion-input formControlName="payers"></ion-input>
+        <ion-note slot="error" formControlName="payers" errorMessage></ion-note>
     </ion-item>
-    <ion-item>
-        <app-paid-by-control
-            label="Split between"
-            [members]="members"
-            [totalAmount]="form.get('amount')!.value"
-            [currency]="currency"
-            formControlName="debtors"
-        ></app-paid-by-control>
+
+    <app-expense-members-control
+        class="ion-padding-horizontal"
+        label="Split between"
+        [members]="members"
+        [totalAmount]="form.get('amount')!.value"
+        [currency]="currency"
+        formControlName="debtors"
+    ></app-expense-members-control>
+
+    <!-- Hack to show error state -->
+    <ion-item class="hidden">
+        <ion-input formControlName="debtors"></ion-input>
+        <ion-note slot="error" formControlName="debtors" errorMessage></ion-note>
     </ion-item>
 </ion-list>
