@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CheckboxCustomEvent, IonicModule, IonModal } from '@ionic/angular';
+import { CheckboxCustomEvent, IonicModule } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Member } from 'src/app/database/storage.interface';
 
@@ -10,25 +10,25 @@ interface ViewMember extends Member {
 }
 
 @Component({
-    selector: 'app-select-person',
-    templateUrl: './select-person.component.html',
-    styleUrls: ['./select-person.component.scss'],
+    selector: 'app-select-person-modal',
+    templateUrl: './select-person-modal.component.html',
+    styleUrls: ['./select-person-modal.component.scss'],
     standalone: true,
     imports: [IonicModule, CommonModule],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: SelectPersonComponent,
+            useExisting: SelectPersonModalComponent,
         },
     ],
 })
-export class SelectPersonComponent implements OnInit, ControlValueAccessor {
+export class SelectPersonModalComponent implements OnInit, ControlValueAccessor {
     @Input() set people(people: Member[]) {
         this.people$.next(people);
     }
 
-    @ViewChild(IonModal) modal?: IonModal;
+    @Output() close = new EventEmitter<void>();
 
     selectedIds = new Set<string>();
     selectedIds$ = new BehaviorSubject<Set<string>>(this.selectedIds);

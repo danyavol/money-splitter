@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
     ControlValueAccessor,
     FormControl,
@@ -11,7 +11,6 @@ import {
     Observable,
     withLatestFrom,
 } from 'rxjs';
-import { SelectPersonComponent } from 'src/app/core/components/select-person/select-person.component';
 import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { ExpenseMember, Member } from 'src/app/database/storage.interface';
 
@@ -32,6 +31,9 @@ interface ViewMember extends ExpenseMember {
     ],
 })
 export class ExpenseMembersControlComponent implements ControlValueAccessor {
+    static counter = 0;
+    controlId = ExpenseMembersControlComponent.counter++;
+
     @Input() set members(value: Member[]) {
         this.inputMembers$.next(value);
     }
@@ -40,8 +42,6 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
     }
     @Input() currency: Currency | null = null;
     @Input() label: string = '';
-
-    @ViewChild('selectPerson') select?: SelectPersonComponent;
 
     totalAmount$ = new BehaviorSubject<number | null>(null);
     inputMembers$ = new BehaviorSubject<Member[]>([]);

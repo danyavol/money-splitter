@@ -30,11 +30,19 @@
     </div>
 
     <div class="add-member-btn">
-        <ion-button fill="outline" size="small" (click)="selectPerson.modal?.present()">
+        <ion-button fill="outline" size="small" [id]="'select-members' + controlId">
             <ion-icon slot="start" name="people"></ion-icon>
             Select People
         </ion-button>
     </div>
 
-    <app-select-person #selectPerson [people]="(inputMembers$ | async) || []" [formControl]="selectedMemberIds"></app-select-person>
+    <ion-modal [trigger]="'select-members' + controlId" class="select-person-modal" #modal>
+        <ng-template>
+            <app-select-person-modal
+                [people]="(inputMembers$ | async) || []"
+                [formControl]="selectedMemberIds"
+                (close)="modal.dismiss()"
+            ></app-select-person-modal>
+        </ng-template>
+    </ion-modal>
 </ng-container>

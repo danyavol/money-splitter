@@ -1,28 +1,41 @@
-<div class="group-background">
-    <ion-avatar slot="start">
-        <img src="assets/group.svg" />
-    </ion-avatar>
-</div>
+<ng-container [formGroup]="form">
+    <div class="group-background">
+        <ion-avatar slot="start">
+            <img src="assets/group.svg" />
+        </ion-avatar>
+    </div>
 
-<ion-list [formGroup]="form">
-    <ion-item [counter]="true">
-        <ion-label position="floating">Name</ion-label>
-        <ion-input maxlength="20" formControlName="name"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label>Members</ion-label>
-        <ion-select placeholder="Select members" [multiple]="true" formControlName="members">
-            <ion-select-option *ngFor="let member of members" [value]="member.id">
-                {{member.name}}
-            </ion-select-option>
-        </ion-select>
-    </ion-item>
-    <ion-item>
-        <ion-label>Currency</ion-label>
-        <ion-select placeholder="Select currency" formControlName="currency" interface="popover">
-            <ion-select-option *ngFor="let currency of currencies" [value]="currency">
-                {{currency}}
-            </ion-select-option>
-        </ion-select>
-    </ion-item>
-</ion-list>
+    <ion-list>
+        <ion-item [counter]="true">
+            <ion-label position="floating">Name</ion-label>
+            <ion-input maxlength="20" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item class="item-interactive" [button]="true" id="select-members">
+            <ion-label>Members</ion-label>
+            <div class="select-value" slot="end">
+                <span>{{selectedMembers$ | async}}</span>
+                <div class="select-icon" role="presentation" part="icon">
+                    <div class="select-icon-inner"></div>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item>
+            <ion-label>Currency</ion-label>
+            <ion-select placeholder="Select currency" formControlName="currency" interface="popover">
+                <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+                    {{currency}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+    <ion-modal trigger="select-members" class="select-person-modal" #modal>
+        <ng-template>
+            <app-select-person-modal
+                [people]="(members$ | async) || []"
+                formControlName="members"
+                (close)="modal.dismiss()"
+            ></app-select-person-modal>
+        </ng-template>
+    </ion-modal>
+</ng-container>

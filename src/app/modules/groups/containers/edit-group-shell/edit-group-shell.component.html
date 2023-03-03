@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content>
-    <app-group-form [form]="groupForm" [members]="(members$ | async) || []"></app-group-form>
+    <app-group-form [form]="groupForm" [members$]="members$"></app-group-form>
 
     <ion-list lines="none" class="ion-padding-top">
         <ion-item>

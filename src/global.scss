@@ -52,3 +52,36 @@ ion-item.ion-invalid.ion-untouched {
         display: none;
     }
 }
+
+.select-value {
+    display: flex;
+}
+
+ion-item.ion-focused .select-icon {
+    color: var(--highlight-color-focused);
+    opacity: 1;
+}
+
+.select-icon {
+    position: relative;
+    width: 19px;
+    height: 19px;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s, -webkit-transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
+    opacity: 0.55;
+
+    .select-icon-inner {
+        left: 5px;
+        top: 50%;
+        margin-top: -2px;
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        border-top: 5px solid;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        color: currentcolor;
+        pointer-events: none;
+    }
+}
+
+
