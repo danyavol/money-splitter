@@ -55,4 +55,17 @@ export class StorageService {
             first()
         );
     }
+
+    public getAll(): Observable<{[key: string]: any}> {
+        return this.storageReady.pipe(
+            filter(ready => ready),
+            switchMap(() => {
+                const allData: any = {};
+                return from(this.storage.forEach((value, key) => {
+                    allData[key] = value;
+                })).pipe(map(() => allData));
+            }),
+            first()
+        );
+    }
 }

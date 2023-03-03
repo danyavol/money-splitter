@@ -9,5 +9,20 @@
                 <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
             </ion-select>
         </ion-item>
+        <ion-item class="item-interactive">
+            <div class="backups">
+                <ion-text>Backups</ion-text>
+                <div class="buttons">
+                    <ion-button size="medium" color="success" (click)="saveBackup()">
+                        <ion-icon slot="start" name="save-outline"></ion-icon>
+                        Save backup
+                    </ion-button>
+                    <ion-button size="medium" color="secondary" (click)="applyBackup()">
+                        <ion-icon slot="start" name="download-outline"></ion-icon>
+                        Apply backup
+                    </ion-button>
+                </div>
+            </div>
+        </ion-item>
     </ion-list>
 </ion-content>

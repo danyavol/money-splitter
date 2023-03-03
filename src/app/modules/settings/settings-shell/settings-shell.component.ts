@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SettingsService } from 'src/app/core/services/settings.service';
+import { BackupsService } from 'src/app/database/backups.service';
 import { Theme } from 'src/app/database/storage.interface';
 
 @Component({
@@ -12,5 +13,16 @@ export class SettingsShellComponent {
 
     settingsForm = this.settingsService.settingsForm;
 
-    constructor(private settingsService: SettingsService) {}
+    constructor(
+        private settingsService: SettingsService,
+        private backups: BackupsService
+    ) {}
+
+    saveBackup() {
+        this.backups.saveBackup().subscribe();
+    }
+
+    applyBackup() {
+        this.backups.applyBackup();
+    }
 }

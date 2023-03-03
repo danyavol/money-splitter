@@ -22,4 +22,20 @@ export class ToastService {
 
         await toast.present();
     }
+
+    async success(message: string = "", duration = 3000) {
+        const toast = await this.toastController.create({
+            message,
+            duration,
+            buttons: [
+                {
+                    text: 'Ok',
+                    role: 'cancel',
+                },
+            ],
+            color: 'success',
+        });
+
+        await toast.present();
+    }
 }
