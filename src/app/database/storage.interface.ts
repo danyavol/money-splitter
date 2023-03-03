@@ -25,9 +25,9 @@ export interface Expense {
     groupId: string;
     payers: ExpenseMember[];
     debtors: ExpenseMember[];
-    date: Date;
+    date: string;
     title: string;
-    amount: number;
+    amount: number | null;
 }
 
 export interface ExpenseMember {

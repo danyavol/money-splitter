@@ -1,12 +1,21 @@
-<ion-content>
-    <p>
-        expenses-list-shell works!
-    </p>
+<ion-content *ngIf="fullExpenses$ | async as expenses">
+    <ion-list lines="none" *ngIf="expenses.length; else noExpenses">
+        <ion-item *ngFor="let expense of expenses" [routerLink]="['expense', expense.id]">
+            <ion-icon slot="start" name="receipt-outline"></ion-icon>
+            <ion-label>{{expense.title}}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ng-template #noExpenses>
+        <div class="ion-margin-top ion-text-center">
+            <ion-text color="medium">You don't have any expenses yet</ion-text>
+        </div>
+    </ng-template>
 </ion-content>
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="add-expense-wrapper" routerLink="new-expense">
     <ion-fab-button class="add-expense-btn">
-        <ion-icon name="cash-outline"></ion-icon>
+        <ion-icon name="add-outline"></ion-icon>
         <ion-text>Add expense</ion-text>
     </ion-fab-button>
 </ion-fab>

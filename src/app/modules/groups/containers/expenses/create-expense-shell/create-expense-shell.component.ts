@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
+import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { ExpenseMember } from 'src/app/database/storage.interface';
@@ -20,7 +21,7 @@ export class CreateExpenseShellComponent implements OnInit {
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
         map((group) => {
             if (!group) {
-                this.router.navigate(['..'], { relativeTo: this.route });
+                this.goBack();
                 this.toastService.error('Invalid group ID');
                 throw new Error('Invalid group ID');
             }
@@ -50,6 +51,7 @@ export class CreateExpenseShellComponent implements OnInit {
     constructor(
         private membersCol: MembersCollection,
         private groupsCol: GroupsCollection,
+        private expensesCol: ExpensesCollection,
         private route: ActivatedRoute,
         private router: Router,
         private toastService: ToastService
@@ -65,7 +67,12 @@ export class CreateExpenseShellComponent implements OnInit {
 
         if (this.form.invalid) return;
 
-        console.log("submit form", this.form.value);
+        this.expensesCol
+            .createExpense({
+                groupId: this.groupId,
+                ...this.form.getRawValue(),
+            })
+            .subscribe(this.goBack.bind(this));
     }
 
     getCurrentDate(): string {
@@ -76,7 +83,10 @@ export class CreateExpenseShellComponent implements OnInit {
     }
 
     getTotalAmount(): number | null {
-        console.log("totalAmount", this.form.controls.amount.value);
         return this.form.controls.amount.value;
+    }
+
+    private goBack() {
+        this.router.navigate(['..'], { relativeTo: this.route });
     }
 }

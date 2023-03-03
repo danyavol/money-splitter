@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateGroupShellComponent } from './containers/create-group-shell/create-group-shell.component';
 import { EditGroupShellComponent } from './containers/edit-group-shell/edit-group-shell.component';
 import { CreateExpenseShellComponent } from './containers/expenses/create-expense-shell/create-expense-shell.component';
+import { EditExpenseShellComponent } from './containers/expenses/edit-expense-shell/edit-expense-shell.component';
 import { GroupShellComponent } from './containers/group-shell/group-shell.component';
 import { GroupsShellComponent } from './containers/groups-shell/groups-shell.component';
 
@@ -26,6 +27,10 @@ const routes: Routes = [
     {
         path: ':groupId/new-expense',
         component: CreateExpenseShellComponent
+    },
+    {
+        path: ':groupId/expense/:expenseId',
+        component: EditExpenseShellComponent,
     }
 ];
 
