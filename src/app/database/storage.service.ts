@@ -55,15 +55,17 @@ export class StorageService {
     }
 
     public setAll(data: { [key: string]: any }): Observable<void> {
-        const observables: Observable<any>[] = [];
-        for (let key in data) {
-            observables.push(from(this.storage.set(key, data[key])));
-        }
-
         return this.storageReady.pipe(
             filter((ready) => ready),
             switchMap(() => this.clearStorage()),
-            switchMap(() => forkJoin(observables)),
+            switchMap(() => {
+                const observables: Observable<any>[] = [];
+                for (let key in data) {
+                    observables.push(from(this.storage.set(key, data[key])));
+                }
+
+                return forkJoin(observables);
+            }),
             tap(() => this.refresh$.next()),
             map(() => undefined),
             first()
