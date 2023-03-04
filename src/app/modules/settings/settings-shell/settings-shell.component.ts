@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SettingsService } from 'src/app/core/services/settings.service';
 import { BackupsService } from 'src/app/database/backups.service';
 import { Theme } from 'src/app/database/storage.interface';
@@ -11,6 +11,8 @@ import { Theme } from 'src/app/database/storage.interface';
 export class SettingsShellComponent {
     readonly Theme = Theme;
 
+    @ViewChild("inputFile") inputFile?: ElementRef;
+
     settingsForm = this.settingsService.settingsForm;
 
     constructor(
@@ -22,7 +24,17 @@ export class SettingsShellComponent {
         this.backups.saveBackup().subscribe();
     }
 
-    applyBackup() {
-        this.backups.applyBackup();
+    applyBackup(event: Event) {
+        const target = event.target as HTMLInputElement;
+        const file = target.files ? target.files[0] : null;
+        if (!file) return;
+
+        target.value = "";
+
+        this.backups.applyBackup(file).subscribe();
+    }
+
+    selectFile() {
+        this.inputFile?.nativeElement.click();
     }
 }

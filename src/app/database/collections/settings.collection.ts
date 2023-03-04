@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { first, map, Observable, ReplaySubject, switchMap, tap } from "rxjs";
+import { first, map, Observable, ReplaySubject, startWith, switchMap, tap } from "rxjs";
 import { Collection, Settings, Theme } from "../storage.interface";
 import { StorageService } from "../storage.service";
 
@@ -33,7 +33,10 @@ export class SettingsCollection {
     }
 
     private loadSettings(): void {
-        this.storage.get<Settings>(Collection.Settings).subscribe(settings => {
+        this.storage.refresh$.pipe(
+            startWith(undefined),
+            switchMap(() => this.storage.get<Settings>(Collection.Settings))
+        ).subscribe(settings => {
             this.settingsSbj.next(settings || defaultSettings);
         });
     }

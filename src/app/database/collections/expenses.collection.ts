@@ -6,6 +6,7 @@ import {
     Observable,
     of,
     ReplaySubject,
+    startWith,
     switchMap,
     tap,
 } from 'rxjs';
@@ -116,11 +117,12 @@ export class ExpensesCollection {
     }
 
     private loadExpenses(): void {
-        this.storage
-            .get<Expense[]>(Collection.Expenses)
-            .subscribe((expenses) => {
-                this.expensesSbj.next(expenses || []);
-            });
+        this.storage.refresh$.pipe(
+            startWith(undefined),
+            switchMap(() => this.storage.get<Expense[]>(Collection.Expenses))
+        ).subscribe(expenses => {
+            this.expensesSbj.next(expenses || []);
+        });
     }
 
     private saveExpenses(expenses: Expense[]): Observable<void> {

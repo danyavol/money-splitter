@@ -15,12 +15,13 @@
                 <div class="buttons">
                     <ion-button size="medium" color="success" (click)="saveBackup()">
                         <ion-icon slot="start" name="save-outline"></ion-icon>
-                        Save backup
+                        Export data
                     </ion-button>
-                    <ion-button size="medium" color="secondary" (click)="applyBackup()">
+                    <ion-button size="medium" color="secondary" (click)="selectFile()">
                         <ion-icon slot="start" name="download-outline"></ion-icon>
-                        Apply backup
+                        Import data
                     </ion-button>
+                    <input hidden type="file" #inputFile accept="application/json" (input)="applyBackup($event)">
                 </div>
             </div>
         </ion-item>

@@ -5,6 +5,7 @@ import {
     Observable,
     of,
     ReplaySubject,
+    startWith,
     switchMap,
     tap,
     withLatestFrom
@@ -113,7 +114,10 @@ export class MembersCollection {
     }
 
     private loadMembers(): void {
-        this.storage.get<Member[]>(Collection.Members).subscribe((members) => {
+        this.storage.refresh$.pipe(
+            startWith(undefined),
+            switchMap(() => this.storage.get<Member[]>(Collection.Members))
+        ).subscribe(members => {
             this.membersSbj.next(members || []);
         });
     }

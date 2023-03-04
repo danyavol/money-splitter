@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { first, map, Observable, of, ReplaySubject, switchMap, tap } from "rxjs";
+import { first, map, Observable, of, ReplaySubject, startWith, switchMap, tap } from "rxjs";
 import { v4 as uuid } from "uuid";
 import { Collection, Group } from "../storage.interface";
 import { StorageService } from "../storage.service";
@@ -79,7 +79,10 @@ export class GroupsCollection {
     }
 
     private loadGroups(): void {
-        this.storage.get<Group[]>(Collection.Groups).subscribe(groups => {
+        this.storage.refresh$.pipe(
+            startWith(undefined),
+            switchMap(() => this.storage.get<Group[]>(Collection.Groups))
+        ).subscribe(groups => {
             this.groupsSbj.next(groups || []);
         });
     }

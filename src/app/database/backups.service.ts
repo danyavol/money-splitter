@@ -33,14 +33,24 @@ export class BackupsService {
                 }
             }),
             tap({
-                next: () => this.toast.success("Backup file was successfully saved to the \"Download\" folder", 5000),
+                next: () => this.toast.success("Backup file has been saved to the \"Download\" folder", 5000),
                 error: (e) => this.toast.error(e)
             })
         );
     }
 
-    applyBackup() {
-        // TODO
+    applyBackup(file: File) {
+        return from(file.arrayBuffer()).pipe(
+            map(buffer => new TextDecoder().decode(buffer)),
+            map(data => JSON.parse(data)),
+            switchMap(data => this.storage.setAll(data)),
+            tap({
+                next: () => {
+                    this.toast.success("Backup has been applied", 5000)
+                },
+                error: (e) => this.toast.error(e)
+            })
+        );
     }
 
     private saveFileMobile(json: string, fileName: string): Observable<void> {
