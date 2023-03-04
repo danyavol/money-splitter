@@ -13,6 +13,20 @@ import { NgControl } from '@angular/forms';
 import { IonInput } from '@ionic/angular';
 import IMask from 'imask';
 
+export const currencyMaskOptions: IMask.MaskedNumberOptions = {
+    mask: Number, // enable number mask
+
+
+    // other options are optional with defaults below
+    scale: 2, // digits after point, 0 for integers
+    signed: true, // disallow negative
+    thousandsSeparator: ' ', // any single char
+    padFractionalZeros: true, // if true, then pads zeros at end to the length of scale
+    normalizeZeros: true, // appends or removes zeros at ends
+    radix: '.', // fractional delimiter
+    mapToRadix: [','], // symbols to process as radix
+}
+
 @Directive({
     selector: '[currencyMask]',
     standalone: true,
@@ -20,19 +34,6 @@ import IMask from 'imask';
 export class CurrencyMaskDirective implements OnInit {
     @Input() maskValue: number | null = null;
     @Output() valueChange = new EventEmitter<number | null>();
-
-    readonly maskOptions: IMask.MaskedNumberOptions = {
-        mask: Number, // enable number mask
-
-        // other options are optional with defaults below
-        scale: 2, // digits after point, 0 for integers
-        signed: true, // disallow negative
-        thousandsSeparator: ' ', // any single char
-        padFractionalZeros: true, // if true, then pads zeros at end to the length of scale
-        normalizeZeros: true, // appends or removes zeros at ends
-        radix: '.', // fractional delimiter
-        mapToRadix: [','], // symbols to process as radix
-    };
 
     private skipNextValueChange = false;
     private element?: HTMLInputElement;
@@ -60,7 +61,7 @@ export class CurrencyMaskDirective implements OnInit {
 
         this.element.value = this.initialValue === null ? "" :  this.initialValue.toString();
 
-        this.mask = IMask(this.element, this.maskOptions);
+        this.mask = IMask(this.element, currencyMaskOptions);
 
         this.mask.on('accept', () => {
             if (this.skipNextValueChange) {

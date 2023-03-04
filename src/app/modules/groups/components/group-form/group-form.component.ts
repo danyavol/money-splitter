@@ -6,9 +6,6 @@ import { Member } from 'src/app/database/storage.interface';
 import { GroupForm } from '../../interfaces/group-form.interface';
 
 const MAX_LENGTH = 20;
-const EMPTY_SYMBOL = "";
-
-
 
 @Component({
     selector: 'app-group-form',

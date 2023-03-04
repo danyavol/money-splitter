@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { roundNumber } from 'src/app/core/helpers/helpers';
 import { ExpenseMember } from 'src/app/database/storage.interface';
 
 export function expenseMembersValidator(getTotalAmount: () => number | null): ValidatorFn {
@@ -17,8 +18,7 @@ export function expenseMembersValidator(getTotalAmount: () => number | null): Va
         }
 
         // #2
-        const sum = value.reduce((total, member) => (member.amount || 0) + total, 0);
-        console.log("sum", sum);
+        const sum = roundNumber(value.reduce((total, member) => (member.amount || 0) + total, 0));
         if ((getTotalAmount() || 0) !== sum) {
             return { expenseMembersSum: true };
         }
@@ -26,3 +26,4 @@ export function expenseMembersValidator(getTotalAmount: () => number | null): Va
         return null;
     };
 }
+

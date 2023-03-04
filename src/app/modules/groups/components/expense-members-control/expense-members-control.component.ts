@@ -11,6 +11,7 @@ import {
     Observable,
     withLatestFrom,
 } from 'rxjs';
+import { roundNumber } from 'src/app/core/helpers/helpers';
 import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { ExpenseMember, Member } from 'src/app/database/storage.interface';
 
@@ -231,10 +232,10 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
 
         const oneRationAmount = totalRation ? totalAmount / totalRation : 0;
 
-        const membersTotal = this.roundNumber(
+        const membersTotal = roundNumber(
             expenseMembers.reduce((membersTotal, member) => {
                 if (member.ration) {
-                    member.amount = this.roundNumber(
+                    member.amount = roundNumber(
                         member.ration * oneRationAmount
                     );
                     return membersTotal + member.amount;
@@ -246,16 +247,12 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
         if (membersTotal !== totalAmount && totalRation > 0) {
             const calculationError = totalAmount - membersTotal + totalAmountWithoutRation;
             const firstMember = expenseMembers[0];
-            firstMember.amount = this.roundNumber(
+            firstMember.amount = roundNumber(
                 (firstMember.amount || 0) + calculationError
             );
         }
 
         this.expenseMembers$.next(expenseMembers);
-    }
-
-    private roundNumber(num: number): number {
-        return Math.round(num * 100) / 100;
     }
 
     private getExpenseMemberCopy(memberId: string): ExpenseMember {

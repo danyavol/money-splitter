@@ -24,7 +24,6 @@ export class ErrorMessageDirective implements OnInit, OnDestroy, ControlValueAcc
         this.control.valueChanges?.pipe(takeUntil(this.destroy$)).subscribe(() => {
             const msg = this.getMessage(this.control.errors)
             this.errorMessage$.next(msg);
-            console.log("[errorMessage]", this.control.errors);
         });
 
         this.errorMessage$.subscribe((msg) => {

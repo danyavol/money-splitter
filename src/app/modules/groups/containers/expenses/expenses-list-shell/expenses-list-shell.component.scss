@@ -1,3 +1,12 @@
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .date {
+        font-size: 0.8em;
+    }
+}
+
 .add-expense-wrapper {
     margin-right: 10px;
     margin-bottom: 10px;

@@ -24,8 +24,6 @@ export class BackupsService {
                 const filename = `money-splitter_${dateStamp}.json`
                 const json = JSON.stringify(data);
 
-                console.log(this.platform.is("mobileweb"));
-
                 if (this.platform.is("desktop") || this.platform.is("mobileweb")) {
                     return this.saveFileWeb(json, filename);
                 } else {

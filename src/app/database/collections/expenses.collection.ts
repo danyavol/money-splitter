@@ -105,6 +105,26 @@ export class ExpensesCollection {
         );
     }
 
+    removeExpense(expenseId: string): Observable<void> {
+        return this.expenses$.pipe(
+            first(),
+            map((expenses) => {
+                const expenseIndex = expenses.findIndex((e) => e.id === expenseId);
+                if (expenseIndex < 0) return;
+
+                expenses.splice(expenseIndex, 1);
+                return expenses;
+            }),
+            switchMap((newExpenses) => {
+                if (!newExpenses) return of();
+
+                return this.saveExpenses(newExpenses).pipe(
+                    tap(() => this.expensesSbj.next(newExpenses))
+                );
+            })
+        );
+    }
+
     private getFullExpenseMember(
         member: ExpenseMember,
         members: Member[]

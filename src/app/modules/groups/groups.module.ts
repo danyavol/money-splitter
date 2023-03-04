@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { SelectPersonModalComponent } from 'src/app/core/components/select-person-modal/select-person-modal.component';
 import { CurrencyMaskDirective } from 'src/app/core/directives/currency-mask.directive';
 import { ErrorMessageDirective } from 'src/app/core/directives/error-message.directive';
+import { CurrencyPipe } from 'src/app/core/pipes/currency.pipe';
 import { ExpenseFormComponent } from './components/expense-form/expense-form.component';
 import { ExpenseMembersControlComponent } from './components/expense-members-control/expense-members-control.component';
 import { GroupFormComponent } from './components/group-form/group-form.component';
@@ -39,7 +40,8 @@ import { GroupsRoutingModule } from './groups-routing.module';
         ReactiveFormsModule,
         CurrencyMaskDirective,
         SelectPersonModalComponent,
-        ErrorMessageDirective
+        ErrorMessageDirective,
+        CurrencyPipe
     ],
     providers: [CurrencyMaskDirective],
     exports: [RouterModule],

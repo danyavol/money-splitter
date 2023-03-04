@@ -1,12 +1,12 @@
 <ion-list [formGroup]="form">
     <ion-item *ngIf="form.get('title') as control">
-        <ion-input placeholder="Expense title" formControlName="title"></ion-input>
+        <ion-input class="expense-title" placeholder="Expense title" formControlName="title"></ion-input>
         <ion-note slot="error">Enter expense title</ion-note>
     </ion-item>
     <ion-item>
         <ion-label>{{currency}}</ion-label>
         <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask
-            formControlName="amount"></ion-input>
+            formControlName="amount" [maskValue]="form.controls.amount.value"></ion-input>
     </ion-item>
     <ion-item>
         <div>

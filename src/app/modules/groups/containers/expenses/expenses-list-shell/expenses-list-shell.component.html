@@ -2,7 +2,11 @@
     <ion-list lines="none" *ngIf="expenses.length; else noExpenses">
         <ion-item *ngFor="let expense of expenses" [routerLink]="['expense', expense.id]">
             <ion-icon slot="start" name="receipt-outline"></ion-icon>
-            <ion-label>{{expense.title}}</ion-label>
+            <div class="title-wrapper">
+                <ion-text class="title">{{expense.title}}</ion-text>
+                <ion-text class="date" color="medium">{{expense.date | date: "MMM d, y, HH:mm"}}</ion-text>
+            </div>
+            <ion-text slot="end" color="danger">{{-(expense.amount || 0) | appCurrency: "PLN"}}</ion-text>
         </ion-item>
     </ion-list>
 
