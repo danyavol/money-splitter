@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import {
     BehaviorSubject,
     filter,
@@ -96,7 +95,6 @@ export class StorageService {
     }
 
     private async init() {
-        await this.storage.defineDriver(CordovaSQLiteDriver);
         await this.storage.create();
         this.storageReady.next(true);
     }

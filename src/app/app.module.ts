@@ -7,7 +7,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { Drivers } from '@ionic/storage';
 import { SettingsService } from './core/services/settings.service';
 
@@ -20,7 +19,6 @@ import { SettingsService } from './core/services/settings.service';
         IonicStorageModule.forRoot({
             name: 'money-splitter-db',
             driverOrder: [
-                CordovaSQLiteDriver._driver,
                 Drivers.IndexedDB,
                 Drivers.LocalStorage,
             ],

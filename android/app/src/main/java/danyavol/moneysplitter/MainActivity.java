@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package danyavol.moneysplitter;
 
 import com.getcapacitor.BridgeActivity;
 
