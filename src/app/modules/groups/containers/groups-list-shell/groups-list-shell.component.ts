@@ -3,11 +3,11 @@ import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 
 @Component({
-    selector: 'app-groups-shell',
-    templateUrl: './groups-shell.component.html',
-    styleUrls: ['./groups-shell.component.scss'],
+    selector: 'app-groups-list-shell',
+    templateUrl: './groups-list-shell.component.html',
+    styleUrls: ['./groups-list-shell.component.scss'],
 })
-export class GroupsShellComponent {
+export class GroupsListShellComponent {
     groups$ = this.groupsCol.groups$;
 
     constructor(private groupsCol: GroupsCollection) {}

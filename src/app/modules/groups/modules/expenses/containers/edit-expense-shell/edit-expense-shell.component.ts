@@ -1,19 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { getExpenseForm } from '../../../expense-form.config';
+import { getExpenseForm } from '../../expense-form.config';
+import { ExpenseForm } from '../../expense-form.interface';
 
 @Component({
-    selector: 'app-create-expense-shell',
-    templateUrl: './create-expense-shell.component.html',
-    styleUrls: ['./create-expense-shell.component.scss'],
+    selector: 'app-edit-expense-shell',
+    templateUrl: './edit-expense-shell.component.html',
+    styleUrls: ['./edit-expense-shell.component.scss'],
 })
-export class CreateExpenseShellComponent {
+export class EditExpenseShellComponent implements OnInit {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
+    expenseId = this.route.snapshot.paramMap.get('expenseId') || '';
     members$ = this.membersCol.getGroupMembers(this.groupId);
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
         map((group) => {
@@ -26,7 +29,7 @@ export class CreateExpenseShellComponent {
         })
     );
 
-    form = getExpenseForm();
+    form?: FormGroup<ExpenseForm>;
 
     constructor(
         private membersCol: MembersCollection,
@@ -37,7 +40,21 @@ export class CreateExpenseShellComponent {
         private toastService: ToastService
     ) {}
 
-    createExpense(): void {
+    ngOnInit() {
+        this.expensesCol.getExpense(this.expenseId).subscribe((expense) => {
+            if (expense) {
+                this.form = getExpenseForm(expense);
+            } else {
+                this.goBack();
+                this.toastService.error('Invalid expense ID');
+                throw new Error('Invalid expense ID');
+            }
+        });
+    }
+
+    saveExpense(): void {
+        if (!this.form) return;
+
         this.form.markAllAsTouched();
         // Coolhack to trigger valueChange
         this.form.disable();
@@ -46,14 +63,17 @@ export class CreateExpenseShellComponent {
         if (this.form.invalid) return;
 
         this.expensesCol
-            .createExpense({
-                groupId: this.groupId,
+            .updateExpense(this.expenseId, {
                 ...this.form.getRawValue(),
             })
             .subscribe(this.goBack.bind(this));
     }
 
+    removeExpense() {
+        this.expensesCol.removeExpense(this.expenseId).subscribe(this.goBack.bind(this));
+    }
+
     private goBack() {
-        this.router.navigate(['..'], { relativeTo: this.route });
+        this.router.navigate(['../..'], { relativeTo: this.route });
     }
 }

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, startWith, Subject } from 'rxjs';
 import { allCurrencies } from 'src/app/core/constants/currencies.const';
 import { Member } from 'src/app/database/storage.interface';
-import { GroupForm } from '../../interfaces/group-form.interface';
+import { GroupForm } from '../../group-form.interface';
 
 const MAX_LENGTH = 20;
 

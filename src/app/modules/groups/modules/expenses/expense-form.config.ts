@@ -1,7 +1,7 @@
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Expense, ExpenseMember } from "src/app/database/storage.interface";
-import { ExpenseForm } from "./interfaces/expense-form.interface";
-import { expenseMembersValidator } from "./validators/expense-members-control.validator";
+import { ExpenseForm } from "./expense-form.interface";
+import { expenseMembersValidator } from "./expense-members-control.validator";
 
 
 export function getExpenseForm(defaultValue?: Omit<Expense, "id" | "groupId">) {

@@ -18,10 +18,7 @@ import { SettingsService } from './core/services/settings.service';
         AppRoutingModule,
         IonicStorageModule.forRoot({
             name: 'money-splitter-db',
-            driverOrder: [
-                Drivers.IndexedDB,
-                Drivers.LocalStorage,
-            ],
+            driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
         }),
     ],
     providers: [

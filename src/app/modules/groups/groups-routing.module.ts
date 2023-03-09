@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CreateGroupShellComponent } from './containers/create-group-shell/create-group-shell.component';
 import { EditGroupShellComponent } from './containers/edit-group-shell/edit-group-shell.component';
-import { CreateExpenseShellComponent } from './containers/expenses/create-expense-shell/create-expense-shell.component';
-import { EditExpenseShellComponent } from './containers/expenses/edit-expense-shell/edit-expense-shell.component';
+import { CreateExpenseShellComponent } from './modules/expenses/containers/create-expense-shell/create-expense-shell.component';
+import { EditExpenseShellComponent } from './modules/expenses/containers/edit-expense-shell/edit-expense-shell.component';
 import { GroupShellComponent } from './containers/group-shell/group-shell.component';
-import { GroupsShellComponent } from './containers/groups-shell/groups-shell.component';
+import { GroupsListShellComponent } from './containers/groups-list-shell/groups-list-shell.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: GroupsShellComponent
+        component: GroupsListShellComponent
     },
     {
         path: 'new',

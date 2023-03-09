@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { GroupForm } from '../../interfaces/group-form.interface';
+import { GroupForm } from '../../group-form.interface';
 
 @Component({
     selector: 'app-edit-group-shell',
