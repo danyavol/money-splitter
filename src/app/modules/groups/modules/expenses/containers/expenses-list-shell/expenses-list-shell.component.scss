@@ -5,6 +5,10 @@
     .date {
         font-size: 0.8em;
     }
+
+    .members {
+        font-size: 0.8em;
+    }
 }
 
 .add-expense-wrapper {
@@ -26,6 +30,10 @@
             text-transform: uppercase;
         }
     }
+}
+
+ion-item {
+    --min-height: 60px;
 }
 
 ion-content {

@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { combineLatest, map, Observable, startWith, Subject } from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { allCurrencies } from 'src/app/core/constants/currencies.const';
+import { MembersListPipe } from 'src/app/core/pipes/members-list.pipe';
 import { Member } from 'src/app/database/storage.interface';
 import { GroupForm } from '../../group-form.interface';
-
-const MAX_LENGTH = 20;
 
 @Component({
     selector: 'app-group-form',
@@ -20,6 +19,8 @@ export class GroupFormComponent {
 
     selectedMembers$?: Observable<string | null>;
 
+    constructor(private memberListPipe: MembersListPipe) {}
+
     ngOnInit() {
         this.selectedMembers$ = combineLatest([
             this.form.controls.members.valueChanges.pipe(
@@ -31,19 +32,7 @@ export class GroupFormComponent {
                 const selectedMembers = members.filter(m => ids.includes(m.id)).map(m => m.name);
                 if (!selectedMembers.length) return null;
 
-                let membersStr = selectedMembers.splice(0, 1)[0];
-                for (let member of selectedMembers) {
-                    const nextName = ', ' + member;
-
-                    if (membersStr.length + nextName.length < MAX_LENGTH) {
-                        membersStr += nextName;
-                    } else {
-                        membersStr += ', ...';
-                        break;
-                    }
-                }
-
-                return membersStr;
+                return this.memberListPipe.transform(selectedMembers, 30);
             })
         );
     }

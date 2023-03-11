@@ -1,3 +1,19 @@
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .date {
+        font-size: 0.8em;
+    }
+
+    .members {
+        font-size: 0.8em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
 .add-transfer-wrapper {
     margin-right: 10px;
     margin-bottom: 10px;
@@ -17,6 +33,10 @@
             text-transform: uppercase;
         }
     }
+}
+
+ion-item {
+    --min-height: 60px;
 }
 
 ion-content {

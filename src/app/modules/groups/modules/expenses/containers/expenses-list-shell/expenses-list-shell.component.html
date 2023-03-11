@@ -4,6 +4,9 @@
             <ion-icon slot="start" name="receipt-outline"></ion-icon>
             <div class="title-wrapper">
                 <ion-text class="title">{{expense.title}}</ion-text>
+                <div class="members">
+                    <ion-text color="secondary">{{expense.payers | appMembersList: 30}}</ion-text>
+                </div>
                 <ion-text class="date" color="medium">{{expense.date | date: "MMM d, y, HH:mm"}}</ion-text>
             </div>
             <ion-text slot="end" color="danger">{{-(expense.amount || 0) | appCurrency: "PLN"}}</ion-text>

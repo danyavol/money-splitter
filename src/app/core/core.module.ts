@@ -7,6 +7,7 @@ import { SelectPersonModalComponent } from "./components/select-person-modal/sel
 import { CurrencyMaskDirective } from "./directives/currency-mask.directive";
 import { ErrorMessageDirective } from "./directives/error-message.directive";
 import { CurrencyPipe } from "./pipes/currency.pipe";
+import { MembersListPipe } from "./pipes/members-list.pipe";
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { CurrencyPipe } from "./pipes/currency.pipe";
         CurrencyMaskDirective,
         ErrorMessageDirective,
         CurrencyPipe,
+        MembersListPipe,
     ],
     exports: [
         CommonModule,
@@ -30,6 +32,10 @@ import { CurrencyPipe } from "./pipes/currency.pipe";
         CurrencyMaskDirective,
         ErrorMessageDirective,
         CurrencyPipe,
+        MembersListPipe,
+    ],
+    providers: [
+        MembersListPipe
     ]
 })
 export class CoreModule {}
