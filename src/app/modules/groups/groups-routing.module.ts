@@ -18,20 +18,35 @@ const routes: Routes = [
     },
     {
         path: ':groupId',
-        component: GroupShellComponent
+        component: GroupShellComponent,
     },
     {
-        path: ':groupId/edit',
-        component: EditGroupShellComponent
+        path: ':groupId',
+        children: [
+            {
+                path: 'edit',
+                component: EditGroupShellComponent
+            },
+            // Expenses
+            {
+                path: 'new-expense',
+                component: CreateExpenseShellComponent
+            },
+            {
+                path: 'expense/:expenseId',
+                component: EditExpenseShellComponent
+            },
+            // Transfers
+            {
+                path: 'new-transfer',
+                component: CreateExpenseShellComponent
+            },
+            {
+                path: 'transfer/:expenseId',
+                component: EditExpenseShellComponent
+            },
+        ]
     },
-    {
-        path: ':groupId/new-expense',
-        component: CreateExpenseShellComponent
-    },
-    {
-        path: ':groupId/expense/:expenseId',
-        component: EditExpenseShellComponent,
-    }
 ];
 
 @NgModule({

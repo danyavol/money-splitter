@@ -1,0 +1,26 @@
+<ion-content *ngIf="fullTransfers$ | async as transfers">
+    <ion-list lines="none" *ngIf="transfers.length; else noTransfers">
+        <ion-item *ngFor="let transfer of transfers" [routerLink]="['transfer', transfer.id]">
+            <ion-icon slot="start" name="receipt-outline"></ion-icon>
+            <div class="title-wrapper">
+                <ion-text class="title">{{transfer.title}}</ion-text>
+                <ion-text>{{transfer.sender}} -> {{transfer.recipient}}</ion-text>
+                <ion-text class="date" color="medium">{{transfer.date | date: "MMM d, y, HH:mm"}}</ion-text>
+            </div>
+            <ion-text slot="end" color="danger">{{transfer.amount | appCurrency: "PLN"}}</ion-text>
+        </ion-item>
+    </ion-list>
+
+    <ng-template #noTransfers>
+        <div class="ion-margin-top ion-text-center">
+            <ion-text color="medium">You don't have any transfers yet</ion-text>
+        </div>
+    </ng-template>
+</ion-content>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end" class="add-transfer-wrapper" routerLink="new-transfer">
+    <ion-fab-button class="add-transfer-btn">
+        <ion-icon name="add-outline"></ion-icon>
+        <ion-text>Add Transfer</ion-text>
+    </ion-fab-button>
+</ion-fab>

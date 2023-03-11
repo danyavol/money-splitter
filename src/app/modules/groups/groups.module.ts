@@ -7,6 +7,7 @@ import { GroupShellComponent } from './containers/group-shell/group-shell.compon
 import { GroupsListShellComponent } from './containers/groups-list-shell/groups-list-shell.component';
 import { GroupsRoutingModule } from './groups-routing.module';
 import { ExpensesModule } from './modules/expenses/expenses.module';
+import { TransfersModule } from './modules/transfers/transfers.module';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { ExpensesModule } from './modules/expenses/expenses.module';
     imports: [
         GroupsRoutingModule,
         CoreModule,
-        ExpensesModule
+        ExpensesModule,
+        TransfersModule,
     ]
 })
 export class GroupsModule {}
