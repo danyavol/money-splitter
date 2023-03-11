@@ -26,3 +26,12 @@ ion-avatar {
         --inner-border-width: 0;
     }
 }
+
+.single-choose {
+    --padding-top: 5.5px;
+    --padding-bottom: 5.5px;
+}
+
+.selected {
+    --background: rgba(0, 0, 0, 0.15);
+}

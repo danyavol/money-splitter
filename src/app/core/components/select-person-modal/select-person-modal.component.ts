@@ -27,6 +27,7 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
     @Input() set people(people: Member[]) {
         this.people$.next(people);
     }
+    @Input() multi = true;
 
     @Output() close = new EventEmitter<void>();
 
@@ -35,7 +36,10 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
     people$ = new BehaviorSubject<Member[]>([]);
     viewMembers$!: Observable<ViewMember[]>;
 
-    onChange = (value: string[]) => {};
+    // If not multi
+    selectedId: string | null = null;
+
+    onChange = (value: string | null | string[]) => {};
     onTouched = () => {};
 
     ngOnInit(): void {
@@ -50,6 +54,14 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
                 }));
             })
         );
+    }
+
+    memberClicked(memberId: string): void {
+        if (!this.multi) {
+            this.onTouched();
+            this.onChange(memberId);
+            this.close.emit();
+        }
     }
 
     checkedChange(e: CheckboxCustomEvent, person: ViewMember): void {
@@ -67,7 +79,12 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
         return person.id;
     }
 
-    writeValue(value: string[]): void {
+    writeValue(value: string | null | string[]): void {
+        if (typeof value === "string" || value === null) {
+            this.selectedId = value;
+            return;
+        }
+
         this.selectedIds.clear();
         value.forEach((v) => {
             this.selectedIds.add(v);
@@ -75,7 +92,7 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
         this.selectedIds$.next(this.selectedIds);
     }
 
-    registerOnChange(fn: (value: string[]) => void): void {
+    registerOnChange(fn: (value: string | null | string[]) => void): void {
         this.onChange = fn;
     }
     registerOnTouched(fn: () => void): void {

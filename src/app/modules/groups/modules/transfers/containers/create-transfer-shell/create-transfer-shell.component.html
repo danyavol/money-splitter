@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button routerLink=".." routerDirection="back">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>New Transfer</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-transfer-form
+        [form]="form"
+        [members$]="members$"
+        [currency]="currency$ | async"
+    ></app-transfer-form>
+
+    <ion-list lines="none" class="ion-padding-top">
+        <ion-item>
+            <ion-button size="default" slot="end" (click)="createTransfer()">
+                <ion-icon slot="start" name="add-outline"></ion-icon>
+                Add transfer
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>

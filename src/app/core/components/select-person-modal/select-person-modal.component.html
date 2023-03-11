@@ -1,6 +1,11 @@
-<ion-list class="people">
-    <ion-item *ngFor="let member of viewMembers$ | async; trackBy: trackByFn" >
-        <ion-checkbox slot="start" [value]="member.id" [checked]="member.checked" (ionChange)="checkedChange($any($event), member)"></ion-checkbox>
+<ion-list class="people" lines="none">
+    <ion-item class="item-interactive" [button]="!multi"
+        [class.selected]="member.id === selectedId"
+        [class.single-choose]="!multi"
+        *ngFor="let member of viewMembers$ | async; trackBy: trackByFn" (click)="memberClicked(member.id)"
+    >
+        <ion-checkbox *ngIf="multi" slot="start" [value]="member.id" [checked]="member.checked"
+            (ionChange)="checkedChange($any($event), member)"></ion-checkbox>
         <ion-avatar>
             <img src="assets/avatar.svg" />
         </ion-avatar>
@@ -10,7 +15,7 @@
     </ion-item>
 </ion-list>
 
-<div class="action-button">
+<div class="action-button" *ngIf="multi">
     <ion-buttons slot="end">
         <ion-button color="primary" (click)="close.emit()">Ok</ion-button>
     </ion-buttons>
