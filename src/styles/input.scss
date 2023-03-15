@@ -1,0 +1,13 @@
+.ms-input {
+    border: none;
+    padding: 0;
+
+    &:focus {
+        outline: none;
+    }
+
+    &::placeholder {
+        color: inherit;
+        opacity: .5;
+    }
+}

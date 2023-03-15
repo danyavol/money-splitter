@@ -4,6 +4,13 @@
 
 .total-amount {
     font-size: 24px;
+    color: var(--ion-color-primary);
+}
+
+.total-amount-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 :host .hidden {

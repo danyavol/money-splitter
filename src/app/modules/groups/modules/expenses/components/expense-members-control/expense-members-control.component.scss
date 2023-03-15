@@ -39,10 +39,10 @@
                     color: var(--ion-color-medium);
                 }
 
-                ion-input {
-                    --padding-top: 0;
-                    --padding-bottom: 5px;
-                    border-bottom: 1px solid var(--border-color);
+                .ms-input {
+                    color: var(--ion-color-primary);
+                    border-bottom: 1px solid var(--ion-border-color);
+                    flex-grow: 1;
                 }
             }
         }

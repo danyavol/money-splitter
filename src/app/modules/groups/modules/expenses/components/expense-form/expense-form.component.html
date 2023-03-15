@@ -1,11 +1,13 @@
 <div [formGroup]="form">
     <ms-control-wrapper formControlName="title">
-        <input class="expense-title" placeholder="Expense title" formControlName="title">
+        <input class="ms-input expense-title" placeholder="Expense title" formControlName="title">
     </ms-control-wrapper>
 
     <ms-control-wrapper formControlName="amount">
-        <ion-label>{{currency}}</ion-label>
-        <input class="total-amount" type="text" currencyMask formControlName="amount">
+        <div class="total-amount-wrapper">
+            <ion-label>{{currency}}</ion-label>
+            <input class="ms-input total-amount" type="text" placeholder="0.00" currencyMask formControlName="amount">
+        </div>
     </ms-control-wrapper>
 
     <ms-control-wrapper formControlName="date">

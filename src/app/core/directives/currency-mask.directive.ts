@@ -59,6 +59,8 @@ export class CurrencyMaskDirective implements ControlValueAccessor {
             this._onTouched();
             this.maskValueChange.emit(newValue);
         });
+
+        this.element.addEventListener("blur", () => this._onTouched());
     }
 
     writeValue(value: number | null): void {
