@@ -22,7 +22,8 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     expenseMembersSum: 'Sum of expenses is not equal to the total amount',
     required: 'This field is required',
     differentRecipient: 'Sender and Recipient must be different people',
-    minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`
+    minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`,
+    maxlength: ({ actualLength, requiredLength}) => `Max length is ${requiredLength}`
 };
 
 @Component({
@@ -86,6 +87,7 @@ export class ControlWrapperComponent
 
     getMessage(errors: ValidationErrors | null): string {
         if (errors === null) return '';
+        console.log(errors);
 
         const firstErrorKey = Object.keys(errors)[0];
 
