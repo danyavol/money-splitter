@@ -1,25 +1,25 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { MsFormControl, MsFormGroup } from 'src/app/core/helpers/ms-form';
+import { differentRecipientValidator } from './different-recipient.validator';
 import { TransferForm, TransferFormValue } from './transfer-form.interface';
 
 export function getTransferForm(defaultValue?: TransferFormValue) {
     const value = defaultValue || getDefaultFormValue();
 
-    const form = new FormGroup<TransferForm>({
-        title: new FormControl<string>(value.title, {
+    const form = MsFormGroup<TransferForm>({
+        title: MsFormControl<string>(value.title, {
             nonNullable: true,
             validators: Validators.required,
         }),
-        amount: new FormControl<number | null>(value.amount),
-        date: new FormControl<string>(value.date, {
+        amount: MsFormControl<number | null>(value.amount, [Validators.required]),
+        date: MsFormControl<string>(value.date, {
             nonNullable: true,
         }),
-        senderId: new FormControl<string | null>(value.senderId, {
+        senderId: MsFormControl<string | null>(value.senderId, {
             validators: Validators.required,
         }),
-        recipientId: new FormControl<string | null>(value.recipientId, {
-            validators: Validators.required,
-        }),
-    });
+        recipientId: MsFormControl<string | null>(value.recipientId, Validators.required)
+    }, differentRecipientValidator);
 
     return form;
 }

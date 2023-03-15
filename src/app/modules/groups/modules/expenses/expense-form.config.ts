@@ -1,5 +1,5 @@
 import { FormGroup, Validators } from "@angular/forms";
-import { MsFormControl } from "src/app/core/helpers/ms-form-control";
+import { MsFormControl } from "src/app/core/helpers/ms-form";
 import { Expense, ExpenseMember } from "src/app/database/storage.interface";
 import { ExpenseForm } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";

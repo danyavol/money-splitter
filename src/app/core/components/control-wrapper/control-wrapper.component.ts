@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, Self } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Self } from '@angular/core';
 import {
     ControlValueAccessor,
     NgControl,
     ValidationErrors
 } from '@angular/forms';
 import {
+    BehaviorSubject,
+    distinctUntilChanged,
     map,
     merge,
     Observable,
@@ -13,12 +15,13 @@ import {
     Subject,
     takeUntil
 } from 'rxjs';
-import { MsFormControl } from '../../helpers/ms-form-control';
+import { MsFormControl } from '../../helpers/ms-form';
 
 const ERROR_MESSAGES: { [key: string]: string } = {
     expenseMembersLength: 'Select at least 1 person',
     expenseMembersSum: 'Sum of expenses is not equal to the total amount',
-    required: 'This field is required'
+    required: 'This field is required',
+    differentRecipient: 'Sender and Recipient must be different people'
 };
 
 @Component({
@@ -37,6 +40,10 @@ const ERROR_MESSAGES: { [key: string]: string } = {
 export class ControlWrapperComponent
     implements OnInit, OnDestroy, ControlValueAccessor
 {
+    @Input() set extraErrors(value: ValidationErrors | null) {
+        this.extraErrorsSbj.next(value);
+    };
+    private extraErrorsSbj = new BehaviorSubject<ValidationErrors | null>(null);
     private destroy$ = new Subject<void>();
 
     errorVisible$?: Observable<boolean>;
@@ -49,19 +56,22 @@ export class ControlWrapperComponent
     ngOnInit(): void {
         const control = this.control.control as MsFormControl;
         if (!control) throw Error('Control not found');
+        if (!control.touchedChanges) throw Error("You must use wrapper over FormControl - MsFormControl");
 
         this.errorVisible$ = merge(
             control.valueChanges,
-            control.touchedChanges
+            control.touchedChanges,
+            this.extraErrorsSbj.asObservable()
         ).pipe(
             takeUntil(this.destroy$),
-            map(() => control.invalid && control.touched),
-            startWith(control.invalid && control.touched)
+            map(() => (control.invalid && control.touched) || !!this.extraErrorsSbj.value),
+            startWith((control.invalid && control.touched) || !!this.extraErrorsSbj.value),
+            distinctUntilChanged()
         );
 
         this.errorMessage$ = this.errorVisible$.pipe(
             map((errorVisible) => {
-                if (errorVisible) return this.getMessage(this.control.errors);
+                if (errorVisible) return this.getMessage(this.extraErrorsSbj.value || this.control.errors);
                 return '';
             }),
             startWith('')

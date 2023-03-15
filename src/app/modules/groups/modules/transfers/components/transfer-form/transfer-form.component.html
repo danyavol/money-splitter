@@ -1,43 +1,49 @@
-<ion-list [formGroup]="form">
-    <ion-item *ngIf="form.get('title') as control">
-        <ion-input class="transfer-title" placeholder="Transfer title" formControlName="title"></ion-input>
-        <ion-note slot="error">Enter transfer title</ion-note>
-    </ion-item>
-    <ion-item>
-        <ion-label>{{currency}}</ion-label>
-        <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask
-            formControlName="amount" [maskValue]="form.controls.amount.value"></ion-input>
-    </ion-item>
-    <ion-item>
-        <div>
-            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+<div [formGroup]="form">
+    <ms-control-wrapper formControlName="title">
+        <input class="ms-input transfer-title" placeholder="Transfer title" formControlName="title">
+    </ms-control-wrapper>
 
-            <ion-modal [keepContentsMounted]="true">
-                <ng-template>
-                    <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
-                </ng-template>
-            </ion-modal>
+    <ms-control-wrapper formControlName="amount">
+        <div class="total-amount-wrapper">
+            <ion-label>{{currency}}</ion-label>
+            <input class="ms-input total-amount" type="text" currencyMask
+                formControlName="amount" placeholder="0.00">
         </div>
-    </ion-item>
-    <ion-item class="item-interactive" [button]="true" id="select-sender">
-        <ion-label>From</ion-label>
-        <div class="select-value" slot="end">
-            <span>{{selectedSender$ | async}}</span>
-            <div class="select-icon" role="presentation" part="icon">
-                <div class="select-icon-inner"></div>
+    </ms-control-wrapper>
+
+    <ms-control-wrapper formControlName="date">
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+                <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
+            </ng-template>
+        </ion-modal>
+    </ms-control-wrapper>
+
+    <ms-control-wrapper formControlName="senderId">
+        <div class="person-select item-interactive" id="select-sender">
+            <ion-label>From</ion-label>
+            <div class="select-value" slot="end">
+                <span>{{selectedSender$ | async}}</span>
+                <div class="select-icon" role="presentation" part="icon">
+                    <div class="select-icon-inner"></div>
+                </div>
             </div>
         </div>
-    </ion-item>
-    <ion-item class="item-interactive" [button]="true" id="select-recipient">
-        <ion-label>To</ion-label>
-        <div class="select-value" slot="end">
-            <span>{{selectedRecipient$ | async}}</span>
-            <div class="select-icon" role="presentation" part="icon">
-                <div class="select-icon-inner"></div>
+    </ms-control-wrapper>
+
+    <ms-control-wrapper formControlName="recipientId" [extraErrors]="form.errors">
+        <div class="person-select item-interactive" id="select-recipient">
+            <ion-label>To</ion-label>
+            <div class="select-value" slot="end">
+                <span>{{selectedRecipient$ | async}}</span>
+                <div class="select-icon" role="presentation" part="icon">
+                    <div class="select-icon-inner"></div>
+                </div>
             </div>
         </div>
-    </ion-item>
-
+    </ms-control-wrapper>
 
     <ion-modal trigger="select-sender" class="select-person-modal" #senderModal>
         <ng-template>
@@ -60,6 +66,4 @@
             ></app-select-person-modal>
         </ng-template>
     </ion-modal>
-</ion-list>
-
-
+</div>

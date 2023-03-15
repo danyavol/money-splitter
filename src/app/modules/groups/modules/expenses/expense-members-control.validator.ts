@@ -26,4 +26,3 @@ export function expenseMembersValidator(getTotalAmount: () => number | null): Va
         return null;
     };
 }
-
