@@ -39,10 +39,6 @@ export class CreateExpenseShellComponent {
 
     createExpense(): void {
         this.form.markAllAsTouched();
-        // Coolhack to trigger valueChange
-        this.form.disable();
-        this.form.enable();
-
         if (this.form.invalid) return;
 
         this.expensesCol

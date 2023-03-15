@@ -1,4 +1,5 @@
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormGroup, Validators } from "@angular/forms";
+import { MsFormControl } from "src/app/core/helpers/ms-form-control";
 import { Expense, ExpenseMember } from "src/app/database/storage.interface";
 import { ExpenseForm } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
@@ -7,26 +8,26 @@ import { expenseMembersValidator } from "./expense-members-control.validator";
 export function getExpenseForm(defaultValue?: Omit<Expense, "id" | "groupId">) {
     const value = defaultValue || getDefaultFormValue();
 
-    const amountControl = new FormControl<number | null>(value.amount);
+    const amountControl = MsFormControl<number | null>(value.amount, [Validators.required]);
 
     function getTotalAmount(): number | null {
         return amountControl.value;
     }
 
     const form = new FormGroup<ExpenseForm>({
-        title: new FormControl<string>(value.title, {
+        title: MsFormControl<string>(value.title, {
             nonNullable: true,
             validators: Validators.required,
         }),
         amount: amountControl,
-        date: new FormControl<string>(value.date, {
+        date: MsFormControl<string>(value.date, {
             nonNullable: true,
         }),
-        payers: new FormControl<ExpenseMember[]>(value.payers, {
+        payers: MsFormControl<ExpenseMember[]>(value.payers, {
             nonNullable: true,
             validators: expenseMembersValidator(getTotalAmount),
         }),
-        debtors: new FormControl<ExpenseMember[]>(value.debtors, {
+        debtors: MsFormControl<ExpenseMember[]>(value.debtors, {
             nonNullable: true,
             validators: expenseMembersValidator(getTotalAmount),
         }),

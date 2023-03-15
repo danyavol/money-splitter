@@ -26,6 +26,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import "/src/assets//fonts//fonts.scss";
+@import "./styles/index.scss";
 
 html {
     --ion-font-family: "Rubik";
@@ -84,4 +85,9 @@ ion-item.ion-focused .select-icon {
     }
 }
 
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 

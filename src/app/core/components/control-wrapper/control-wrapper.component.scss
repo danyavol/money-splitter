@@ -1,0 +1,25 @@
+:host {
+    --ms-border-width: 1px;
+    --ms-border-color: var(--ion-border-color);
+
+    .wrapper {
+        padding: 16px 16px 8px 16px;
+    }
+
+    .line {
+        display: block;
+        height: var(--ms-border-width);
+        background-color: var(--ms-border-color);
+
+        &.error {
+            --ms-border-width: 2px;
+            --ms-border-color: var(--ion-color-danger);
+        }
+    }
+
+    .error-message {
+        color: var(--ion-color-danger);
+        font-size: 12px;
+        padding: 3px 16px 0 16px;
+    }
+}

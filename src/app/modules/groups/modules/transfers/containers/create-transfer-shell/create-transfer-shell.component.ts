@@ -42,6 +42,7 @@ export class CreateTransferShellComponent implements OnInit {
 
     createTransfer(): void {
         this.form.markAllAsTouched();
+        // TODO: REMOVE
         // Coolhack to trigger valueChange
         this.form.disable();
         this.form.enable();

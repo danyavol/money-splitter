@@ -3,9 +3,9 @@
         <ion-item *ngFor="let expense of expenses" [routerLink]="['expense', expense.id]">
             <ion-icon slot="start" name="receipt-outline"></ion-icon>
             <div class="title-wrapper">
-                <ion-text class="title">{{expense.title}}</ion-text>
-                <div class="members">
-                    <ion-text color="secondary">{{expense.payers | appMembersList: 30}}</ion-text>
+                <ion-text class="title ellipsis">{{expense.title}}</ion-text>
+                <div class="members ellipsis">
+                    <ion-text color="secondary">{{expense.payers | appMembersList}}</ion-text>
                 </div>
                 <ion-text class="date" color="medium">{{expense.date | date: "MMM d, y, HH:mm"}}</ion-text>
             </div>

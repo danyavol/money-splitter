@@ -1,52 +1,41 @@
-<ion-list [formGroup]="form">
-    <ion-item *ngIf="form.get('title') as control">
-        <ion-input class="expense-title" placeholder="Expense title" formControlName="title"></ion-input>
-        <ion-note slot="error">Enter expense title</ion-note>
-    </ion-item>
-    <ion-item>
+<div [formGroup]="form">
+    <ms-control-wrapper formControlName="title">
+        <input class="expense-title" placeholder="Expense title" formControlName="title">
+    </ms-control-wrapper>
+
+    <ms-control-wrapper formControlName="amount">
         <ion-label>{{currency}}</ion-label>
-        <ion-input class="total-amount" type="text" color="primary" inputmode="decimal" currencyMask
-            formControlName="amount" [maskValue]="form.controls.amount.value"></ion-input>
-    </ion-item>
-    <ion-item>
-        <div>
-            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <input class="total-amount" type="text" currencyMask formControlName="amount">
+    </ms-control-wrapper>
 
-            <ion-modal [keepContentsMounted]="true">
-                <ng-template>
-                    <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
-                </ng-template>
-            </ion-modal>
-        </div>
-    </ion-item>
+    <ms-control-wrapper formControlName="date">
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
 
-    <app-expense-members-control
-        class="ion-padding-horizontal"
-        label="Paid by"
-        [members]="members"
-        [totalAmount]="form.get('amount')!.value"
-        [currency]="currency"
-        formControlName="payers"
-    ></app-expense-members-control>
+        <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+                <ion-datetime id="datetime" hourCycle="h23" formControlName="date"></ion-datetime>
+            </ng-template>
+        </ion-modal>
+    </ms-control-wrapper>
 
-    <!-- Hack to show error state -->
-    <ion-item class="hidden">
-        <ion-input formControlName="payers"></ion-input>
-        <ion-note slot="error" formControlName="payers" errorMessage></ion-note>
-    </ion-item>
 
-    <app-expense-members-control
-        class="ion-padding-horizontal"
-        label="Split between"
-        [members]="members"
-        [totalAmount]="form.get('amount')!.value"
-        [currency]="currency"
-        formControlName="debtors"
-    ></app-expense-members-control>
+    <ms-control-wrapper formControlName="payers">
+        <app-expense-members-control
+            label="Paid by"
+            [members]="members"
+            [totalAmount]="form.get('amount')!.value"
+            [currency]="currency"
+            formControlName="payers"
+        ></app-expense-members-control>
+    </ms-control-wrapper>
 
-    <!-- Hack to show error state -->
-    <ion-item class="hidden">
-        <ion-input formControlName="debtors"></ion-input>
-        <ion-note slot="error" formControlName="debtors" errorMessage></ion-note>
-    </ion-item>
-</ion-list>
+    <ms-control-wrapper formControlName="debtors">
+        <app-expense-members-control
+            label="Split between"
+            [members]="members"
+            [totalAmount]="form.get('amount')!.value"
+            [currency]="currency"
+            formControlName="debtors"
+        ></app-expense-members-control>
+    </ms-control-wrapper>
+</div>

@@ -56,9 +56,6 @@ export class EditExpenseShellComponent implements OnInit {
         if (!this.form) return;
 
         this.form.markAllAsTouched();
-        // Coolhack to trigger valueChange
-        this.form.disable();
-        this.form.enable();
 
         if (this.form.invalid) return;
 

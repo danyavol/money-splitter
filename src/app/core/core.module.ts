@@ -5,7 +5,7 @@ import { RouterModule } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
 import { SelectPersonModalComponent } from "./components/select-person-modal/select-person-modal.component";
 import { CurrencyMaskDirective } from "./directives/currency-mask.directive";
-import { ErrorMessageDirective } from "./directives/error-message.directive";
+import { ControlWrapperComponent } from "./components/control-wrapper/control-wrapper.component";
 import { CurrencyPipe } from "./pipes/currency.pipe";
 import { MembersListPipe } from "./pipes/members-list.pipe";
 
@@ -18,7 +18,7 @@ import { MembersListPipe } from "./pipes/members-list.pipe";
         ReactiveFormsModule,
         SelectPersonModalComponent,
         CurrencyMaskDirective,
-        ErrorMessageDirective,
+        ControlWrapperComponent,
         CurrencyPipe,
         MembersListPipe,
     ],
@@ -30,7 +30,7 @@ import { MembersListPipe } from "./pipes/members-list.pipe";
         ReactiveFormsModule,
         SelectPersonModalComponent,
         CurrencyMaskDirective,
-        ErrorMessageDirective,
+        ControlWrapperComponent,
         CurrencyPipe,
         MembersListPipe,
     ],

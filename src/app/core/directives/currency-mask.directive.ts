@@ -2,20 +2,14 @@ import {
     Directive,
     EventEmitter,
     Input,
-    OnInit,
-    Optional,
     Output,
-    Self,
-    SimpleChanges,
     ViewContainerRef,
 } from '@angular/core';
-import { NgControl } from '@angular/forms';
-import { IonInput } from '@ionic/angular';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import IMask from 'imask';
 
 export const currencyMaskOptions: IMask.MaskedNumberOptions = {
     mask: Number, // enable number mask
-
 
     // other options are optional with defaults below
     scale: 2, // digits after point, 0 for integers
@@ -25,44 +19,35 @@ export const currencyMaskOptions: IMask.MaskedNumberOptions = {
     normalizeZeros: true, // appends or removes zeros at ends
     radix: '.', // fractional delimiter
     mapToRadix: [','], // symbols to process as radix
-}
+};
 
 @Directive({
     selector: '[currencyMask]',
     standalone: true,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: CurrencyMaskDirective,
+            multi: true,
+        },
+    ],
 })
-export class CurrencyMaskDirective implements OnInit {
-    @Input() maskValue: number | null = null;
-    @Output() valueChange = new EventEmitter<number | null>();
+export class CurrencyMaskDirective implements ControlValueAccessor {
+    @Input() set maskValue(value: number | null) {
+        this.setMaskValue(value);
+    }
+    @Output() maskValueChange = new EventEmitter<number | null>();
 
+    private element: HTMLInputElement;
     private skipNextValueChange = false;
-    private element?: HTMLInputElement;
-    private mask?: IMask.InputMask<IMask.MaskedNumberOptions>;
-    private initialValue: number | null = null;
+    private mask: IMask.InputMask<IMask.MaskedNumberOptions>;
+    private _onChange: (value: any) => void = () => {};
+    private _onTouched: () => void = () => {};
 
-    constructor(
-        @Optional() private input: IonInput,
-        @Optional() @Self() private control: NgControl,
-        private ref: ViewContainerRef
-    ) {}
-
-    async ngOnInit() {
-        this.element = this.ref.element.nativeElement;
-
-        if (this.input) {
-            let oldElem = await this.input.getInputElement();
-
-            // Hack to remove all event listeners
-            this.element = oldElem.cloneNode(true) as HTMLInputElement;
-            oldElem.parentNode!.replaceChild(this.element, oldElem);
-        }
-
-        if (!this.element) return;
-
-        this.element.value = this.initialValue === null ? "" :  this.initialValue.toString();
+    constructor(ref: ViewContainerRef) {
+        this.element = ref.element.nativeElement;
 
         this.mask = IMask(this.element, currencyMaskOptions);
-
         this.mask.on('accept', () => {
             if (this.skipNextValueChange) {
                 this.skipNextValueChange = false;
@@ -70,31 +55,37 @@ export class CurrencyMaskDirective implements OnInit {
             }
 
             const newValue = !this.mask!.value ? null : this.mask!.typedValue;
-            this.control?.control?.setValue(newValue);
-            this.valueChange.emit(newValue);
+            this._onChange(newValue);
+            this._onTouched();
+            this.maskValueChange.emit(newValue);
         });
     }
 
-    ngOnChanges(currentValue: SimpleChanges) {
-        if ('maskValue' in currentValue) {
-            const value = currentValue['maskValue'].currentValue;
+    writeValue(value: number | null): void {
+        this.setMaskValue(value);
+    }
 
-            if (currentValue['maskValue'].firstChange) {
-                this.initialValue = value;
-            }
+    registerOnChange(fn: any): void {
+        this._onChange = fn;
+    }
 
-            if (this.element && this.mask) {
-                if (
-                    typeof value === 'number' &&
-                    this.mask.typedValue !== value
-                ) {
-                    this.skipNextValueChange = true;
-                    this.mask.typedValue = value;
-                } else if (value === null && this.mask.value !== '') {
-                    this.skipNextValueChange = true;
-                    this.mask.value = '';
-                }
-            }
+    registerOnTouched(fn: any): void {
+        this._onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.element.disabled = isDisabled;
+    }
+
+    private setMaskValue(value: number | null) {
+        if (!this.mask) return;
+
+        if (typeof value === 'number' && this.mask.typedValue !== value) {
+            this.skipNextValueChange = true;
+            this.mask.typedValue = value;
+        } else if (value === null && this.mask.value !== '') {
+            this.skipNextValueChange = true;
+            this.mask.value = '';
         }
     }
 }

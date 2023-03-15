@@ -3,7 +3,7 @@
         <ion-item *ngFor="let transfer of transfers" [routerLink]="['transfer', transfer.id]">
             <ion-icon slot="start" name="swap-horizontal-outline"></ion-icon>
             <div class="title-wrapper">
-                <ion-text class="title">{{transfer.title}}</ion-text>
+                <ion-text class="title ellipsis">{{transfer.title}}</ion-text>
                 <div class="members">
                     <ion-text color="secondary">{{transfer.sender}}</ion-text>
                     <ion-icon name="arrow-forward-outline"></ion-icon>

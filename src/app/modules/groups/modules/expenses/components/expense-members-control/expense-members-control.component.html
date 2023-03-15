@@ -11,8 +11,8 @@
                     </div>
                     <div class="amount-row">
                         <ion-text class="currency">{{currency}}</ion-text>
-                        <ion-input type="text" color="primary" inputmode="decimal" currencyMask
-                            placeholder="0.00" [maskValue]="member.amount" (valueChange)="amountChange($event, member.memberId)"></ion-input>
+                        <input type="text" currencyMask
+                            placeholder="0.00" [maskValue]="member.amount" (maskValueChange)="amountChange($event, member.memberId)">
                     </div>
 
                 </div>
@@ -30,7 +30,7 @@
     </div>
 
     <div class="add-member-btn">
-        <ion-button fill="outline" size="small" [id]="'select-members' + controlId">
+        <ion-button style="margin: 0" fill="outline" size="small" [id]="'select-members' + controlId">
             <ion-icon slot="start" name="people"></ion-icon>
             Select People
         </ion-button>
