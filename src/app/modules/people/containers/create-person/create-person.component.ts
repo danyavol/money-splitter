@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { PersonForm } from '../../interfaces/person-form.interface';
+import { getPersonForm } from '../../person-form.config';
 
 @Component({
     selector: 'app-create-person',
@@ -10,9 +9,7 @@ import { PersonForm } from '../../interfaces/person-form.interface';
     styleUrls: ['./create-person.component.scss'],
 })
 export class CreatePersonComponent {
-    memberForm = new FormGroup<PersonForm>({
-        name: new FormControl("", { nonNullable: true })
-    });
+    personForm = getPersonForm();
 
     constructor(
         private route: ActivatedRoute,
@@ -21,8 +18,11 @@ export class CreatePersonComponent {
     ) {}
 
     createPerson(): void {
+        this.personForm.markAllAsTouched();
+        if (this.personForm.invalid) return;
+
         this.memberCol.createMember({
-            name: this.memberForm.getRawValue().name
+            name: this.personForm.getRawValue().name
         }).subscribe(() => {
             this.router.navigate([".."], { relativeTo: this.route });
         })

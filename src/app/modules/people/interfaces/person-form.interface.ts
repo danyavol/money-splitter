@@ -1,5 +1,9 @@
-import { FormControl } from "@angular/forms";
+import { MsFormControl } from "src/app/core/helpers/ms-form";
 
 export interface PersonForm {
-    name: FormControl<string>;
+    name: MsFormControl<string>;
+}
+
+export interface PersonFormValue {
+    name: string;
 }

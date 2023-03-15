@@ -10,8 +10,4 @@ export class PeopleShellComponent {
     members$ = this.membersCol.members$;
 
     constructor(private membersCol: MembersCollection) {}
-
-    createMember() {
-        this.membersCol.createMember({ name: `First Name ${new Date().getMilliseconds()}` }).subscribe();
-    }
 }

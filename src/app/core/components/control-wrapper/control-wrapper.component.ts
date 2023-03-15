@@ -87,7 +87,6 @@ export class ControlWrapperComponent
 
     getMessage(errors: ValidationErrors | null): string {
         if (errors === null) return '';
-        console.log(errors);
 
         const firstErrorKey = Object.keys(errors)[0];
 
