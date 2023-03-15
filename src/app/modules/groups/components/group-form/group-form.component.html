@@ -5,28 +5,34 @@
         </ion-avatar>
     </div>
 
-    <ion-list>
-        <ion-item [counter]="true">
-            <ion-input maxlength="20" formControlName="name" placeholder="Group name"></ion-input>
-        </ion-item>
-        <ion-item class="item-interactive" [button]="true" id="select-members">
-            <ion-label>Members</ion-label>
-            <div class="select-value" slot="end">
-                <span>{{selectedMembers$ | async}}</span>
-                <div class="select-icon" role="presentation" part="icon">
-                    <div class="select-icon-inner"></div>
+    <div>
+        <ms-control-wrapper formControlName="name">
+            <input class="ms-input" maxlength="20" formControlName="name" placeholder="Group name">
+        </ms-control-wrapper>
+
+        <ms-control-wrapper formControlName="members">
+            <div class="select-members-wrapper" id="select-members">
+                <ion-label>Members</ion-label>
+                <div class="select-value" slot="end">
+                    <span>{{selectedMembers$ | async}}</span>
+                    <div class="select-icon" role="presentation" part="icon">
+                        <div class="select-icon-inner"></div>
+                    </div>
                 </div>
             </div>
-        </ion-item>
-        <ion-item>
-            <ion-label>Currency</ion-label>
-            <ion-select placeholder="Select currency" formControlName="currency" interface="popover">
-                <ion-select-option *ngFor="let currency of currencies" [value]="currency">
-                    {{currency}}
-                </ion-select-option>
-            </ion-select>
-        </ion-item>
-    </ion-list>
+        </ms-control-wrapper>
+
+        <ms-control-wrapper formControlName="currency">
+            <div class="select-currency-wrapper">
+                <ion-label>Currency</ion-label>
+                <ion-select placeholder="Select currency" formControlName="currency" interface="popover">
+                    <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+                        {{currency}}
+                    </ion-select-option>
+                </ion-select>
+            </div>
+        </ms-control-wrapper>
+    </div>
 
     <ion-modal trigger="select-members" class="select-person-modal" #modal>
         <ng-template>

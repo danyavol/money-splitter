@@ -30,7 +30,6 @@ export class GroupsCollection {
 
     getGroup(groupId: string): Observable<Group | null> {
         return this.groups$.pipe(
-            first(),
             map((groups) => groups.find((g) => g.id === groupId) || null)
         );
     }

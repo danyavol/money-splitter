@@ -17,11 +17,12 @@ import {
 } from 'rxjs';
 import { MsFormControl } from '../../helpers/ms-form';
 
-const ERROR_MESSAGES: { [key: string]: string } = {
+const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     expenseMembersLength: 'Select at least 1 person',
     expenseMembersSum: 'Sum of expenses is not equal to the total amount',
     required: 'This field is required',
-    differentRecipient: 'Sender and Recipient must be different people'
+    differentRecipient: 'Sender and Recipient must be different people',
+    minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`
 };
 
 @Component({
@@ -89,7 +90,12 @@ export class ControlWrapperComponent
         const firstErrorKey = Object.keys(errors)[0];
 
         if (firstErrorKey && firstErrorKey in ERROR_MESSAGES) {
-            return ERROR_MESSAGES[firstErrorKey];
+            const validationMessage = ERROR_MESSAGES[firstErrorKey];
+            if (typeof validationMessage === "string") {
+                return validationMessage;
+            } else {
+                return validationMessage(errors[firstErrorKey]);
+            }
         }
 
         return '';

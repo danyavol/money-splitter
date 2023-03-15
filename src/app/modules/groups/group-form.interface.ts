@@ -1,8 +1,14 @@
-import { FormControl } from "@angular/forms";
+import { MsFormControl } from "src/app/core/helpers/ms-form";
 import { Currency } from "src/app/core/interfaces/currency.interface";
 
 export interface GroupForm {
-    name: FormControl<string>;
-    members: FormControl<string[]>;
-    currency: FormControl<Currency>;
+    name: MsFormControl<string>;
+    members: MsFormControl<string[]>;
+    currency: MsFormControl<Currency>;
+}
+
+export interface GroupFormValue {
+    name: string;
+    members: string[];
+    currency: Currency;
 }

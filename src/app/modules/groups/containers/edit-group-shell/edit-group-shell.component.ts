@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { GroupForm } from '../../group-form.interface';
+import { getGroupForm } from '../../group-form.config';
 
 @Component({
     selector: 'app-edit-group-shell',
@@ -13,11 +11,7 @@ import { GroupForm } from '../../group-form.interface';
 })
 export class EditGroupShellComponent {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
-    groupForm = new FormGroup<GroupForm>({
-        name: new FormControl('', { nonNullable: true }),
-        members: new FormControl([], { nonNullable: true }),
-        currency: new FormControl(Currency.USD, { nonNullable: true }),
-    });
+    groupForm = getGroupForm();
     members$ = this.memberCol.members$;
 
     constructor(
@@ -36,6 +30,9 @@ export class EditGroupShellComponent {
     }
 
     saveGroup(): void {
+        this.groupForm.markAllAsTouched();
+        if (this.groupForm.invalid) return;
+
         this.groupsCol
             .updateGroup(this.groupId, this.groupForm.getRawValue())
             .subscribe(() => {

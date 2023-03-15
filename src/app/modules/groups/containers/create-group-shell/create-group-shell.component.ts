@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
-import { GroupForm } from '../../group-form.interface';
+import { getGroupForm } from '../../group-form.config';
 
 @Component({
     selector: 'app-create-group-shell',
@@ -12,11 +10,7 @@ import { GroupForm } from '../../group-form.interface';
     styleUrls: ['./create-group-shell.component.scss'],
 })
 export class CreateGroupShellComponent {
-    groupForm = new FormGroup<GroupForm>({
-        name: new FormControl('', { nonNullable: true }),
-        members: new FormControl([], { nonNullable: true }),
-        currency: new FormControl(Currency.USD, { nonNullable: true }),
-    });
+    groupForm = getGroupForm();
     members$ = this.memberCol.members$;
 
     constructor(
@@ -26,6 +20,9 @@ export class CreateGroupShellComponent {
     ) {}
 
     createGroup(): void {
+        this.groupForm.markAllAsTouched();
+        if (this.groupForm.invalid) return;
+
         this.groupsCol
             .createGroup(this.groupForm.getRawValue())
             .subscribe((groupId) => {

@@ -13,3 +13,18 @@
         height: 100px;
     }
 }
+
+.select-members-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.select-currency-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ion-select {
+        padding: 0;
+    }
+}
