@@ -59,9 +59,15 @@ export class EditExpenseShellComponent implements OnInit {
 
         if (this.form.invalid) return;
 
+        const value = this.form.getRawValue();
+
         this.expensesCol
             .updateExpense(this.expenseId, {
-                ...this.form.getRawValue(),
+                title: value.title,
+                amount: value.amount as number,
+                date: value.date,
+                payers: value.payers,
+                debtors: value.debtors
             })
             .subscribe(this.goBack.bind(this));
     }

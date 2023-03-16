@@ -8,3 +8,13 @@ export interface ExpenseForm {
     payers: FormControl<ExpenseMember[]>;
     debtors: FormControl<ExpenseMember[]>;
 }
+
+export interface ExpenseFormValue {
+    id: string;
+    groupId: string;
+    payers: ExpenseMember[];
+    debtors: ExpenseMember[];
+    date: string;
+    title: string;
+    amount: number | null;
+}

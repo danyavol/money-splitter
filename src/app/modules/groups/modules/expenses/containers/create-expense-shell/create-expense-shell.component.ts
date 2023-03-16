@@ -41,10 +41,16 @@ export class CreateExpenseShellComponent {
         this.form.markAllAsTouched();
         if (this.form.invalid) return;
 
+        const value = this.form.getRawValue();
+
         this.expensesCol
             .createExpense({
                 groupId: this.groupId,
-                ...this.form.getRawValue(),
+                title: value.title,
+                amount: value.amount as number,
+                date: value.date,
+                payers: value.payers,
+                debtors: value.debtors
             })
             .subscribe(this.goBack.bind(this));
     }

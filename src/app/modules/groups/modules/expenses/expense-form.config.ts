@@ -1,11 +1,11 @@
 import { FormGroup, Validators } from "@angular/forms";
 import { DateHelper } from "src/app/core/helpers/date-helper";
 import { MsFormControl } from "src/app/core/helpers/ms-form";
-import { Expense, ExpenseMember } from "src/app/database/storage.interface";
-import { ExpenseForm } from "./expense-form.interface";
+import { ExpenseMember } from "src/app/database/storage.interface";
+import { ExpenseForm, ExpenseFormValue } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
 
-export function getExpenseForm(defaultValue?: Omit<Expense, "id" | "groupId">) {
+export function getExpenseForm(defaultValue?: Omit<ExpenseFormValue, "id" | "groupId">) {
     const value = defaultValue || getDefaultFormValue();
 
     const amountControl = MsFormControl<number | null>(value.amount, [Validators.required]);
@@ -36,7 +36,7 @@ export function getExpenseForm(defaultValue?: Omit<Expense, "id" | "groupId">) {
     return form;
 }
 
-function getDefaultFormValue(): Omit<Expense, "id" | "groupId"> {
+function getDefaultFormValue(): Omit<ExpenseFormValue, "id" | "groupId"> {
     return {
         title: "",
         amount: null,

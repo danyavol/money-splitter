@@ -27,7 +27,7 @@ export interface Expense {
     debtors: ExpenseMember[];
     date: string;
     title: string;
-    amount: number | null; // TODO: Why it can be null?
+    amount: number;
 }
 
 export interface ExpenseMember {
