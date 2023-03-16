@@ -17,7 +17,7 @@
     </ng-template>
 </ion-modal>
 
-<ion-segment [formControl]="selectedTotalType" color="dark">
+<ion-segment [formControl]="selectedTotalType" color="secondary">
     <ion-segment-button [value]="TotalType.Short">
         <ion-label>Short</ion-label>
     </ion-segment-button>
@@ -27,7 +27,12 @@
 </ion-segment>
 
 <ng-container [ngSwitch]="selectedTotalType.value">
-    <app-totals-form-shell *ngSwitchCase="TotalType.Short"></app-totals-form-shell>
-    <app-totals-detailed-form-shell *ngSwitchCase="TotalType.Detailed"></app-totals-detailed-form-shell>
+    <app-totals-form-shell
+        *ngSwitchCase="TotalType.Short"
+        [personId]="selectedPerson.value"
+    ></app-totals-form-shell>
+    <app-totals-detailed-form-shell
+        *ngSwitchCase="TotalType.Detailed"
+    ></app-totals-detailed-form-shell>
 </ng-container>
 

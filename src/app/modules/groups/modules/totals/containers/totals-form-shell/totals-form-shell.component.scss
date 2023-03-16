@@ -1,0 +1,17 @@
+.top-row {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+
+    .top-row-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-bottom: 5px;
+    }
+}
+
+.hint {
+    color: var(--ion-color-medium);
+    font-size: 12px;
+}

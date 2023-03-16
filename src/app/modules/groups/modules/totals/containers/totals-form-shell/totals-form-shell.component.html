@@ -1,3 +1,7 @@
-<p>
-  totals-form-shell works!
-</p>
+<div class="top-row">
+    <div class="top-row-item" *ngIf="{ value: (totalBalance$ | async) || 0 } as totalBalance">
+        <ion-text color="dark" class="title">Total {{totalBalance.value > 0 ? "received" : "spent"}}</ion-text>
+        <ion-text color="{{totalBalance.value > 0 ? 'success' : 'danger'}}" class="spent-amount">{{totalBalance.value | appCurrency: "PLN"}}</ion-text>
+    </div>
+    <ion-text class="hint">Includes all expenses and transfers</ion-text>
+</div>
