@@ -1,0 +1,9 @@
+.person-select {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    .person-name {
+        color: var(--ion-color-primary);
+    }
+}

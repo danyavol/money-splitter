@@ -1,0 +1,33 @@
+<ms-control-wrapper [formControl]="selectedPerson">
+    <div class="person-select" id="select-person">
+        <ion-label>Report for</ion-label>
+        <div class="select-value" slot="end">
+            <span class="person-name">{{selectedPersonName$ | async}}</span>
+            <div class="select-icon" role="presentation" part="icon">
+                <div class="select-icon-inner"></div>
+            </div>
+        </div>
+    </div>
+</ms-control-wrapper>
+
+<ion-modal trigger="select-person" class="select-person-modal" #personModal>
+    <ng-template>
+        <app-select-person-modal [multi]="false" [people]="(members$ | async) || []" [formControl]="selectedPerson"
+            (close)="personModal.dismiss()"></app-select-person-modal>
+    </ng-template>
+</ion-modal>
+
+<ion-segment [formControl]="selectedTotalType" color="dark">
+    <ion-segment-button [value]="TotalType.Short">
+        <ion-label>Short</ion-label>
+    </ion-segment-button>
+    <ion-segment-button [value]="TotalType.Detailed">
+        <ion-label>Detailed</ion-label>
+    </ion-segment-button>
+</ion-segment>
+
+<ng-container [ngSwitch]="selectedTotalType.value">
+    <app-totals-form-shell *ngSwitchCase="TotalType.Short"></app-totals-form-shell>
+    <app-totals-detailed-form-shell *ngSwitchCase="TotalType.Detailed"></app-totals-detailed-form-shell>
+</ng-container>
+

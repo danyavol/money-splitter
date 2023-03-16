@@ -154,7 +154,6 @@ export class ExpensesCollection {
                     ...expense,
                     date: DateHelper.utcToLocal(expense.date),
                 }));
-                console.log(expenses, mappedExpenses);
                 this.expensesSbj.next(mappedExpenses);
             });
     }
