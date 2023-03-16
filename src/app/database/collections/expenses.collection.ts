@@ -10,6 +10,8 @@ import {
     switchMap,
     tap,
 } from 'rxjs';
+import { DateHelper } from 'src/app/core/helpers/date-helper';
+import { sortByDate } from 'src/app/core/helpers/helpers';
 import { v4 as uuid } from 'uuid';
 import { FullExpense, FullExpenseMember } from '../storage-join.interface';
 import {
@@ -49,7 +51,7 @@ export class ExpensesCollection {
         );
     }
 
-    getFullExpenses(groupId: string): Observable<FullExpense[]> {
+    getFullSortedExpenses(groupId: string): Observable<FullExpense[]> {
         return combineLatest([
             this.expenses$.pipe(
                 map((expenses) => expenses.filter((e) => e.groupId === groupId))
@@ -66,7 +68,8 @@ export class ExpensesCollection {
                         this.getFullExpenseMember(d, members)
                     ),
                 }))
-            )
+            ),
+            map((expenses) => sortByDate(expenses))
         );
     }
 
@@ -109,7 +112,9 @@ export class ExpensesCollection {
         return this.expenses$.pipe(
             first(),
             map((expenses) => {
-                const expenseIndex = expenses.findIndex((e) => e.id === expenseId);
+                const expenseIndex = expenses.findIndex(
+                    (e) => e.id === expenseId
+                );
                 if (expenseIndex < 0) return;
 
                 expenses.splice(expenseIndex, 1);
@@ -137,15 +142,28 @@ export class ExpensesCollection {
     }
 
     private loadExpenses(): void {
-        this.storage.refresh$.pipe(
-            startWith(undefined),
-            switchMap(() => this.storage.get<Expense[]>(Collection.Expenses))
-        ).subscribe(expenses => {
-            this.expensesSbj.next(expenses || []);
-        });
+        this.storage.refresh$
+            .pipe(
+                startWith(undefined),
+                switchMap(() =>
+                    this.storage.get<Expense[]>(Collection.Expenses)
+                )
+            )
+            .subscribe((expenses) => {
+                const mappedExpenses = (expenses || []).map((expense) => ({
+                    ...expense,
+                    date: DateHelper.utcToLocal(expense.date),
+                }));
+                console.log(expenses, mappedExpenses);
+                this.expensesSbj.next(mappedExpenses);
+            });
     }
 
     private saveExpenses(expenses: Expense[]): Observable<void> {
-        return this.storage.set(Collection.Expenses, expenses);
+        const mappedExpenses = expenses.map((expense) => ({
+            ...expense,
+            date: DateHelper.localToUtc(expense.date),
+        }));
+        return this.storage.set(Collection.Expenses, mappedExpenses);
     }
 }

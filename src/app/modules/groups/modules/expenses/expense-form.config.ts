@@ -1,9 +1,9 @@
 import { FormGroup, Validators } from "@angular/forms";
+import { DateHelper } from "src/app/core/helpers/date-helper";
 import { MsFormControl } from "src/app/core/helpers/ms-form";
 import { Expense, ExpenseMember } from "src/app/database/storage.interface";
 import { ExpenseForm } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
-
 
 export function getExpenseForm(defaultValue?: Omit<Expense, "id" | "groupId">) {
     const value = defaultValue || getDefaultFormValue();
@@ -40,15 +40,8 @@ function getDefaultFormValue(): Omit<Expense, "id" | "groupId"> {
     return {
         title: "",
         amount: null,
-        date: getCurrentDate(),
+        date: DateHelper.getCurrentLocalDate(),
         payers: [],
         debtors: []
     };
-}
-
-function getCurrentDate(): string {
-    // TODO: Fix date
-    const date = new Date();
-    date.setSeconds(0, 0);
-    return date.toISOString();
 }

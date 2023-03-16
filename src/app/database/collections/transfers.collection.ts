@@ -10,6 +10,8 @@ import {
     switchMap,
     tap
 } from 'rxjs';
+import { DateHelper } from 'src/app/core/helpers/date-helper';
+import { sortByDate } from 'src/app/core/helpers/helpers';
 import { v4 as uuid } from 'uuid';
 import { FullTransfer } from '../storage-join.interface';
 import { Collection, Transfer } from '../storage.interface';
@@ -51,7 +53,7 @@ export class TransfersCollection {
         );
     }
 
-    getFullTransfers(groupId: string): Observable<FullTransfer[]> {
+    getFullSortedTransfers(groupId: string): Observable<FullTransfer[]> {
         return combineLatest([
             this.transfers$.pipe(
                 map((transfers) => transfers.filter((t) => t.groupId === groupId))
@@ -64,7 +66,8 @@ export class TransfersCollection {
                     sender: members.find(m => m.id === t.senderId)?.name || "",
                     recipient: members.find(m => m.id === t.recipientId)?.name || "",
                 }))
-            )
+            ),
+            map((transfers) => sortByDate(transfers))
         );
     }
 
@@ -127,11 +130,19 @@ export class TransfersCollection {
                 )
             )
             .subscribe((transfers) => {
-                this.transferSbj.next(transfers || []);
+                const mappedTransfers = (transfers || []).map((transfer) => ({
+                    ...transfer,
+                    date: DateHelper.utcToLocal(transfer.date),
+                }));
+                this.transferSbj.next(mappedTransfers);
             });
     }
 
     private saveTransfers(transfers: Transfer[]): Observable<void> {
-        return this.storage.set(Collection.Transfers, transfers);
+        const mappedTransfers = transfers.map((transfer) => ({
+            ...transfer,
+            date: DateHelper.localToUtc(transfer.date),
+        }));
+        return this.storage.set(Collection.Transfers, mappedTransfers);
     }
 }

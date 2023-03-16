@@ -9,7 +9,7 @@ import { ExpensesCollection } from 'src/app/database/collections/expenses.collec
 })
 export class ExpensesListShellComponent {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
-    fullExpenses$ = this.expensesCol.getFullExpenses(this.groupId);
+    fullExpenses$ = this.expensesCol.getFullSortedExpenses(this.groupId);
 
     constructor(
         private expensesCol: ExpensesCollection,

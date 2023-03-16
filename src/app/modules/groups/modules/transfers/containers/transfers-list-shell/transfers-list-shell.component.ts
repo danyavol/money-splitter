@@ -9,7 +9,7 @@ import { TransfersCollection } from 'src/app/database/collections/transfers.coll
 })
 export class TransfersListShellComponent implements OnInit {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
-    fullTransfers$ = this.transfersCol.getFullTransfers(this.groupId);
+    fullTransfers$ = this.transfersCol.getFullSortedTransfers(this.groupId);
 
     constructor(
         private transfersCol: TransfersCollection,

@@ -1,4 +1,5 @@
 import { Validators } from '@angular/forms';
+import { DateHelper } from 'src/app/core/helpers/date-helper';
 import { MsFormControl, MsFormGroup } from 'src/app/core/helpers/ms-form';
 import { differentRecipientValidator } from './different-recipient.validator';
 import { TransferForm, TransferFormValue } from './transfer-form.interface';
@@ -28,15 +29,8 @@ function getDefaultFormValue(): TransferFormValue {
     return {
         title: '',
         amount: null,
-        date: getCurrentDate(),
+        date: DateHelper.getCurrentLocalDate(),
         senderId: null,
         recipientId: null,
     };
-}
-
-function getCurrentDate(): string {
-    // TODO: Fix date
-    const date = new Date();
-    date.setSeconds(0, 0);
-    return date.toISOString();
 }
