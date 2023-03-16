@@ -50,8 +50,8 @@ export class CreateExpenseShellComponent {
                 title: value.title,
                 amount: value.amount as number,
                 date: value.date,
-                payers: value.payers.filter(p => p.amount !== null) as ExpenseMember[],
-                debtors: value.debtors.filter(p => p.amount !== null) as ExpenseMember[]
+                payers: value.payers.filter(p => p.amount !== null && p.amount !== 0) as ExpenseMember[],
+                debtors: value.debtors.filter(d => d.amount !== null && d.amount !== 0) as ExpenseMember[]
             })
             .subscribe(this.goBack.bind(this));
     }
