@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
+import { ExpenseMember } from 'src/app/database/storage.interface';
 import { getExpenseForm } from '../../expense-form.config';
 
 @Component({
@@ -49,8 +50,8 @@ export class CreateExpenseShellComponent {
                 title: value.title,
                 amount: value.amount as number,
                 date: value.date,
-                payers: value.payers,
-                debtors: value.debtors
+                payers: value.payers.filter(p => p.amount !== null) as ExpenseMember[],
+                debtors: value.debtors.filter(p => p.amount !== null) as ExpenseMember[]
             })
             .subscribe(this.goBack.bind(this));
     }

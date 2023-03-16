@@ -13,9 +13,10 @@ import {
 } from 'rxjs';
 import { roundNumber } from 'src/app/core/helpers/helpers';
 import { Currency } from 'src/app/core/interfaces/currency.interface';
-import { ExpenseMember, Member } from 'src/app/database/storage.interface';
+import { Member } from 'src/app/database/storage.interface';
+import { ExpenseMemberValue } from '../../expense-form.interface';
 
-interface ViewMember extends ExpenseMember {
+interface ViewMember extends ExpenseMemberValue {
     name: string;
 }
 
@@ -46,12 +47,12 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
 
     totalAmount$ = new BehaviorSubject<number | null>(null);
     inputMembers$ = new BehaviorSubject<Member[]>([]);
-    inputExpenseMembers$ = new BehaviorSubject<ExpenseMember[]>([]);
+    inputExpenseMembers$ = new BehaviorSubject<ExpenseMemberValue[]>([]);
 
-    onChange = (value: ExpenseMember[]) => {};
+    onChange = (value: ExpenseMemberValue[]) => {};
     onTouched = () => {};
 
-    expenseMembers$ = new BehaviorSubject<ExpenseMember[]>([]);
+    expenseMembers$ = new BehaviorSubject<ExpenseMemberValue[]>([]);
 
     selectedMemberIds = new FormControl<string[]>([], { nonNullable: true });
     amountControl = new FormControl<number>(0, {});
@@ -129,7 +130,7 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
             });
     }
 
-    writeValue(value: ExpenseMember[]): void {
+    writeValue(value: ExpenseMemberValue[]): void {
         this.inputExpenseMembers$.next(value);
     }
 
@@ -200,7 +201,7 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
     }
 
     private calculateAmounts(
-        expenseMembers: ExpenseMember[],
+        expenseMembers: ExpenseMemberValue[],
         totalAmount: number | null,
         ignoredMember?: string
     ): void {
@@ -255,17 +256,17 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
         this.expenseMembers$.next(expenseMembers);
     }
 
-    private getExpenseMemberCopy(memberId: string): ExpenseMember {
+    private getExpenseMemberCopy(memberId: string): ExpenseMemberValue {
         return {
             ...this.expenseMembers$.value.find((m) => m.memberId === memberId)!,
         };
     }
 
-    private getExpenseMembersCopy(): ExpenseMember[] {
+    private getExpenseMembersCopy(): ExpenseMemberValue[] {
         return [...this.expenseMembers$.value.map((m) => ({ ...m }))];
     }
 
-    private updateExpenseMember(member: ExpenseMember): void {
+    private updateExpenseMember(member: ExpenseMemberValue): void {
         const value = [...this.expenseMembers$.value];
 
         const index = value.findIndex((m) => m.memberId === member.memberId);

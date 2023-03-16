@@ -2,7 +2,7 @@ import { FormGroup, Validators } from "@angular/forms";
 import { DateHelper } from "src/app/core/helpers/date-helper";
 import { MsFormControl } from "src/app/core/helpers/ms-form";
 import { ExpenseMember } from "src/app/database/storage.interface";
-import { ExpenseForm, ExpenseFormValue } from "./expense-form.interface";
+import { ExpenseForm, ExpenseFormValue, ExpenseMemberValue } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
 
 export function getExpenseForm(defaultValue?: Omit<ExpenseFormValue, "id" | "groupId">) {
@@ -23,11 +23,11 @@ export function getExpenseForm(defaultValue?: Omit<ExpenseFormValue, "id" | "gro
         date: MsFormControl<string>(value.date, {
             nonNullable: true,
         }),
-        payers: MsFormControl<ExpenseMember[]>(value.payers, {
+        payers: MsFormControl<ExpenseMemberValue[]>(value.payers, {
             nonNullable: true,
             validators: expenseMembersValidator(getTotalAmount),
         }),
-        debtors: MsFormControl<ExpenseMember[]>(value.debtors, {
+        debtors: MsFormControl<ExpenseMemberValue[]>(value.debtors, {
             nonNullable: true,
             validators: expenseMembersValidator(getTotalAmount),
         }),

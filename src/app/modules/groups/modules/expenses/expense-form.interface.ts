@@ -1,20 +1,25 @@
 import { FormControl } from "@angular/forms";
-import { ExpenseMember } from "src/app/database/storage.interface";
 
 export interface ExpenseForm {
     title: FormControl<string>;
     amount: FormControl<number | null>;
     date: FormControl<string>;
-    payers: FormControl<ExpenseMember[]>;
-    debtors: FormControl<ExpenseMember[]>;
+    payers: FormControl<ExpenseMemberValue[]>;
+    debtors: FormControl<ExpenseMemberValue[]>;
 }
 
 export interface ExpenseFormValue {
     id: string;
     groupId: string;
-    payers: ExpenseMember[];
-    debtors: ExpenseMember[];
+    payers: ExpenseMemberValue[];
+    debtors: ExpenseMemberValue[];
     date: string;
     title: string;
+    amount: number | null;
+}
+
+export interface ExpenseMemberValue {
+    memberId: string;
+    ration: number | null;
     amount: number | null;
 }
