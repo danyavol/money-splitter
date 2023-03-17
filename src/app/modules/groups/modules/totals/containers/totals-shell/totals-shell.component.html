@@ -30,6 +30,7 @@
     <app-totals-form-shell
         *ngSwitchCase="TotalType.Short"
         [personId]="selectedPerson.value"
+        [allDebts$]="allDebts$"
     ></app-totals-form-shell>
     <app-totals-detailed-form-shell
         *ngSwitchCase="TotalType.Detailed"

@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, share, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, share, tap } from 'rxjs';
+import { roundNumber } from 'src/app/core/helpers/helpers';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
+import { ViewDebt } from '../totals-shell/totals-shell.component';
 
 @Component({
     selector: 'app-totals-form-shell',
@@ -13,6 +15,8 @@ export class TotalsFormShellComponent implements OnInit {
     @Input() set personId(value: string) {
         this.personIdSbj.next(value);
     }
+    @Input() allDebts$!: Observable<ViewDebt[]>;
+
     personIdSbj = new BehaviorSubject('');
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     expenses$ = this.expensesCol
@@ -50,6 +54,8 @@ export class TotalsFormShellComponent implements OnInit {
     totalBalance$ = combineLatest([this.expensesTotal$, this.transfersTotal$]).pipe(
         map(([expensesTotal, transfersTotal]) => expensesTotal + transfersTotal)
     );
+    youOwe$!: Observable<{ debts: ViewDebt[], total: number }>;
+    youGetBack$!: Observable<{ debts: ViewDebt[], total: number }>;
 
     constructor(
         private expensesCol: ExpensesCollection,
@@ -57,5 +63,21 @@ export class TotalsFormShellComponent implements OnInit {
         private route: ActivatedRoute
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.youOwe$ = combineLatest([this.allDebts$, this.personIdSbj]).pipe(
+            map(([debts, personId]) => {
+                const youOwe = debts.filter(d => d.from.id === personId)
+                const total = roundNumber(youOwe.reduce((total, debt) => total + debt.amount, 0));
+                return { debts: youOwe, total };
+            })
+        );
+
+        this.youGetBack$ = combineLatest([this.allDebts$, this.personIdSbj]).pipe(
+            map(([debts, personId]) => {
+                const youGetBack = debts.filter(d => d.to.id === personId)
+                const total = roundNumber(youGetBack.reduce((total, debt) => total + debt.amount, 0));
+                return { debts: youGetBack, total };
+            })
+        );
+    }
 }

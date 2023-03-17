@@ -1,7 +1,47 @@
 <div class="top-row">
     <div class="top-row-item" *ngIf="{ value: (totalBalance$ | async) || 0 } as totalBalance">
-        <ion-text color="dark" class="title">Total {{totalBalance.value > 0 ? "received" : "spent"}}</ion-text>
-        <ion-text color="{{totalBalance.value > 0 ? 'success' : 'danger'}}" class="spent-amount">{{totalBalance.value | appCurrency: "PLN"}}</ion-text>
+        <ion-text color="dark" class="title">You {{totalBalance.value > 0 ? "received" : "spent"}} in total</ion-text>
+        <ion-text color="{{totalBalance.value > 0 ? 'success' : 'danger'}}" class="spent-amount">
+            {{(totalBalance.value < 0 ? -totalBalance.value : totalBalance.value) | appCurrency: "PLN"}}
+        </ion-text>
     </div>
     <ion-text class="hint">Includes all expenses and transfers</ion-text>
+</div>
+
+<div class="debts-section">
+    <ion-text class="title" color="dark">You owe:</ion-text>
+    <ng-container *ngLet="(youOwe$ | async) as youOwe">
+        <ng-container *ngIf="youOwe && youOwe.total; else noOwes">
+            <div class="debts-wrapper">
+                <div class="debt" *ngFor="let debt of youOwe.debts">
+                    <span>to <strong>{{debt.from.name}}</strong></span>
+                    <ion-text color="warning">{{debt.amount | appCurrency: "PLN"}}</ion-text>
+                </div>
+            </div>
+            <div class="total">
+                <ion-text color="dark">TOTAL</ion-text>
+                <ion-text class="amount" color="warning">{{youOwe.total | appCurrency: "PLN"}}</ion-text>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-template #noOwes><ion-text class="no-debts" color="medium">You don't owe anybody</ion-text></ng-template>
+</div>
+
+<div class="debts-section">
+    <ion-text class="title" color="dark">You get back:</ion-text>
+    <ng-container *ngLet="(youGetBack$ | async) as youGetBack">
+        <ng-container *ngIf="youGetBack && youGetBack.total; else noGetsBack">
+            <div class="debts-wrapper">
+                <div class="debt" *ngFor="let debt of youGetBack.debts">
+                    <span>from <strong>{{debt.from.name}}</strong></span>
+                    <ion-text color="secondary">{{debt.amount | appCurrency: "PLN"}}</ion-text>
+                </div>
+            </div>
+            <div class="total">
+                <ion-text color="dark">TOTAL</ion-text>
+                <ion-text class="amount" color="secondary">{{youGetBack.total | appCurrency: "PLN"}}</ion-text>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-template #noGetsBack><ion-text class="no-debts" color="medium">Nobody owes you</ion-text></ng-template>
 </div>

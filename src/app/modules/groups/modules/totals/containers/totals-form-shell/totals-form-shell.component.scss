@@ -1,17 +1,69 @@
+:host {
+    padding: 20px;
+    display: block;
+}
+
 .top-row {
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
+    margin-bottom: 30px;
 
     .top-row-item {
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
         margin-bottom: 5px;
+    }
+
+    .spent-amount {
+        font-size: 20px;
+        font-weight: 500;
     }
 }
 
 .hint {
     color: var(--ion-color-medium);
     font-size: 12px;
+}
+
+.debts-section + .debts-section {
+    margin-top: 30px;
+}
+
+.debts-section {
+    .title {
+        display: block;
+        text-align: start;
+        margin-bottom: 10px;
+    }
+
+    .debts-wrapper {
+        padding-left: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .debt {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .debt:last-child {
+            margin-bottom: 10px;
+        }
+    }
+
+    .total {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 500;
+
+        .amount {
+            font-size: 20px;
+        }
+    }
+
+    .no-debts {
+        font-size: 16px;
+    }
 }

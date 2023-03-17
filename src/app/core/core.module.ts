@@ -8,6 +8,7 @@ import { CurrencyMaskDirective } from "./directives/currency-mask.directive";
 import { ControlWrapperComponent } from "./components/control-wrapper/control-wrapper.component";
 import { CurrencyPipe } from "./pipes/currency.pipe";
 import { MembersListPipe } from "./pipes/members-list.pipe";
+import { NgLetModule } from "ng-let";
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import { MembersListPipe } from "./pipes/members-list.pipe";
         ControlWrapperComponent,
         CurrencyPipe,
         MembersListPipe,
+        NgLetModule,
     ],
     exports: [
         CommonModule,
@@ -33,6 +35,7 @@ import { MembersListPipe } from "./pipes/members-list.pipe";
         ControlWrapperComponent,
         CurrencyPipe,
         MembersListPipe,
+        NgLetModule,
     ],
     providers: [
         MembersListPipe

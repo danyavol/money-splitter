@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, first, map, tap } from 'rxjs';
+import { combineLatest, first, map, Observable, share, shareReplay, tap, withLatestFrom } from 'rxjs';
 import { MsFormControl } from 'src/app/core/helpers/ms-form';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
+import { Member } from 'src/app/database/storage.interface';
 import { calculateDebts } from '../../calculate-debts';
 
 enum TotalType {
     Short,
     Detailed
+}
+
+export interface ViewDebt {
+    to: Member;
+    from: Member;
+    amount: number;
 }
 
 @Component({
@@ -32,10 +39,21 @@ export class TotalsShellComponent implements OnInit {
         map(([personId, members]) => members.find(m => m.id === personId)?.name || "")
     );
 
-    debts$ = combineLatest([
+    allDebts$: Observable<ViewDebt[]> = combineLatest([
         this.expensesCol.expenses$,
         this.transfersCol.transfers$
-    ]).pipe(map(data => calculateDebts(...data)));
+    ]).pipe(
+        map(data => calculateDebts(...data)),
+        withLatestFrom(this.members$),
+        map(([debts, members]) => {
+            return debts.map(debt => ({
+                from: members.find(m => m.id === debt.from)!,
+                to: members.find(m => m.id === debt.to)!,
+                amount: debt.amount
+            }));
+        }),
+        shareReplay(1)
+    );
 
     constructor(
         private membersCol: MembersCollection,
@@ -45,7 +63,7 @@ export class TotalsShellComponent implements OnInit {
     ) {
         this.selectFirstMember();
 
-        this.debts$.subscribe();
+        this.allDebts$.subscribe();
     }
 
     ngOnInit() {}

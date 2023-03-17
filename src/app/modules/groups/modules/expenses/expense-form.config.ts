@@ -1,7 +1,6 @@
 import { FormGroup, Validators } from "@angular/forms";
 import { DateHelper } from "src/app/core/helpers/date-helper";
 import { MsFormControl } from "src/app/core/helpers/ms-form";
-import { ExpenseMember } from "src/app/database/storage.interface";
 import { ExpenseForm, ExpenseFormValue, ExpenseMemberValue } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
 
