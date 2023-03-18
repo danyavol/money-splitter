@@ -14,7 +14,7 @@
         <ng-container *ngIf="youOwe && youOwe.total; else noOwes">
             <div class="debts-wrapper">
                 <div class="debt" *ngFor="let debt of youOwe.debts">
-                    <span>to <strong>{{debt.from.name}}</strong></span>
+                    <span>to <strong>{{debt.to.name}}</strong></span>
                     <ion-text color="warning">{{debt.amount | appCurrency: currency}}</ion-text>
                 </div>
             </div>
