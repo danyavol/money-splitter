@@ -55,8 +55,8 @@ export class TotalsShellComponent implements OnInit {
 
     ngOnInit() {
         this.allDebts$ = combineLatest([
-            this.expensesCol.expenses$,
-            this.transfersCol.transfers$
+            this.expensesCol.getGroupExpenses(this.groupId),
+            this.transfersCol.getGroupTransfers(this.groupId)
         ]).pipe(
             map(data => calculateDebts(this.currency, ...data)),
             withLatestFrom(this.members$),
@@ -74,7 +74,7 @@ export class TotalsShellComponent implements OnInit {
     }
 
     selectFirstMember(): void {
-        this.members$.pipe(first()).subscribe(members => {
+        this.members$.subscribe(members => {
             this.selectedPerson.setValue(members[0].id);
         });
     }

@@ -51,11 +51,15 @@ export class ExpensesCollection {
         );
     }
 
+    getGroupExpenses(groupId: string): Observable<Expense[]> {
+        return this.expenses$.pipe(
+            map((expenses) => expenses.filter((e) => e.groupId === groupId))
+        );
+    }
+
     getFullSortedExpenses(groupId: string): Observable<FullExpense[]> {
         return combineLatest([
-            this.expenses$.pipe(
-                map((expenses) => expenses.filter((e) => e.groupId === groupId))
-            ),
+            this.getGroupExpenses(groupId),
             this.membersCol.members$,
         ]).pipe(
             map(([expenses, members]) =>

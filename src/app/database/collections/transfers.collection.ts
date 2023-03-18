@@ -53,11 +53,15 @@ export class TransfersCollection {
         );
     }
 
+    getGroupTransfers(groupId: string): Observable<Transfer[]> {
+        return this.transfers$.pipe(
+            map((transfers) => transfers.filter((t) => t.groupId === groupId))
+        );
+    }
+
     getFullSortedTransfers(groupId: string): Observable<FullTransfer[]> {
         return combineLatest([
-            this.transfers$.pipe(
-                map((transfers) => transfers.filter((t) => t.groupId === groupId))
-            ),
+            this.getGroupTransfers(groupId),
             this.membersCol.members$,
         ]).pipe(
             map(([transfers, members]) =>

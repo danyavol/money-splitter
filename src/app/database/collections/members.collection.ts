@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+    combineLatest,
     first,
     map,
     Observable,
@@ -7,8 +8,7 @@ import {
     ReplaySubject,
     startWith,
     switchMap,
-    tap,
-    withLatestFrom
+    tap
 } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Collection, Member } from '../storage.interface';
@@ -44,15 +44,17 @@ export class MembersCollection {
     }
 
     getGroupMembers(groupId: string): Observable<Member[]> {
-        return this.members$.pipe(
-            withLatestFrom(this.groupsCol.groups$),
+        return combineLatest([
+            this.members$,
+            this.groupsCol.groups$
+        ]).pipe(
             map(([members, groups]) => {
                 const group = groups.find(g => g.id === groupId);
                 if (!group) throw new Error(`Group not found. Id: ${groupId}`);
 
                 return members.filter(m => group.members.includes(m.id));
             })
-        )
+        );
     }
 
     getMember(memberId: string): Observable<Member | null> {
