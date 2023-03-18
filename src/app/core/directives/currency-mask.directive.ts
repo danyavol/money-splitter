@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import IMask from 'imask';
+import { ReplaySubject } from 'rxjs';
 import { Currency } from '../constants/currencies.const';
 
 @Directive({
@@ -24,10 +25,11 @@ import { Currency } from '../constants/currencies.const';
 export class CurrencyMaskDirective implements ControlValueAccessor, OnInit {
     @Input() currencyMaskCode: string = "USD";
     @Input() set maskValue(value: number | null) {
-        this.setMaskValue(value);
+        this.valueSbj.next(value);
     }
     @Output() maskValueChange = new EventEmitter<number | null>();
 
+    private valueSbj = new ReplaySubject<number | null>(1);
     private element: HTMLInputElement;
     private skipNextValueChange = false;
     private mask!: IMask.InputMask<IMask.MaskedNumberOptions>;
@@ -52,10 +54,12 @@ export class CurrencyMaskDirective implements ControlValueAccessor, OnInit {
             this._onTouched();
             this.maskValueChange.emit(newValue);
         });
+
+        this.valueSbj.subscribe(v => this.setMaskValue(v));
     }
 
     writeValue(value: number | null): void {
-        this.setMaskValue(value);
+        this.valueSbj.next(value);
     }
 
     registerOnChange(fn: any): void {
