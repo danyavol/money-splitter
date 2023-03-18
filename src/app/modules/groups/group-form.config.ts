@@ -1,6 +1,5 @@
 import { FormGroup, Validators } from "@angular/forms";
 import { MsFormControl } from "src/app/core/helpers/ms-form";
-import { Currency } from "src/app/core/interfaces/currency.interface";
 import { minPeopleValidators } from "src/app/core/validators";
 import { GroupForm, GroupFormValue } from "./group-form.interface";
 
@@ -18,6 +17,6 @@ function getDefaultFormValue(): GroupFormValue {
     return {
         name: '',
         members: [],
-        currency: Currency.USD
+        currency: "USD"
     };
 }

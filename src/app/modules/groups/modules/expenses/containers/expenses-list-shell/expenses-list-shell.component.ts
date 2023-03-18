@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 
@@ -8,6 +8,8 @@ import { ExpensesCollection } from 'src/app/database/collections/expenses.collec
     styleUrls: ['./expenses-list-shell.component.scss'],
 })
 export class ExpensesListShellComponent {
+    @Input() currency!: string;
+
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     fullExpenses$ = this.expensesCol.getFullSortedExpenses(this.groupId);
 

@@ -22,4 +22,8 @@
         font-size: 12px;
         padding: 3px 16px 0 16px;
     }
+
+    &.no-border {
+        --ms-border-color: transparent;
+    }
 }

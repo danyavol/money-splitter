@@ -23,13 +23,14 @@
         </ms-control-wrapper>
 
         <ms-control-wrapper formControlName="currency">
-            <div class="select-currency-wrapper">
+            <div class="select-currency-wrapper" id="select-currency">
                 <ion-label>Currency</ion-label>
-                <ion-select placeholder="Select currency" formControlName="currency" interface="popover">
-                    <ion-select-option *ngFor="let currency of currencies" [value]="currency">
-                        {{currency}}
-                    </ion-select-option>
-                </ion-select>
+                <div class="select-value" slot="end">
+                    <span>{{form.controls.currency.value}}</span>
+                    <div class="select-icon" role="presentation" part="icon">
+                        <div class="select-icon-inner"></div>
+                    </div>
+                </div>
             </div>
         </ms-control-wrapper>
     </div>
@@ -41,6 +42,15 @@
                 formControlName="members"
                 (close)="modal.dismiss()"
             ></app-select-person-modal>
+        </ng-template>
+    </ion-modal>
+
+    <ion-modal trigger="select-currency" class="select-currency-modal" #currencyModal>
+        <ng-template>
+            <app-select-currency-modal
+                formControlName="currency"
+                (close)="currencyModal.dismiss()"
+            ></app-select-currency-modal>
         </ng-template>
     </ion-modal>
 </ng-container>

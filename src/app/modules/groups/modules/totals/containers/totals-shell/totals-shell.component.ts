@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, first, map, Observable, share, shareReplay, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, first, map, Observable, shareReplay, withLatestFrom } from 'rxjs';
 import { MsFormControl } from 'src/app/core/helpers/ms-form';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -25,6 +25,8 @@ export interface ViewDebt {
     styleUrls: ['./totals-shell.component.scss'],
 })
 export class TotalsShellComponent implements OnInit {
+    @Input() currency!: string;
+
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     selectedPerson = MsFormControl();
     selectedTotalType = MsFormControl(TotalType.Short);

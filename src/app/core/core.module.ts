@@ -9,6 +9,7 @@ import { ControlWrapperComponent } from "./components/control-wrapper/control-wr
 import { CurrencyPipe } from "./pipes/currency.pipe";
 import { MembersListPipe } from "./pipes/members-list.pipe";
 import { NgLetModule } from "ng-let";
+import { SelectCurrencyModalComponent } from "./components/select-currency-modal/select-currency-modal.component";
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { NgLetModule } from "ng-let";
         CurrencyPipe,
         MembersListPipe,
         NgLetModule,
+        SelectCurrencyModalComponent,
     ],
     exports: [
         CommonModule,
@@ -36,6 +38,7 @@ import { NgLetModule } from "ng-let";
         CurrencyPipe,
         MembersListPipe,
         NgLetModule,
+        SelectCurrencyModalComponent
     ],
     providers: [
         MembersListPipe

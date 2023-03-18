@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
     ControlValueAccessor,
     FormControl,
@@ -11,8 +11,8 @@ import {
     Observable,
     withLatestFrom,
 } from 'rxjs';
+import { Currency } from 'src/app/core/constants/currencies.const';
 import { roundNumber } from 'src/app/core/helpers/helpers';
-import { Currency } from 'src/app/core/interfaces/currency.interface';
 import { Member } from 'src/app/database/storage.interface';
 import { ExpenseMemberValue } from '../../expense-form.interface';
 
@@ -32,7 +32,7 @@ interface ViewMember extends ExpenseMemberValue {
         },
     ],
 })
-export class ExpenseMembersControlComponent implements ControlValueAccessor {
+export class ExpenseMembersControlComponent implements ControlValueAccessor, OnInit {
     static counter = 0;
     controlId = ExpenseMembersControlComponent.counter++;
 
@@ -42,12 +42,13 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
     @Input() set totalAmount(value: number | null) {
         this.totalAmount$.next(value);
     }
-    @Input() currency: Currency | null = null;
+    @Input() currency!: string;
     @Input() label: string = '';
 
     totalAmount$ = new BehaviorSubject<number | null>(null);
     inputMembers$ = new BehaviorSubject<Member[]>([]);
     inputExpenseMembers$ = new BehaviorSubject<ExpenseMemberValue[]>([]);
+    placeholder: string = '';
 
     onChange = (value: ExpenseMemberValue[]) => {};
     onTouched = () => {};
@@ -128,6 +129,10 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor {
                 );
                 this.triggerOnChange();
             });
+    }
+
+    ngOnInit(): void {
+        this.placeholder = Currency.getPlaceholder(this.currency);
     }
 
     writeValue(value: ExpenseMemberValue[]): void {

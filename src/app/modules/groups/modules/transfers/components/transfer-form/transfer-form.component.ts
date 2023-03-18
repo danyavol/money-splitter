@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
-import { Currency } from 'src/app/core/interfaces/currency.interface';
+import { Currency } from 'src/app/core/constants/currencies.const';
 import { Member } from 'src/app/database/storage.interface';
 import { TransferForm } from '../../transfer-form.interface';
 
@@ -12,13 +12,16 @@ import { TransferForm } from '../../transfer-form.interface';
 })
 export class TransferFormComponent{
     @Input() members$!: Observable<Member[]>;
-    @Input() currency: Currency | null = null;
+    @Input() currency!: string;
     @Input() form!: FormGroup<TransferForm>;
 
+    placeholder!: string;
     selectedSender$!: Observable<string>;
     selectedRecipient$!: Observable<string>;
 
     ngOnInit() {
+        console.log(this.currency);
+        this.placeholder = Currency.getPlaceholder(this.currency);
         this.selectedSender$ = this.getSelectedMember(this.form.controls.senderId);
         this.selectedRecipient$ = this.getSelectedMember(this.form.controls.recipientId);
     }

@@ -1,5 +1,5 @@
 <ng-container *ngIf="group$ | async as group">
-    <ion-header>
+    <div>
         <ion-toolbar>
             <ion-buttons slot="start">
                 <ion-button routerLink=".." routerDirection="back">
@@ -13,33 +13,35 @@
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
-    </ion-header>
+    </div>
 
     <ion-content>
         <ion-row class="swiper-wrapper">
             <ion-col class="swiper-segments">
-                <ion-segment [scrollable]="true" [formControl]="control">
-                    <ion-segment-button [value]="Slide.Expenses">
-                        Expenses
-                    </ion-segment-button>
-                    <ion-segment-button [value]="Slide.Transfers">
-                        Transfers
-                    </ion-segment-button>
-                    <ion-segment-button [value]="Slide.Totals">
-                        Totals
-                    </ion-segment-button>
-                </ion-segment>
+                <ion-header>
+                    <ion-segment [scrollable]="true" [formControl]="control">
+                        <ion-segment-button [value]="Slide.Expenses">
+                            Expenses
+                        </ion-segment-button>
+                        <ion-segment-button [value]="Slide.Transfers">
+                            Transfers
+                        </ion-segment-button>
+                        <ion-segment-button [value]="Slide.Totals">
+                            Totals
+                        </ion-segment-button>
+                    </ion-segment>
+                </ion-header>
             </ion-col>
             <ion-col class="swiper-slides">
                 <ion-slides class="swiper" [options]="slideOpts" (ionSlideWillChange)="slideChanged($event)">
                     <ion-slide>
-                        <app-expenses-list-shell></app-expenses-list-shell>
+                        <app-expenses-list-shell [currency]="group.currency"></app-expenses-list-shell>
                     </ion-slide>
                     <ion-slide>
-                        <app-transfers-list-shell></app-transfers-list-shell>
+                        <app-transfers-list-shell [currency]="group.currency"></app-transfers-list-shell>
                     </ion-slide>
                     <ion-slide>
-                        <app-totals-shell></app-totals-shell>
+                        <app-totals-shell [currency]="group.currency"></app-totals-shell>
                     </ion-slide>
                 </ion-slides>
             </ion-col>

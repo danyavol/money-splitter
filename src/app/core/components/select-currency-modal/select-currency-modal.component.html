@@ -1,0 +1,10 @@
+<ion-list class="currencies" lines="none">
+    <ion-item class="item-interactive" [button]="true"
+        [class.selected]="currency.value === selectedCurrency"
+        *ngFor="let currency of currencies; trackBy: trackByFn" (click)="currencySelected(currency.value)"
+    >
+        <ion-label>
+            <h2>{{currency.title}}</h2>
+        </ion-label>
+    </ion-item>
+</ion-list>

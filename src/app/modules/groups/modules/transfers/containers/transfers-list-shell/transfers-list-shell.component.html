@@ -11,7 +11,7 @@
                 </div>
                 <ion-text class="date" color="medium">{{transfer.date | date: "MMM d, y, HH:mm"}}</ion-text>
             </div>
-            <ion-text slot="end" color="success">{{transfer.amount | appCurrency: "PLN"}}</ion-text>
+            <ion-text slot="end" color="success">{{transfer.amount | appCurrency: currency}}</ion-text>
         </ion-item>
     </ion-list>
 

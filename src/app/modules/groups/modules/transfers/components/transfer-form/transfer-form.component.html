@@ -6,8 +6,8 @@
     <ms-control-wrapper formControlName="amount">
         <div class="total-amount-wrapper">
             <ion-label>{{currency}}</ion-label>
-            <input class="ms-input total-amount" type="text" currencyMask
-                formControlName="amount" placeholder="0.00">
+            <input class="ms-input total-amount" type="text" currencyMask [currencyMaskCode]="currency"
+                formControlName="amount" [placeholder]="placeholder">
         </div>
     </ms-control-wrapper>
 

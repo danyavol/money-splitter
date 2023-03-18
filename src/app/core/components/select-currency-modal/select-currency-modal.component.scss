@@ -1,0 +1,21 @@
+::ng-deep .select-currency-modal {
+    --height: auto;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    padding: 0 20px;
+}
+
+.currencies {
+    max-height: 60vh;
+    overflow: scroll;
+
+    ion-item {
+        --inner-border-width: 0;
+        --padding-top: 5.5px;
+        --padding-bottom: 5.5px;
+    }
+}
+
+.selected {
+    --background: rgba(0, 0, 0, 0.15);
+}

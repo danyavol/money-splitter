@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { combineLatest, map, Observable, startWith } from 'rxjs';
-import { allCurrencies } from 'src/app/core/constants/currencies.const';
 import { MembersListPipe } from 'src/app/core/pipes/members-list.pipe';
 import { Member } from 'src/app/database/storage.interface';
 import { GroupForm } from '../../group-form.interface';
@@ -14,8 +13,6 @@ import { GroupForm } from '../../group-form.interface';
 export class GroupFormComponent {
     @Input() form!: FormGroup<GroupForm>;
     @Input() members$!: Observable<Member[]>;
-
-    currencies = allCurrencies;
 
     selectedMembers$?: Observable<string | null>;
 

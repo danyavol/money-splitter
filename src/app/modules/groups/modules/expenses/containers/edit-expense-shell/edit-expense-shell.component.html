@@ -19,7 +19,7 @@
         *ngIf="form"
         [form]="form"
         [members]="(members$ | async) || []"
-        [currency]="currency$ | async"
+        [currency]="(currency$ | async) || ''"
     ></app-expense-form>
 
     <ion-list lines="none" class="ion-padding-top">

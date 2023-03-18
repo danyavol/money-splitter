@@ -2,24 +2,13 @@ import {
     Directive,
     EventEmitter,
     Input,
+    OnInit,
     Output,
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import IMask from 'imask';
-
-export const currencyMaskOptions: IMask.MaskedNumberOptions = {
-    mask: Number, // enable number mask
-
-    // other options are optional with defaults below
-    scale: 2, // digits after point, 0 for integers
-    signed: true, // disallow negative
-    thousandsSeparator: ' ', // any single char
-    padFractionalZeros: true, // if true, then pads zeros at end to the length of scale
-    normalizeZeros: true, // appends or removes zeros at ends
-    radix: '.', // fractional delimiter
-    mapToRadix: [','], // symbols to process as radix
-};
+import { Currency } from '../constants/currencies.const';
 
 @Directive({
     selector: '[currencyMask]',
@@ -32,7 +21,8 @@ export const currencyMaskOptions: IMask.MaskedNumberOptions = {
         },
     ],
 })
-export class CurrencyMaskDirective implements ControlValueAccessor {
+export class CurrencyMaskDirective implements ControlValueAccessor, OnInit {
+    @Input() currencyMaskCode: string = "USD";
     @Input() set maskValue(value: number | null) {
         this.setMaskValue(value);
     }
@@ -40,14 +30,17 @@ export class CurrencyMaskDirective implements ControlValueAccessor {
 
     private element: HTMLInputElement;
     private skipNextValueChange = false;
-    private mask: IMask.InputMask<IMask.MaskedNumberOptions>;
+    private mask!: IMask.InputMask<IMask.MaskedNumberOptions>;
     private _onChange: (value: any) => void = () => {};
     private _onTouched: () => void = () => {};
 
     constructor(ref: ViewContainerRef) {
         this.element = ref.element.nativeElement;
+        this.element.addEventListener("blur", () => this._onTouched());
+    }
 
-        this.mask = IMask(this.element, currencyMaskOptions);
+    ngOnInit(): void {
+        this.mask = IMask(this.element, Currency.getMaskConfig(this.currencyMaskCode));
         this.mask.on('accept', () => {
             if (this.skipNextValueChange) {
                 this.skipNextValueChange = false;
@@ -59,8 +52,6 @@ export class CurrencyMaskDirective implements ControlValueAccessor {
             this._onTouched();
             this.maskValueChange.emit(newValue);
         });
-
-        this.element.addEventListener("blur", () => this._onTouched());
     }
 
     writeValue(value: number | null): void {

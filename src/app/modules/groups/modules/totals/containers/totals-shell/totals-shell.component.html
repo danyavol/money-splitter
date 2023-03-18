@@ -1,4 +1,4 @@
-<ms-control-wrapper [formControl]="selectedPerson">
+<ms-control-wrapper [formControl]="selectedPerson" class="no-border">
     <div class="person-select" id="select-person">
         <ion-label>Report for</ion-label>
         <div class="select-value" slot="end">
@@ -17,7 +17,7 @@
     </ng-template>
 </ion-modal>
 
-<ion-segment [formControl]="selectedTotalType" color="secondary">
+<ion-segment [formControl]="selectedTotalType" class="report-type-selection" color="tertiary">
     <ion-segment-button [value]="TotalType.Short">
         <ion-label>Short</ion-label>
     </ion-segment-button>
@@ -26,14 +26,15 @@
     </ion-segment-button>
 </ion-segment>
 
-<ng-container [ngSwitch]="selectedTotalType.value">
+<div class="content-wrapper" [ngSwitch]="selectedTotalType.value">
     <app-totals-form-shell
         *ngSwitchCase="TotalType.Short"
         [personId]="selectedPerson.value"
         [allDebts$]="allDebts$"
+        [currency]="currency"
     ></app-totals-form-shell>
     <app-totals-detailed-form-shell
         *ngSwitchCase="TotalType.Detailed"
     ></app-totals-detailed-form-shell>
-</ng-container>
+</div>
 

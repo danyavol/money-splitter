@@ -11,8 +11,8 @@
                     </div>
                     <div class="amount-row">
                         <ion-text class="currency">{{currency}}</ion-text>
-                        <input type="text" class="ms-input" currencyMask
-                            placeholder="0.00" [maskValue]="member.amount" (maskValueChange)="amountChange($event, member.memberId)">
+                        <input type="text" class="ms-input" currencyMask [currencyMaskCode]="currency"
+                            [placeholder]="placeholder" [maskValue]="member.amount" (maskValueChange)="amountChange($event, member.memberId)">
                     </div>
 
                 </div>

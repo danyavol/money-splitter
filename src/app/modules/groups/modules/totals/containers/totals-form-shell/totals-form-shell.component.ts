@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, combineLatest, map, Observable, share, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, share } from 'rxjs';
 import { roundNumber } from 'src/app/core/helpers/helpers';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
@@ -12,6 +12,7 @@ import { ViewDebt } from '../totals-shell/totals-shell.component';
     styleUrls: ['./totals-form-shell.component.scss'],
 })
 export class TotalsFormShellComponent implements OnInit {
+    @Input() currency!: string;
     @Input() set personId(value: string) {
         this.personIdSbj.next(value);
     }

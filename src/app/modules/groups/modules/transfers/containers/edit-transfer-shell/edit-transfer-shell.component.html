@@ -16,9 +16,10 @@
 
 <ion-content>
     <app-transfer-form
+        *ngIf="currency$ | async as currency"
         [form]="form"
         [members$]="members$"
-        [currency]="currency$ | async"
+        [currency]="currency"
     ></app-transfer-form>
 
     <ion-list lines="none" class="ion-padding-top">

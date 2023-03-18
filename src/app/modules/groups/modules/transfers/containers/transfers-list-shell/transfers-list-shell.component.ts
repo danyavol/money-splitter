@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
 
@@ -8,6 +8,8 @@ import { TransfersCollection } from 'src/app/database/collections/transfers.coll
     styleUrls: ['./transfers-list-shell.component.scss'],
 })
 export class TransfersListShellComponent implements OnInit {
+    @Input() currency!: string;
+
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     fullTransfers$ = this.transfersCol.getFullSortedTransfers(this.groupId);
 
