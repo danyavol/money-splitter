@@ -1,3 +1,32 @@
-<p>
-  edit-transfer-shell works!
-</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button routerLink="../.." routerDirection="back">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Edit Transfer</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="removeTransfer()">
+                <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <app-transfer-form
+        [form]="form"
+        [members$]="members$"
+        [currency]="currency$ | async"
+    ></app-transfer-form>
+
+    <ion-list lines="none" class="ion-padding-top">
+        <ion-item>
+            <ion-button size="default" slot="end" (click)="saveTransfer()">
+                <ion-icon slot="start" name="add-outline"></ion-icon>
+                Save transfer
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>

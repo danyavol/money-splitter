@@ -44,7 +44,7 @@ const routes: Routes = [
                 component: CreateTransferShellComponent
             },
             {
-                path: 'transfer/:expenseId',
+                path: 'transfer/:transferId',
                 component: EditTransferShellComponent
             },
         ]
