@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
@@ -42,9 +42,11 @@ export class EditExpenseShellComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.expensesCol.getExpense(this.expenseId).subscribe((expense) => {
+        this.expensesCol.getExpense(this.expenseId).pipe(
+            withLatestFrom(this.currency$)
+        ).subscribe(([expense, currency]) => {
             if (expense) {
-                this.form = getExpenseForm(expense);
+                this.form = getExpenseForm(currency, expense);
             } else {
                 this.goBack();
                 this.toastService.error('Invalid expense ID');

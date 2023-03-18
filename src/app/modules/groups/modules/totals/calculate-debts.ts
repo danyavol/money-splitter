@@ -1,4 +1,4 @@
-import { roundNumber } from 'src/app/core/helpers/helpers';
+import { Currency } from 'src/app/core/constants/currencies.const';
 import { Expense, Transfer } from 'src/app/database/storage.interface';
 
 export interface Debt {
@@ -14,19 +14,20 @@ interface DebtTriangle {
 }
 
 export function calculateDebts(
+    currencyCode: string,
     expenses: Expense[],
     transfers: Transfer[]
 ): Debt[] {
-    let debts = mapToDebts(expenses, transfers);
+    let debts = mapToDebts(currencyCode, expenses, transfers);
 
-    debts = filterSimpleCases(debts);
-    debts = filterEachOtherOwes(debts);
-    debts = optimizeTriangleDebts(debts);
+    debts = filterSimpleCases(currencyCode, debts);
+    debts = filterEachOtherOwes(currencyCode, debts);
+    debts = optimizeTriangleDebts(currencyCode, debts);
 
     return debts;
 }
 
-function flattenExpense(expense: Expense): Debt[] {
+function flattenExpense(currencyCode: string, expense: Expense): Debt[] {
     const debts: Debt[] = [];
 
     const payers: { payerId: string; amount: number; percentage: number }[] =
@@ -40,9 +41,9 @@ function flattenExpense(expense: Expense): Debt[] {
         payers.reduce((totalReturned, payer, currentIndex) => {
             let amount: number;
             if (currentIndex === payers.length - 1) {
-                amount = roundNumber(debtor.amount - totalReturned);
+                amount = Currency.round(currencyCode, debtor.amount - totalReturned);
             } else {
-                amount = roundNumber(debtor.amount * payer.percentage);
+                amount = Currency.round(currencyCode, debtor.amount * payer.percentage);
             }
             debts.push({
                 from: debtor.memberId,
@@ -57,10 +58,10 @@ function flattenExpense(expense: Expense): Debt[] {
     return debts;
 }
 
-function mapToDebts(expenses: Expense[], transfers: Transfer[]): Debt[] {
+function mapToDebts(currencyCode: string, expenses: Expense[], transfers: Transfer[]): Debt[] {
     return [
         ...expenses.reduce(
-            (debts, expense) => [...debts, ...flattenExpense(expense)],
+            (debts, expense) => [...debts, ...flattenExpense(currencyCode, expense)],
             [] as Debt[]
         ),
         ...transfers.map((t) => ({
@@ -72,7 +73,7 @@ function mapToDebts(expenses: Expense[], transfers: Transfer[]): Debt[] {
 }
 
 // This function will filter the most simple cases
-function filterSimpleCases(debts: Debt[]): Debt[] {
+function filterSimpleCases(currencyCode: string, debts: Debt[]): Debt[] {
     const newDebts: Debt[] = [];
     debts.forEach((debt) => {
         // #1 Remove self-debts
@@ -83,7 +84,7 @@ function filterSimpleCases(debts: Debt[]): Debt[] {
             (d) => d.from === debt.from && d.to === debt.to
         );
         if (existingDebt) {
-            existingDebt.amount = roundNumber(
+            existingDebt.amount = Currency.round(currencyCode,
                 existingDebt.amount + debt.amount
             );
         } else {
@@ -94,7 +95,7 @@ function filterSimpleCases(debts: Debt[]): Debt[] {
 }
 
 // This function will filter out all cases, when two people owe each other
-function filterEachOtherOwes(debts: Debt[]): Debt[] {
+function filterEachOtherOwes(currencyCode: string, debts: Debt[]): Debt[] {
     const newDebts: Debt[] = [];
     debts.forEach((debt) => {
         const oppositeDebt = newDebts.find(
@@ -105,11 +106,11 @@ function filterEachOtherOwes(debts: Debt[]): Debt[] {
                 const from = oppositeDebt.from;
                 oppositeDebt.from = oppositeDebt.to;
                 oppositeDebt.to = from;
-                oppositeDebt.amount = roundNumber(
+                oppositeDebt.amount = Currency.round(currencyCode,
                     debt.amount - oppositeDebt.amount
                 );
             } else {
-                oppositeDebt.amount = roundNumber(
+                oppositeDebt.amount = Currency.round(currencyCode,
                     oppositeDebt.amount - debt.amount
                 );
             }
@@ -129,7 +130,7 @@ function filterEachOtherOwes(debts: Debt[]): Debt[] {
 // StartPerson - person, who has 2 OUT transactions
 // EndPerson - person, who has 2 IN transactions
 // MiddlePerson - persom, who has 1 IN and 1 OUT transaction
-function optimizeTriangleDebts(debts: Debt[]): Debt[] {
+function optimizeTriangleDebts(currencyCode: string, debts: Debt[]): Debt[] {
     const debtsCopy = [...debts.map(d => ({...d}))];
 
     // Find debt triangles, which can be optimized
@@ -143,12 +144,12 @@ function optimizeTriangleDebts(debts: Debt[]): Debt[] {
         }
 
         if (firstToThird.amount <= firstToSecond.amount) {
-            firstToSecond.amount = roundNumber(firstToSecond.amount + firstToThird.amount);
-            secondToThird.amount = roundNumber(secondToThird.amount + firstToThird.amount);
+            firstToSecond.amount = Currency.round(currencyCode, firstToSecond.amount + firstToThird.amount);
+            secondToThird.amount = Currency.round(currencyCode, secondToThird.amount + firstToThird.amount);
             firstToThird.amount = 0;
         } else {
-            firstToThird.amount = roundNumber(firstToThird.amount + firstToSecond.amount);
-            secondToThird.amount = roundNumber(secondToThird.amount - firstToSecond.amount);
+            firstToThird.amount = Currency.round(currencyCode, firstToThird.amount + firstToSecond.amount);
+            secondToThird.amount = Currency.round(currencyCode, secondToThird.amount - firstToSecond.amount);
             firstToSecond.amount = 0;
         }
     });

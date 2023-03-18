@@ -20,7 +20,6 @@ export class TransferFormComponent{
     selectedRecipient$!: Observable<string>;
 
     ngOnInit() {
-        console.log(this.currency);
         this.placeholder = Currency.getPlaceholder(this.currency);
         this.selectedSender$ = this.getSelectedMember(this.form.controls.senderId);
         this.selectedRecipient$ = this.getSelectedMember(this.form.controls.recipientId);

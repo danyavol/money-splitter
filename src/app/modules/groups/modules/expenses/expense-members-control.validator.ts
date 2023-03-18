@@ -1,8 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { roundNumber } from 'src/app/core/helpers/helpers';
+import { Currency } from 'src/app/core/constants/currencies.const';
 import { ExpenseMember } from 'src/app/database/storage.interface';
 
-export function expenseMembersValidator(getTotalAmount: () => number | null): ValidatorFn {
+export function expenseMembersValidator(currencyCode: string, getTotalAmount: () => number | null): ValidatorFn {
     return (control: AbstractControl<ExpenseMember[]>): ValidationErrors | null => {
         /*
             Invalid if:
@@ -18,7 +18,7 @@ export function expenseMembersValidator(getTotalAmount: () => number | null): Va
         }
 
         // #2
-        const sum = roundNumber(value.reduce((total, member) => (member.amount || 0) + total, 0));
+        const sum = Currency.round(currencyCode, value.reduce((total, member) => (member.amount || 0) + total, 0));
         if ((getTotalAmount() || 0) !== sum) {
             return { expenseMembersSum: true };
         }

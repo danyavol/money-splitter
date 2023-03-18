@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, combineLatest, map, Observable, share } from 'rxjs';
-import { roundNumber } from 'src/app/core/helpers/helpers';
+import { Currency } from 'src/app/core/constants/currencies.const';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
 import { ViewDebt } from '../totals-shell/totals-shell.component';
@@ -68,7 +68,7 @@ export class TotalsFormShellComponent implements OnInit {
         this.youOwe$ = combineLatest([this.allDebts$, this.personIdSbj]).pipe(
             map(([debts, personId]) => {
                 const youOwe = debts.filter(d => d.from.id === personId)
-                const total = roundNumber(youOwe.reduce((total, debt) => total + debt.amount, 0));
+                const total = Currency.round(this.currency, youOwe.reduce((total, debt) => total + debt.amount, 0));
                 return { debts: youOwe, total };
             })
         );
@@ -76,7 +76,7 @@ export class TotalsFormShellComponent implements OnInit {
         this.youGetBack$ = combineLatest([this.allDebts$, this.personIdSbj]).pipe(
             map(([debts, personId]) => {
                 const youGetBack = debts.filter(d => d.to.id === personId)
-                const total = roundNumber(youGetBack.reduce((total, debt) => total + debt.amount, 0));
+                const total = Currency.round(this.currency, youGetBack.reduce((total, debt) => total + debt.amount, 0));
                 return { debts: youGetBack, total };
             })
         );

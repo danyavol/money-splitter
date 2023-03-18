@@ -1,15 +1,17 @@
 import { data, code } from 'currency-codes';
 import IMask from 'imask';
 
-console.log(data);
-
 export const Currency = {
     list: data.map((currency) => ({
         value: currency.code,
         title: `${currency.code} - ${currency.currency}`,
     })),
     format(currencyCode: string, number: number): string {
-        return new Intl.NumberFormat(getLocale(currencyCode), { style: 'currency', currency: currencyCode }).format(number);
+        return new Intl.NumberFormat(getLocale(currencyCode), {
+            style: 'currency',
+            currency: currencyCode,
+            minimumFractionDigits: code(currencyCode)?.digits
+        }).format(number);
     },
     round(currencyCode: string, number: number): number {
         const currencyInfo = code(currencyCode);
@@ -18,7 +20,6 @@ export const Currency = {
         return Math.round(number * (10 ** currencyInfo.digits)) / (10 ** currencyInfo.digits);
     },
     getMaskConfig(currencyCode: string): IMask.MaskedNumberOptions {
-        console.log(123, code(currencyCode))
         return  {
             mask: Number, // enable number mask
 

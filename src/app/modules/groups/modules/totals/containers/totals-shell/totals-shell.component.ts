@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, first, map, Observable, shareReplay, withLatestFrom } from 'rxjs';
+import { instantChanges } from 'src/app/core/helpers/helpers';
 import { MsFormControl } from 'src/app/core/helpers/ms-form';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -35,27 +36,13 @@ export class TotalsShellComponent implements OnInit {
     members$ = this.membersCol.getGroupMembers(this.groupId);
 
     selectedPersonName$ = combineLatest([
-        this.selectedPerson.valueChanges,
+        instantChanges(this.selectedPerson),
         this.members$
     ]).pipe(
-        map(([personId, members]) => members.find(m => m.id === personId)?.name || "")
+        map(([personId, members]) => members.find((m: any) => m.id === personId)?.name || ""),
     );
 
-    allDebts$: Observable<ViewDebt[]> = combineLatest([
-        this.expensesCol.expenses$,
-        this.transfersCol.transfers$
-    ]).pipe(
-        map(data => calculateDebts(...data)),
-        withLatestFrom(this.members$),
-        map(([debts, members]) => {
-            return debts.map(debt => ({
-                from: members.find(m => m.id === debt.from)!,
-                to: members.find(m => m.id === debt.to)!,
-                amount: debt.amount
-            }));
-        }),
-        shareReplay(1)
-    );
+    allDebts$!: Observable<ViewDebt[]>;
 
     constructor(
         private membersCol: MembersCollection,
@@ -64,11 +51,27 @@ export class TotalsShellComponent implements OnInit {
         private route: ActivatedRoute
     ) {
         this.selectFirstMember();
+    }
+
+    ngOnInit() {
+        this.allDebts$ = combineLatest([
+            this.expensesCol.expenses$,
+            this.transfersCol.transfers$
+        ]).pipe(
+            map(data => calculateDebts(this.currency, ...data)),
+            withLatestFrom(this.members$),
+            map(([debts, members]) => {
+                return debts.map(debt => ({
+                    from: members.find(m => m.id === debt.from)!,
+                    to: members.find(m => m.id === debt.to)!,
+                    amount: debt.amount
+                }));
+            }),
+            shareReplay(1)
+        );
 
         this.allDebts$.subscribe();
     }
-
-    ngOnInit() {}
 
     selectFirstMember(): void {
         this.members$.pipe(first()).subscribe(members => {

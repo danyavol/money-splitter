@@ -15,12 +15,14 @@
 </ion-header>
 
 <ion-content>
-    <app-expense-form
-        *ngIf="form"
-        [form]="form"
-        [members]="(members$ | async) || []"
-        [currency]="(currency$ | async) || ''"
-    ></app-expense-form>
+    <ng-container *ngIf="currency$ | async as currency">
+        <app-expense-form
+            *ngIf="form"
+            [form]="form"
+            [members]="(members$ | async) || []"
+            [currency]="currency"
+        ></app-expense-form>
+    </ng-container>
 
     <ion-list lines="none" class="ion-padding-top">
         <ion-item>

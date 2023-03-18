@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { ExpenseMember } from 'src/app/database/storage.interface';
 import { getExpenseForm } from '../../expense-form.config';
+import { ExpenseForm } from '../../expense-form.interface';
 
 @Component({
     selector: 'app-create-expense-shell',
@@ -24,10 +26,13 @@ export class CreateExpenseShellComponent {
                 throw new Error('Invalid group ID');
             }
             return group.currency;
+        }),
+        tap((currencyCode) => {
+            this.form = getExpenseForm(currencyCode);
         })
     );
 
-    form = getExpenseForm();
+    form?: FormGroup<ExpenseForm>;
 
     constructor(
         private membersCol: MembersCollection,
@@ -39,6 +44,7 @@ export class CreateExpenseShellComponent {
     ) {}
 
     createExpense(): void {
+        if (!this.form) return;
         this.form.markAllAsTouched();
         if (this.form.invalid) return;
 

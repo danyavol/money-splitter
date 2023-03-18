@@ -4,7 +4,7 @@ import { MsFormControl } from "src/app/core/helpers/ms-form";
 import { ExpenseForm, ExpenseFormValue, ExpenseMemberValue } from "./expense-form.interface";
 import { expenseMembersValidator } from "./expense-members-control.validator";
 
-export function getExpenseForm(defaultValue?: Omit<ExpenseFormValue, "id" | "groupId">) {
+export function getExpenseForm(currencyCode: string, defaultValue?: Omit<ExpenseFormValue, "id" | "groupId">) {
     const value = defaultValue || getDefaultFormValue();
 
     const amountControl = MsFormControl<number | null>(value.amount, [Validators.required]);
@@ -24,11 +24,11 @@ export function getExpenseForm(defaultValue?: Omit<ExpenseFormValue, "id" | "gro
         }),
         payers: MsFormControl<ExpenseMemberValue[]>(value.payers, {
             nonNullable: true,
-            validators: expenseMembersValidator(getTotalAmount),
+            validators: expenseMembersValidator(currencyCode, getTotalAmount),
         }),
         debtors: MsFormControl<ExpenseMemberValue[]>(value.debtors, {
             nonNullable: true,
-            validators: expenseMembersValidator(getTotalAmount),
+            validators: expenseMembersValidator(currencyCode, getTotalAmount),
         }),
     });
 

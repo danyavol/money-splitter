@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Currency } from 'src/app/core/constants/currencies.const';
@@ -18,7 +18,7 @@ import { Currency } from 'src/app/core/constants/currencies.const';
         },
     ],
 })
-export class SelectCurrencyModalComponent implements OnInit, ControlValueAccessor {
+export class SelectCurrencyModalComponent implements AfterViewInit, ControlValueAccessor {
     @Output() close = new EventEmitter<void>();
 
     currencies = Currency.list;
@@ -26,9 +26,14 @@ export class SelectCurrencyModalComponent implements OnInit, ControlValueAccesso
     onChange = (value: string | null | string[]) => {};
     onTouched = () => {};
 
-    constructor() {}
+    constructor(private elementRef: ElementRef) {}
 
-    ngOnInit() {}
+    ngAfterViewInit() {
+        setTimeout(() => {
+            const selected = this.elementRef.nativeElement.querySelector(".selected");
+            if (selected) selected.scrollIntoView({ block: "center" });
+        });
+    }
 
     currencySelected(currencyCode: string): void {
         this.onChange(currencyCode);

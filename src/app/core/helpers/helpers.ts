@@ -1,6 +1,5 @@
-export function roundNumber(num: number): number {
-    return Math.round(num * 100) / 100;
-}
+import { AbstractControl } from "@angular/forms";
+import { defer, startWith } from "rxjs";
 
 export function sortByDate<T extends { date: string }>(array: T[]): T[] {
     const newArray = [...array];
@@ -8,5 +7,9 @@ export function sortByDate<T extends { date: string }>(array: T[]): T[] {
         if (a.date === b.date) return 0;
         if (a.date < b.date) return 1;
         return -1;
-    })
+    });
+}
+
+export function instantChanges<T>(control: AbstractControl<T>) {
+    return defer(() => control.valueChanges.pipe(startWith(control.value)));
 }

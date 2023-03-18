@@ -12,7 +12,6 @@ import {
     withLatestFrom,
 } from 'rxjs';
 import { Currency } from 'src/app/core/constants/currencies.const';
-import { roundNumber } from 'src/app/core/helpers/helpers';
 import { Member } from 'src/app/database/storage.interface';
 import { ExpenseMemberValue } from '../../expense-form.interface';
 
@@ -69,7 +68,9 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
         )
     );
 
-    constructor() {
+    ngOnInit(): void {
+        this.placeholder = Currency.getPlaceholder(this.currency);
+
         // Inputs change handler
         combineLatest([this.inputMembers$, this.inputExpenseMembers$])
             .pipe(
@@ -129,10 +130,6 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
                 );
                 this.triggerOnChange();
             });
-    }
-
-    ngOnInit(): void {
-        this.placeholder = Currency.getPlaceholder(this.currency);
     }
 
     writeValue(value: ExpenseMemberValue[]): void {
@@ -238,10 +235,10 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
 
         const oneRationAmount = totalRation ? totalAmount / totalRation : 0;
 
-        const membersTotal = roundNumber(
+        const membersTotal = Currency.round(this.currency,
             expenseMembers.reduce((membersTotal, member) => {
                 if (member.ration) {
-                    member.amount = roundNumber(
+                    member.amount = Currency.round(this.currency,
                         member.ration * oneRationAmount
                     );
                     return membersTotal + member.amount;
@@ -253,7 +250,7 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
         if (membersTotal !== totalAmount && totalRation > 0) {
             const calculationError = totalAmount - membersTotal + totalAmountWithoutRation;
             const firstMember = expenseMembers[0];
-            firstMember.amount = roundNumber(
+            firstMember.amount = Currency.round(this.currency,
                 (firstMember.amount || 0) + calculationError
             );
         }
