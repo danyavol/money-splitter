@@ -46,6 +46,10 @@
         .debt {
             display: flex;
             justify-content: space-between;
+
+            strong {
+                font-weight: 500;
+            }
         }
 
         .debt:last-child {

@@ -5,11 +5,11 @@
             {{(totalBalance.value < 0 ? -totalBalance.value : totalBalance.value) | appCurrency: currency}}
         </ion-text>
     </div>
-    <ion-text class="hint">Includes all expenses and transfers</ion-text>
+    <ion-text class="hint">Includes all expenses and all transfers</ion-text>
 </div>
 
 <div class="debts-section">
-    <ion-text class="title" color="dark">You owe:</ion-text>
+    <ion-text class="title" color="dark">You must give:</ion-text>
     <ng-container *ngLet="(youOwe$ | async) as youOwe">
         <ng-container *ngIf="youOwe && youOwe.total; else noOwes">
             <div class="debts-wrapper">
@@ -28,7 +28,7 @@
 </div>
 
 <div class="debts-section">
-    <ion-text class="title" color="dark">You get back:</ion-text>
+    <ion-text class="title" color="dark">You must get:</ion-text>
     <ng-container *ngLet="(youGetBack$ | async) as youGetBack">
         <ng-container *ngIf="youGetBack && youGetBack.total; else noGetsBack">
             <div class="debts-wrapper">
