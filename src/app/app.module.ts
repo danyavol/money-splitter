@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import { SettingsService } from './core/services/settings.service';
+import { GlobalErrorHandler } from './core/services/global-error.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -29,6 +30,10 @@ import { SettingsService } from './core/services/settings.service';
             useFactory: () => () => {},
             deps: [SettingsService], // To initialize a service on startup
             multi: true,
+        },
+        {
+            provide: ErrorHandler,
+            useClass: GlobalErrorHandler,
         },
     ],
     bootstrap: [AppComponent],
