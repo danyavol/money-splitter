@@ -8,11 +8,26 @@ export interface Debt {
     amount: number;
 }
 
-interface DebtTriangle {
-    startPerson: string,
-    endPerson: string,
-    middlePerson: string
+enum TriangleType {
+    Circular,
+    NonCircular
 }
+
+interface CircularTriangle {
+    type: TriangleType.Circular,
+    debts: [Debt, Debt, Debt]
+}
+
+interface NonCircularTriangle {
+    type: TriangleType.NonCircular,
+    debts: {
+        firstToSecond: Debt,
+        firstToThird: Debt,
+        secondToThird: Debt,
+    }
+}
+
+type Triangle = CircularTriangle | NonCircularTriangle;
 
 export function calculateDebts(
     currencyCode: string,
@@ -145,40 +160,37 @@ function filterEachOtherOwes(currencyCode: string, debts: Debt[]): Debt[] {
     return newDebts;
 }
 
-// This function will filter complex cases to decrease amount of transactions between people
-// Example: Imagine that there are 3 people (P1, P2, P3)
-// P1 owes to P2, P1 owes to P3, P2 owes to P3
-// In such case we can reduce 1 transaction (either "P1 to P2" or "P1 to P3", depends on amount)
+// This function will filter complex cases to decrease amount of transactions between people.
 //
-// Definitions:
-// StartPerson - person, who has 2 OUT transactions
-// EndPerson - person, who has 2 IN transactions
-// MiddlePerson - persom, who has 1 IN and 1 OUT transaction
+// If there are 3 people and they all have debts between each other (Triangle),
+// than it is always possible to reduce amount of transactions between them from 3 to 2
+//
+// Triangle could be either Circular (1 -> 2, 2 -> 3, 3 -> 1)
+// or NonCircular (1 -> 2, 1 -> 3, 2 -> 3)
 function optimizeTriangleDebts(currencyCode: string, debts: Debt[]): Debt[] {
     const debtsCopy = [...debts.map(d => ({...d}))];
 
     // Find debt triangles, which can be optimized
     findTriangles(debtsCopy).forEach(triangle => {
-        const firstToSecond = debtsCopy.find(d => d.from === triangle.startPerson && d.to === triangle.middlePerson);
-        const firstToThird = debtsCopy.find(d => d.from === triangle.startPerson && d.to === triangle.endPerson);
-        const secondToThird = debtsCopy.find(d => d.from === triangle.middlePerson && d.to === triangle.endPerson);
-        const thirdToFirst = debtsCopy.find(d => d.from == triangle.endPerson && d.to === triangle.startPerson)
-
-        if (firstToSecond && secondToThird && thirdToFirst) {
-            // Circular dependency (1 -> 2, 2 -> 3, 3 -> 1)
-            let lowestDebt = firstToSecond;
-            [secondToThird, thirdToFirst].forEach(d => {
+        // Circular triangle type.
+        // We just reduce every transaction by the lowest transaction amount
+        if (triangle.type === TriangleType.Circular) {
+            let lowestDebt = triangle.debts[0];
+            [triangle.debts[1], triangle.debts[2]].forEach(d => {
                 if (lowestDebt.amount > d.amount) {
                     lowestDebt = d;
                 }
             });
             const lowestAmount = lowestDebt.amount;
-            [firstToSecond, secondToThird,thirdToFirst].forEach(d => {
+            triangle.debts.forEach(d => {
                 d.amount = Currency.round(currencyCode, d.amount - lowestAmount)
             });
         }
-        else if(firstToSecond && firstToThird && secondToThird) {
-            // Default dependency (1 -> 2, 1 -> 3, 2 -> 3)
+        // NonCircular triangle type.
+        // There could be 2 ways of resolving such situantion,
+        // depending on amount of firstToSecond and firstToThird transactions
+        else {
+            const { firstToSecond, firstToThird, secondToThird } = triangle.debts;
             if (firstToThird.amount <= firstToSecond.amount) {
                 firstToSecond.amount = Currency.round(currencyCode, firstToSecond.amount + firstToThird.amount);
                 secondToThird.amount = Currency.round(currencyCode, secondToThird.amount + firstToThird.amount);
@@ -189,23 +201,18 @@ function optimizeTriangleDebts(currencyCode: string, debts: Debt[]): Debt[] {
                 firstToSecond.amount = 0;
             }
         }
-        else {
-            throw Error("[Calculate debts]: Something went wrong, missing debt");
-        }
-
-
     });
 
-    // After optimization some of the debts might be negative or zero
+    // After optimization some of the debts might be negative or zero.
     // We should clean such debts
     return cleanUpAfterTrianglesOptimization(debtsCopy);
 }
 
-function findTriangles(debts: Debt[]): DebtTriangle[] {
+function findTriangles(debts: Debt[]): Triangle[] {
     const adjacencySet = debtsToAdjacencySet(debts);
     const vertices = Array.from(adjacencySet.keys());
     const n = vertices.length;
-    const triangles: DebtTriangle[] = [];
+    const triangles: any[] = [];
 
     for (let i = 0; i < n; i++) {
         for (let j = i + 1; j < n; j++) {
@@ -216,11 +223,21 @@ function findTriangles(debts: Debt[]): DebtTriangle[] {
                     adjacencySet.get(vertices[i])!.has(vertices[k]) &&
                     adjacencySet.get(vertices[j])!.has(vertices[k])
                 ) {
-                    triangles.push({
-                        startPerson: vertices[k],
-                        middlePerson: vertices[i],
-                        endPerson: vertices[j]
-                    });
+                    const triangleConns = [
+                        [vertices[i], vertices[j]],
+                        [vertices[i], vertices[k]],
+                        [vertices[j], vertices[k]]
+                    ];
+
+                    const triangleDebts = triangleConns.map(connection =>
+                        debts.find(d => connection.includes(d.from) && connection.includes(d.to))!
+                    ) as [Debt, Debt, Debt];
+
+                    const trianglePoints: [string, string, string] = [vertices[i], vertices[j], vertices[k]];
+
+
+                    const triangle = determineTriangleType(triangleDebts, trianglePoints);
+                    triangles.push(triangle);
                 }
             }
         }
@@ -243,6 +260,33 @@ function findTriangles(debts: Debt[]): DebtTriangle[] {
         }
 
         return adjacencySet;
+    }
+}
+
+function determineTriangleType(debts: [Debt, Debt, Debt], points: [string, string, string]): Triangle {
+    const sortedPoints: string[] = [];
+    points.forEach((point) => {
+         // value could be 0, 1 or 2
+        const inCount = debts.filter(d => d.to === point).length;
+        sortedPoints[inCount] = point;
+    });
+
+    if (!sortedPoints[0] && !sortedPoints[2]) {
+        // Circular dependency (0 -> 1, 1 -> 2, 2 -> 0) or (0 <- 1, 1 <- 2, 2 <- 0)
+        return {
+            type: TriangleType.Circular,
+            debts
+        };
+    } else {
+        // Non-Circular dependency (0 -> 1, 0 -> 2, 1 -> 2)
+        return {
+            type: TriangleType.NonCircular,
+            debts: {
+                firstToSecond: debts.find(d => d.from === sortedPoints[0] && d.to === sortedPoints[1])!,
+                firstToThird: debts.find(d => d.from === sortedPoints[0] && d.to === sortedPoints[2])!,
+                secondToThird: debts.find(d => d.from === sortedPoints[1] && d.to === sortedPoints[2])!,
+            }
+        };
     }
 }
 
