@@ -1,0 +1,11 @@
+:host {
+    padding: 20px;
+    display: block;
+    text-align: start;
+}
+
+.expenses-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

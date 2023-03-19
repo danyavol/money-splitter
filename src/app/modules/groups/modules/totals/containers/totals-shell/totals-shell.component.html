@@ -35,6 +35,8 @@
     ></app-totals-form-shell>
     <app-totals-detailed-form-shell
         *ngSwitchCase="TotalType.Detailed"
+        [personId]="selectedPerson.value"
+        [currency]="currency"
     ></app-totals-detailed-form-shell>
 </div>
 

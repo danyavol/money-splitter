@@ -1,3 +1,16 @@
-<p>
-  totals-detailed-form-shell works!
-</p>
+<div class="expenses-wrapper" *ngIf="personExpenses$ | async as expenses">
+    <app-expense-total
+        *ngFor="let expense of expenses"
+        [expense]="expense"
+        [personId]="personIdSbj.value"
+        [currency]="currency"
+    ></app-expense-total>
+</div>
+
+<div *ngIf="personTransfers$ | async as transfers">
+    <app-transfer-total
+        *ngFor="let transfer of transfers"
+        [transfer]="transfer"
+        [personId]="personIdSbj.value"
+    ></app-transfer-total>
+</div>

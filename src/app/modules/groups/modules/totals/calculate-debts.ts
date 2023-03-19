@@ -43,7 +43,7 @@ export function calculateDebts(
     return debts;
 }
 
-function flattenExpense(currencyCode: string, expense: Expense): Debt[] {
+export function flattenExpense(currencyCode: string, expense: Expense): Debt[] {
     const debts: Debt[] = [];
     const expenseCopy = clone(expense);
 
