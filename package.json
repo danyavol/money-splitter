@@ -34,6 +34,7 @@
         "currency-codes": "^2.1.0",
         "imask": "^6.4.3",
         "ionicons": "^6.0.3",
+        "just-clone": "^6.2.0",
         "luxon": "^3.3.0",
         "ng-let": "^15.0.2",
         "rxjs": "~7.5.0",

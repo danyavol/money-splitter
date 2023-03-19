@@ -1,5 +1,6 @@
 import { Currency } from 'src/app/core/constants/currencies.const';
 import { Expense, Transfer } from 'src/app/database/storage.interface';
+import clone from 'just-clone';
 
 export interface Debt {
     from: string;
@@ -29,15 +30,38 @@ export function calculateDebts(
 
 function flattenExpense(currencyCode: string, expense: Expense): Debt[] {
     const debts: Debt[] = [];
+    const expenseCopy = clone(expense);
 
+    const payersToRemove: string[] = [], debtorsToRemove: string[] = [];
+    expenseCopy.payers.forEach((payer) => {
+        const debtor = expenseCopy.debtors.find(d => d.memberId === payer.memberId);
+        // Person is payer and debtor at the same time, move him to the one of the categories
+        if (debtor) {
+            if (payer.amount > debtor.amount) {
+                payer.amount = Currency.round(currencyCode, payer.amount - debtor.amount);
+                debtorsToRemove.push(debtor.memberId);
+            } else if (debtor.amount > payer.amount) {
+                debtor.amount = Currency.round(currencyCode, debtor.amount - payer.amount);
+                payersToRemove.push(payer.memberId);
+            } else {
+                payersToRemove.push(payer.memberId);
+                debtorsToRemove.push(debtor.memberId);
+            }
+        }
+    });
+
+    expenseCopy.debtors = expenseCopy.debtors.filter(d => !debtorsToRemove.includes(d.memberId));
+    expenseCopy.payers = expenseCopy.payers.filter(d => !payersToRemove.includes(d.memberId));
+
+    const totalAmount = Currency.round(currencyCode, expenseCopy.payers.reduce((total, payer) => total + payer.amount, 0));
     const payers: { payerId: string; amount: number; percentage: number }[] =
-        expense.payers.map((payer) => ({
+    expenseCopy.payers.map((payer) => ({
             payerId: payer.memberId,
             amount: payer.amount,
-            percentage: payer.amount / expense.amount,
+            percentage: payer.amount / totalAmount,
         }));
 
-    expense.debtors.forEach((debtor) => {
+        expenseCopy.debtors.forEach((debtor) => {
         payers.reduce((totalReturned, payer, currentIndex) => {
             let amount: number;
             if (currentIndex === payers.length - 1) {
@@ -138,20 +162,38 @@ function optimizeTriangleDebts(currencyCode: string, debts: Debt[]): Debt[] {
         const firstToSecond = debtsCopy.find(d => d.from === triangle.startPerson && d.to === triangle.middlePerson);
         const firstToThird = debtsCopy.find(d => d.from === triangle.startPerson && d.to === triangle.endPerson);
         const secondToThird = debtsCopy.find(d => d.from === triangle.middlePerson && d.to === triangle.endPerson);
+        const thirdToFirst = debtsCopy.find(d => d.from == triangle.endPerson && d.to === triangle.startPerson)
 
-        if (!firstToSecond || !firstToThird || !secondToThird) {
-            throw Error("Something went wrong, missing debt");
+        if (firstToSecond && secondToThird && thirdToFirst) {
+            // Circular dependency (1 -> 2, 2 -> 3, 3 -> 1)
+            let lowestDebt = firstToSecond;
+            [secondToThird, thirdToFirst].forEach(d => {
+                if (lowestDebt.amount > d.amount) {
+                    lowestDebt = d;
+                }
+            });
+            const lowestAmount = lowestDebt.amount;
+            [firstToSecond, secondToThird,thirdToFirst].forEach(d => {
+                d.amount = Currency.round(currencyCode, d.amount - lowestAmount)
+            });
+        }
+        else if(firstToSecond && firstToThird && secondToThird) {
+            // Default dependency (1 -> 2, 1 -> 3, 2 -> 3)
+            if (firstToThird.amount <= firstToSecond.amount) {
+                firstToSecond.amount = Currency.round(currencyCode, firstToSecond.amount + firstToThird.amount);
+                secondToThird.amount = Currency.round(currencyCode, secondToThird.amount + firstToThird.amount);
+                firstToThird.amount = 0;
+            } else {
+                firstToThird.amount = Currency.round(currencyCode, firstToThird.amount + firstToSecond.amount);
+                secondToThird.amount = Currency.round(currencyCode, secondToThird.amount - firstToSecond.amount);
+                firstToSecond.amount = 0;
+            }
+        }
+        else {
+            throw Error("[Calculate debts]: Something went wrong, missing debt");
         }
 
-        if (firstToThird.amount <= firstToSecond.amount) {
-            firstToSecond.amount = Currency.round(currencyCode, firstToSecond.amount + firstToThird.amount);
-            secondToThird.amount = Currency.round(currencyCode, secondToThird.amount + firstToThird.amount);
-            firstToThird.amount = 0;
-        } else {
-            firstToThird.amount = Currency.round(currencyCode, firstToThird.amount + firstToSecond.amount);
-            secondToThird.amount = Currency.round(currencyCode, secondToThird.amount - firstToSecond.amount);
-            firstToSecond.amount = 0;
-        }
+
     });
 
     // After optimization some of the debts might be negative or zero
