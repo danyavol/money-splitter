@@ -1,3 +1,21 @@
-<p>
-  transfer-total works!
-</p>
+<div class="transfer">
+    <div class="title-wrapper">
+        <ion-text class="title ellipsis">{{transfer.title}}</ion-text>
+        <ion-text class="person" *ngIf="transfer.recipientId === personId; else toTemplate">
+            from <strong>{{transfer.sender}}</strong>
+        </ion-text>
+        <ion-text class="date" color="medium">{{transfer.date | date: "MMM d, y, HH:mm"}}</ion-text>
+    </div>
+
+    <ion-text *ngIf="transfer.recipientId === personId; else receivedTransfer" color="success"
+    >{{transfer.amount| appCurrency: currency}}</ion-text>
+    <ng-template #receivedTransfer>
+        <ion-text color="danger">{{-transfer.amount| appCurrency: currency}}</ion-text>
+    </ng-template>
+</div>
+
+
+
+<ng-template #toTemplate>
+    <ion-text class="person">to <strong>{{transfer.recipient}}</strong></ion-text>
+</ng-template>

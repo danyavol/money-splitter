@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FullTransfer } from 'src/app/database/storage-join.interface';
 
 @Component({
@@ -6,11 +6,8 @@ import { FullTransfer } from 'src/app/database/storage-join.interface';
     templateUrl: './transfer-total.component.html',
     styleUrls: ['./transfer-total.component.scss'],
 })
-export class TransferTotalComponent implements OnInit {
+export class TransferTotalComponent {
     @Input() personId!: string;
+    @Input() currency!: string;
     @Input() transfer!: FullTransfer;
-
-    constructor() {}
-
-    ngOnInit() {}
 }

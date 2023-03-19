@@ -15,7 +15,7 @@ import { GlobalErrorHandler } from './core/services/global-error.service';
     declarations: [AppComponent],
     imports: [
         BrowserModule,
-        IonicModule.forRoot(),
+        IonicModule.forRoot({ mode: "md" }),
         AppRoutingModule,
         IonicStorageModule.forRoot({
             name: 'money-splitter-db',

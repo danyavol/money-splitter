@@ -15,10 +15,9 @@ export class TotalsDetailedFormShellComponent implements OnInit {
     @Input() set personId(value: string) {
         this.personIdSbj.next(value);
     }
+
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
-
     personIdSbj = new BehaviorSubject('');
-
     personExpenses$!: Observable<FullExpense[]>;
     personTransfers$!: Observable<FullTransfer[]>;
 

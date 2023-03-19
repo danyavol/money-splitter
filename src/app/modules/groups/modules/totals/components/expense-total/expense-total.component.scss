@@ -2,7 +2,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
 }
 
 .title-wrapper {
@@ -14,17 +13,23 @@
     }
 }
 
-.debt-member {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 20px;
-    font-size: 0.8em;
+.debt-members {
+    .debt-member {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 20px;
+        font-size: 0.8em;
 
-    .name {
+        .name {
 
 
-        strong {
-            font-weight: 500;
+            strong {
+                font-weight: 500;
+            }
+        }
+
+        &:first-child {
+            margin-top: 5px;
         }
     }
 }

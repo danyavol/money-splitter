@@ -1,0 +1,22 @@
+.transfer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .person {
+        font-size: 0.8em;
+
+        strong {
+            font-weight: 500;
+        }
+    }
+
+    .date {
+        font-size: 0.8em;
+    }
+}

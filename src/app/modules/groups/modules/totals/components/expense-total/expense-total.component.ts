@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { FullExpense } from 'src/app/database/storage-join.interface';
 import { flattenExpense } from '../../calculate-debts';
 
@@ -12,7 +12,7 @@ interface ExpenseDebt {
     templateUrl: './expense-total.component.html',
     styleUrls: ['./expense-total.component.scss'],
 })
-export class ExpenseTotalComponent implements OnInit, OnChanges {
+export class ExpenseTotalComponent implements OnChanges {
     @Input() personId!: string;
     @Input() currency!: string;
     @Input() expense!: FullExpense;
@@ -21,11 +21,7 @@ export class ExpenseTotalComponent implements OnInit, OnChanges {
     myGetsBack: ExpenseDebt[] = [];
     payedAmount = 0;
 
-    constructor() {}
-
-    ngOnInit() {}
-
-    ngOnChanges(changes: any) {
+    ngOnChanges() {
         // TODO: Optimize
         this.calculateDebts(this.expense);
     }

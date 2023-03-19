@@ -3,13 +3,16 @@
         <ion-text class="title ellipsis">{{expense.title}}</ion-text>
         <ion-text class="date" color="medium">{{expense.date | date: "MMM d, y, HH:mm"}}</ion-text>
     </div>
-    <ion-text slot="end" color="danger">{{-payedAmount | appCurrency: currency}}</ion-text>
+    <ion-text color="danger">{{-payedAmount | appCurrency: currency}}</ion-text>
 </div>
-<div class="debt-member" *ngFor="let debt of myDebts">
-    <span class="name">you must give to <strong>{{debt.personName}}</strong></span>
-    <ion-text slot="end" color="warning">{{debt.amount | appCurrency: currency}}</ion-text>
+<div class="debt-members">
+    <div class="debt-member" *ngFor="let debt of myDebts">
+        <span class="name">you must give to <strong>{{debt.personName}}</strong></span>
+        <ion-text color="warning">{{debt.amount | appCurrency: currency}}</ion-text>
+    </div>
+    <div class="debt-member" *ngFor="let debt of myGetsBack">
+        <span class="name">you must get from <strong>{{debt.personName}}</strong></span>
+        <ion-text color="secondary">{{debt.amount | appCurrency: currency}}</ion-text>
+    </div>
 </div>
-<div class="debt-member" *ngFor="let debt of myGetsBack">
-    <span class="name">you must get from <strong>{{debt.personName}}</strong></span>
-    <ion-text slot="end" color="secondary">{{debt.amount | appCurrency: currency}}</ion-text>
-</div>
+

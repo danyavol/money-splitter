@@ -1,16 +1,25 @@
-<div class="expenses-wrapper" *ngIf="personExpenses$ | async as expenses">
+<h3 class="section-title">Your expenses:</h3>
+
+<div class="items-wrapper" *ngIf="personExpenses$ | async as expenses">
     <app-expense-total
         *ngFor="let expense of expenses"
         [expense]="expense"
         [personId]="personIdSbj.value"
         [currency]="currency"
     ></app-expense-total>
+
+    <ion-text *ngIf="expenses.length === 0" class="no-items" color="medium">You don't have any expenses</ion-text>
 </div>
 
-<div *ngIf="personTransfers$ | async as transfers">
+<h3 class="section-title">Your transfers:</h3>
+
+<div class="items-wrapper" *ngIf="personTransfers$ | async as transfers">
     <app-transfer-total
         *ngFor="let transfer of transfers"
         [transfer]="transfer"
         [personId]="personIdSbj.value"
+        [currency]="currency"
     ></app-transfer-total>
+
+    <ion-text *ngIf="transfers.length === 0" class="no-items" color="medium">You don't have any transfers</ion-text>
 </div>
