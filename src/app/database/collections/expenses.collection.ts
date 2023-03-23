@@ -91,16 +91,17 @@ export class ExpensesCollection {
         return this.expenses$.pipe(
             first(),
             map((expenses) => {
+                const expensesCopy = [...expenses];
                 const expenseIndex = expenses.findIndex(
                     (e) => e.id === expenseId
                 );
                 if (expenseIndex < 0) return;
 
-                expenses.splice(expenseIndex, 1, {
-                    ...expenses[expenseIndex],
+                expensesCopy.splice(expenseIndex, 1, {
+                    ...expensesCopy[expenseIndex],
                     ...expense,
                 });
-                return expenses;
+                return expensesCopy;
             }),
             switchMap((newExpenses) => {
                 if (!newExpenses) return of();
@@ -116,16 +117,31 @@ export class ExpensesCollection {
         return this.expenses$.pipe(
             first(),
             map((expenses) => {
-                const expenseIndex = expenses.findIndex(
+                const expensesCopy = [...expenses];
+                const expenseIndex = expensesCopy.findIndex(
                     (e) => e.id === expenseId
                 );
                 if (expenseIndex < 0) return;
 
-                expenses.splice(expenseIndex, 1);
-                return expenses;
+
+                expensesCopy.splice(expenseIndex, 1);
+                return expensesCopy;
             }),
             switchMap((newExpenses) => {
                 if (!newExpenses) return of();
+
+                return this.saveExpenses(newExpenses).pipe(
+                    tap(() => this.expensesSbj.next(newExpenses))
+                );
+            })
+        );
+    }
+
+    removeAllGroupExpenses(groupId: string): Observable<void> {
+        return this.expenses$.pipe(
+            first(),
+            switchMap(expenses => {
+                const newExpenses = expenses.filter(e => e.groupId !== groupId);
 
                 return this.saveExpenses(newExpenses).pipe(
                     tap(() => this.expensesSbj.next(newExpenses))

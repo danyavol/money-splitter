@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs';
+import { first, forkJoin } from 'rxjs';
+import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
+import { TransfersCollection } from 'src/app/database/collections/transfers.collection';
 import { getGroupForm } from '../../group-form.config';
 
 @Component({
@@ -18,6 +20,8 @@ export class EditGroupShellComponent {
     constructor(
         private groupsCol: GroupsCollection,
         private memberCol: MembersCollection,
+        private transfersCol: TransfersCollection,
+        private expensesCol: ExpensesCollection,
         private router: Router,
         private route: ActivatedRoute
     ) {
@@ -43,7 +47,11 @@ export class EditGroupShellComponent {
     }
 
     removeGroup(): void {
-        this.groupsCol.removeGroup(this.groupId).pipe(first()).subscribe(() => {
+        forkJoin([
+            this.transfersCol.removeAllGroupTransfers(this.groupId),
+            this.expensesCol.removeAllGroupExpenses(this.groupId),
+            this.groupsCol.removeGroup(this.groupId)
+        ]).pipe(first()).subscribe(() => {
             this.router.navigate(["/groups"]);
         });
     }

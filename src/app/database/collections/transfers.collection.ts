@@ -82,16 +82,17 @@ export class TransfersCollection {
         return this.transfers$.pipe(
             first(),
             map((transfers) => {
-                const transferIndex = transfers.findIndex(
+                const transfersCopy = [...transfers];
+                const transferIndex = transfersCopy.findIndex(
                     (t) => t.id === transferId
                 );
                 if (transferIndex < 0) return;
 
-                transfers.splice(transferIndex, 1, {
-                    ...transfers[transferIndex],
+                transfersCopy.splice(transferIndex, 1, {
+                    ...transfersCopy[transferIndex],
                     ...transfer,
                 });
-                return transfers;
+                return transfersCopy;
             }),
             switchMap((newTransfers) => {
                 if (!newTransfers) return of();
@@ -107,16 +108,30 @@ export class TransfersCollection {
         return this.transfers$.pipe(
             first(),
             map((transfers) => {
-                const transferIndex = transfers.findIndex(
+                const transfersCopy = [...transfers];
+                const transferIndex = transfersCopy.findIndex(
                     (t) => t.id === transferId
                 );
                 if (transferIndex < 0) return;
 
-                transfers.splice(transferIndex, 1);
-                return transfers;
+                transfersCopy.splice(transferIndex, 1);
+                return transfersCopy;
             }),
             switchMap((newTransfers) => {
                 if (!newTransfers) return of();
+
+                return this.saveTransfers(newTransfers).pipe(
+                    tap(() => this.transferSbj.next(newTransfers))
+                );
+            })
+        );
+    }
+
+    removeAllGroupTransfers(groupId: string): Observable<void> {
+        return this.transfers$.pipe(
+            first(),
+            switchMap(transfers => {
+                const newTransfers = transfers.filter(e => e.groupId !== groupId);
 
                 return this.saveTransfers(newTransfers).pipe(
                     tap(() => this.transferSbj.next(newTransfers))
