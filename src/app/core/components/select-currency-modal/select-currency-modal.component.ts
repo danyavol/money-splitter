@@ -1,3 +1,4 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -9,7 +10,7 @@ import { Currency } from 'src/app/core/constants/currencies.const';
     templateUrl: './select-currency-modal.component.html',
     styleUrls: ['./select-currency-modal.component.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule],
+    imports: [IonicModule, CommonModule, ScrollingModule],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,

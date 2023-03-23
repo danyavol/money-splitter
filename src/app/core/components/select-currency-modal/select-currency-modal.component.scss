@@ -5,15 +5,14 @@
     padding: 0 20px;
 }
 
-.currencies {
-    max-height: 60vh;
-    overflow: scroll;
+cdk-virtual-scroll-viewport {
+    height: 60vh;
+}
 
-    ion-item {
-        --inner-border-width: 0;
-        --padding-top: 5.5px;
-        --padding-bottom: 5.5px;
-    }
+ion-item {
+    --inner-border-width: 0;
+    --padding-top: 5.5px;
+    --padding-bottom: 5.5px;
 }
 
 .selected {
