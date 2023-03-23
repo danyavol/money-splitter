@@ -7,10 +7,12 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import IMask from 'imask';
 import { ReplaySubject } from 'rxjs';
 import { Currency } from '../constants/currencies.const';
 
+@UntilDestroy()
 @Directive({
     selector: '[currencyMask]',
     standalone: true,
@@ -55,7 +57,7 @@ export class CurrencyMaskDirective implements ControlValueAccessor, OnInit {
             this.maskValueChange.emit(newValue);
         });
 
-        this.valueSbj.subscribe(v => this.setMaskValue(v));
+        this.valueSbj.pipe(untilDestroyed(this)).subscribe(v => this.setMaskValue(v));
     }
 
     writeValue(value: number | null): void {

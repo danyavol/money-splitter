@@ -30,6 +30,7 @@
         "@ionic/angular": "^6.1.9",
         "@ionic/cli": "^6.20.8",
         "@ionic/storage-angular": "^3.0.6",
+        "@ngneat/until-destroy": "^9.2.3",
         "@types/uuid": "^9.0.0",
         "currency-codes": "^2.1.0",
         "imask": "^6.4.3",

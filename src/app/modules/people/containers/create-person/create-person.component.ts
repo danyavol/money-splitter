@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { getPersonForm } from '../../person-form.config';
 
@@ -23,7 +24,7 @@ export class CreatePersonComponent {
 
         this.memberCol.createMember({
             name: this.personForm.getRawValue().name
-        }).subscribe(() => {
+        }).pipe(first()).subscribe(() => {
             this.router.navigate([".."], { relativeTo: this.route });
         })
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { first, map } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -15,7 +15,7 @@ import { getTransferForm } from '../../transfer-form.config';
 })
 export class CreateTransferShellComponent implements OnInit {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
-    members$ = this.membersCol.getGroupMembers(this.groupId);
+    members$ = this.membersCol.getGroupMembers(this.groupId).pipe(first());
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
         map((group) => {
             if (!group) {
@@ -47,6 +47,7 @@ export class CreateTransferShellComponent implements OnInit {
 
         this.transfersCol
             .createTransfer(this.mapFormToTransfer())
+            .pipe(first())
             .subscribe(this.goBack.bind(this));
     }
 

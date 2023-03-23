@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { getGroupForm } from '../../group-form.config';
@@ -20,7 +21,7 @@ export class EditGroupShellComponent {
         private router: Router,
         private route: ActivatedRoute
     ) {
-        this.groupsCol.getGroup(this.groupId).subscribe((group) => {
+        this.groupsCol.getGroup(this.groupId).pipe(first()).subscribe((group) => {
             if (group) {
                 this.groupForm.patchValue(group);
             } else {
@@ -35,13 +36,14 @@ export class EditGroupShellComponent {
 
         this.groupsCol
             .updateGroup(this.groupId, this.groupForm.getRawValue())
+            .pipe(first())
             .subscribe(() => {
                 this.navigateBack();
             });
     }
 
     removeGroup(): void {
-        this.groupsCol.removeGroup(this.groupId).subscribe(() => {
+        this.groupsCol.removeGroup(this.groupId).pipe(first()).subscribe(() => {
             this.router.navigate(["/groups"]);
         });
     }

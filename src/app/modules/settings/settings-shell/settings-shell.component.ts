@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { first } from 'rxjs';
 import { SettingsService } from 'src/app/core/services/settings.service';
 import { BackupsService } from 'src/app/database/backups.service';
 import { Theme } from 'src/app/database/storage.interface';
@@ -21,7 +22,7 @@ export class SettingsShellComponent {
     ) {}
 
     saveBackup() {
-        this.backups.saveBackup().subscribe();
+        this.backups.saveBackup().pipe(first()).subscribe();
     }
 
     applyBackup(event: Event) {
@@ -31,7 +32,7 @@ export class SettingsShellComponent {
 
         target.value = "";
 
-        this.backups.applyBackup(file).subscribe();
+        this.backups.applyBackup(file).pipe(first()).subscribe();
     }
 
     selectFile() {

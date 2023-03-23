@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, first, map, Observable, shareReplay, withLatestFrom } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { catchError, combineLatest, filter, first, map, Observable, of, shareReplay, withLatestFrom } from 'rxjs';
 import { instantChanges } from 'src/app/core/helpers/helpers';
 import { MsFormControl } from 'src/app/core/helpers/ms-form';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
@@ -20,6 +21,7 @@ export interface ViewDebt {
     amount: number;
 }
 
+@UntilDestroy()
 @Component({
     selector: 'app-totals-shell',
     templateUrl: './totals-shell.component.html',
@@ -33,7 +35,10 @@ export class TotalsShellComponent implements OnInit {
     selectedTotalType = MsFormControl(TotalType.Short);
     TotalType = TotalType;
 
-    members$ = this.membersCol.getGroupMembers(this.groupId);
+    members$ = this.membersCol.getGroupMembers(this.groupId).pipe(
+        catchError(() => of(null)),
+        filter(value => value !== null)
+    ) as Observable<Member[]>;
 
     selectedPersonName$ = combineLatest([
         instantChanges(this.selectedPerson),
@@ -70,11 +75,11 @@ export class TotalsShellComponent implements OnInit {
             shareReplay(1)
         );
 
-        this.allDebts$.subscribe();
+        this.allDebts$.pipe(untilDestroyed(this)).subscribe();
     }
 
     selectFirstMember(): void {
-        this.members$.subscribe(members => {
+        this.members$.pipe(untilDestroyed(this)).subscribe(members => {
             this.selectedPerson.setValue(members[0].id);
         });
     }

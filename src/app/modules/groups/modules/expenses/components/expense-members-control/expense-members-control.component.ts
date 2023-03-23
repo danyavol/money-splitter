@@ -4,6 +4,7 @@ import {
     FormControl,
     NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
     BehaviorSubject,
     combineLatest,
@@ -19,6 +20,7 @@ interface ViewMember extends ExpenseMemberValue {
     name: string;
 }
 
+@UntilDestroy()
 @Component({
     selector: 'app-expense-members-control',
     templateUrl: './expense-members-control.component.html',
@@ -82,7 +84,8 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
                                 (member) => member.id === expenseMember.memberId
                             )
                     );
-                })
+                }),
+                untilDestroyed(this)
             )
             .subscribe((expenseMembers) => {
                 this.expenseMembers$.next(expenseMembers);
@@ -93,7 +96,10 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
 
         // Total amount change handler
         this.totalAmount$
-            .pipe(withLatestFrom(this.expenseMembers$))
+            .pipe(
+                withLatestFrom(this.expenseMembers$),
+                untilDestroyed(this)
+            )
             .subscribe(([totalAmount, expenseMembers]) => {
                 if (expenseMembers.length > 0) {
                     this.calculateAmounts(
@@ -120,7 +126,8 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
                                   ration: null,
                               };
                     })
-                )
+                ),
+                untilDestroyed(this)
             )
             .subscribe((expenseMembers) => {
                 this.expenseMembers$.next(expenseMembers);

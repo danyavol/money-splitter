@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, withLatestFrom } from 'rxjs';
+import { first, map, withLatestFrom } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
@@ -18,7 +18,7 @@ import { ExpenseForm } from '../../expense-form.interface';
 export class EditExpenseShellComponent implements OnInit {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     expenseId = this.route.snapshot.paramMap.get('expenseId') || '';
-    members$ = this.membersCol.getGroupMembers(this.groupId);
+    members$ = this.membersCol.getGroupMembers(this.groupId).pipe(first());
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
         map((group) => {
             if (!group) {
@@ -43,7 +43,8 @@ export class EditExpenseShellComponent implements OnInit {
 
     ngOnInit() {
         this.expensesCol.getExpense(this.expenseId).pipe(
-            withLatestFrom(this.currency$)
+            withLatestFrom(this.currency$),
+            first()
         ).subscribe(([expense, currency]) => {
             if (expense) {
                 this.form = getExpenseForm(currency, expense);
@@ -72,11 +73,12 @@ export class EditExpenseShellComponent implements OnInit {
                 payers: value.payers.filter(p => p.amount !== null && p.amount !== 0) as ExpenseMember[],
                 debtors: value.debtors.filter(d => d.amount !== null && d.amount !== 0) as ExpenseMember[]
             })
+            .pipe(first())
             .subscribe(this.goBack.bind(this));
     }
 
     removeExpense() {
-        this.expensesCol.removeExpense(this.expenseId).subscribe(this.goBack.bind(this));
+        this.expensesCol.removeExpense(this.expenseId).pipe(first()).subscribe(this.goBack.bind(this));
     }
 
     private goBack() {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
 import { getPersonForm } from '../../person-form.config';
@@ -19,7 +20,7 @@ export class EditPersonComponent {
         private memberCol: MembersCollection,
         private toastService: ToastService
     ) {
-        this.memberCol.getMember(this.memberId).subscribe((member) => {
+        this.memberCol.getMember(this.memberId).pipe(first()).subscribe((member) => {
             if (member) {
                 this.personForm.setValue({ name: member.name });
             } else {
@@ -36,13 +37,14 @@ export class EditPersonComponent {
             .updateMember(this.memberId, {
                 name: this.personForm.getRawValue().name,
             })
+            .pipe(first())
             .subscribe(() => {
                 this.navigateBack();
             });
     }
 
     removePerson(): void {
-        this.memberCol.removeMember(this.memberId).subscribe({
+        this.memberCol.removeMember(this.memberId).pipe(first()).subscribe({
             next: () => {
                 this.navigateBack();
             },

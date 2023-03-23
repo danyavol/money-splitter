@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { first, map } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -15,7 +15,7 @@ import { getTransferForm } from '../../transfer-form.config';
 export class EditTransferShellComponent implements OnInit {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     transferId = this.route.snapshot.paramMap.get('transferId') || '';
-    members$ = this.membersCol.getGroupMembers(this.groupId);
+    members$ = this.membersCol.getGroupMembers(this.groupId).pipe(first());
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
         map((group) => {
             if (!group) {
@@ -39,7 +39,7 @@ export class EditTransferShellComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.transfersCol.getTransfer(this.transferId).subscribe((transfer) => {
+        this.transfersCol.getTransfer(this.transferId).pipe(first()).subscribe((transfer) => {
             if (transfer) {
                 this.form.patchValue(transfer);
             } else {
@@ -64,11 +64,12 @@ export class EditTransferShellComponent implements OnInit {
                 senderId: value.senderId as string,
                 recipientId: value.recipientId as string
             })
+            .pipe(first())
             .subscribe(() => this.goBack());
     }
 
     removeTransfer() {
-        this.transfersCol.removeTransfer(this.transferId).subscribe(() => this.goBack());
+        this.transfersCol.removeTransfer(this.transferId).pipe(first()).subscribe(() => this.goBack());
     }
 
     private goBack() {
