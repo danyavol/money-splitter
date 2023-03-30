@@ -19,6 +19,7 @@ export class CreateExpenseShellComponent {
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     members$ = this.membersCol.getGroupMembers(this.groupId).pipe(first());
     currency$ = this.groupsCol.getGroup(this.groupId).pipe(
+        first(),
         map((group) => {
             if (!group) {
                 this.goBack();

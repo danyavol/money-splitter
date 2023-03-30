@@ -37,8 +37,6 @@ export class TransfersCollection {
     createTransfer(transfer: Omit<Transfer, 'id'>): Observable<void> {
         const newTransfer: Transfer = { ...transfer, id: uuid() };
 
-        this.groupsCol.groupHasUpdated(transfer.groupId).pipe(first()).subscribe();
-
         return this.transfers$.pipe(
             first(),
             map((transfers) => [...transfers, newTransfer]),
@@ -46,7 +44,10 @@ export class TransfersCollection {
                 this.saveTransfers(newTransfers).pipe(
                     tap(() => this.transferSbj.next(newTransfers))
                 )
-            )
+            ),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(transfer.groupId).pipe(first()).subscribe();
+            })
         );
     }
 
@@ -86,6 +87,7 @@ export class TransfersCollection {
         transferId: string,
         transfer: Partial<Transfer>
     ): Observable<void> {
+        let groupId: string;
         return this.transfers$.pipe(
             first(),
             map((transfers) => {
@@ -95,8 +97,7 @@ export class TransfersCollection {
                 );
                 if (transferIndex < 0) return;
 
-                this.groupsCol.groupHasUpdated(transfers[transferIndex].groupId)
-                    .pipe(first()).subscribe();
+                groupId = transfers[transferIndex].groupId;
 
                 transfersCopy.splice(transferIndex, 1, {
                     ...transfersCopy[transferIndex],
@@ -110,11 +111,16 @@ export class TransfersCollection {
                 return this.saveTransfers(newTransfers).pipe(
                     tap(() => this.transferSbj.next(newTransfers))
                 );
+            }),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(groupId).pipe(first()).subscribe();
             })
         );
     }
 
     removeTransfer(transferId: string): Observable<void> {
+        let groupId: string;
+
         return this.transfers$.pipe(
             first(),
             map((transfers) => {
@@ -124,8 +130,7 @@ export class TransfersCollection {
                 );
                 if (transferIndex < 0) return;
 
-                this.groupsCol.groupHasUpdated(transfers[transferIndex].groupId)
-                    .pipe(first()).subscribe();
+                groupId = transfers[transferIndex].groupId;
 
                 transfersCopy.splice(transferIndex, 1);
                 return transfersCopy;
@@ -136,6 +141,9 @@ export class TransfersCollection {
                 return this.saveTransfers(newTransfers).pipe(
                     tap(() => this.transferSbj.next(newTransfers))
                 );
+            }),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(groupId).pipe(first()).subscribe();
             })
         );
     }

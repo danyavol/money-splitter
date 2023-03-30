@@ -101,3 +101,7 @@ ion-modal {
         --background: var(--background);
     }
 }
+
+body.dark ion-datetime {
+    color: white;
+}

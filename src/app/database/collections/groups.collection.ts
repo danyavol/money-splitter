@@ -46,8 +46,6 @@ export class GroupsCollection {
     }
 
     updateGroup(groupId: string, group: Partial<Group>): Observable<void> {
-        this.groupHasUpdated(groupId).pipe(first()).subscribe();
-
         return this.groups$.pipe(
             first(),
             map((groups) => {
@@ -57,6 +55,7 @@ export class GroupsCollection {
                 groups.splice(groupIndex, 1, {
                     ...groups[groupIndex],
                     ...group,
+                    updatedAt: DateHelper.getUtcTimestamp()
                 });
                 return groups;
             }),
@@ -66,7 +65,8 @@ export class GroupsCollection {
                 return this.saveGroups(newGroups).pipe(
                     tap(() => this.groupsSbj.next(newGroups))
                 );
-            })
+            }),
+            tap(() => {})
         );
     }
 

@@ -41,7 +41,6 @@ export class ExpensesCollection {
 
     createExpense(expense: Omit<Expense, 'id'>): Observable<void> {
         const newExpense: Expense = { ...expense, id: uuid() };
-        this.groupsCol.groupHasUpdated(expense.groupId).pipe(first()).subscribe();
 
         return this.expenses$.pipe(
             first(),
@@ -50,7 +49,10 @@ export class ExpensesCollection {
                 this.saveExpenses(newExpenses).pipe(
                     tap(() => this.expensesSbj.next(newExpenses))
                 )
-            )
+            ),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(expense.groupId).pipe(first()).subscribe();
+            })
         );
     }
 
@@ -91,6 +93,7 @@ export class ExpensesCollection {
         expenseId: string,
         expense: Partial<Expense>
     ): Observable<void> {
+        let groupId!: string;
         return this.expenses$.pipe(
             first(),
             map((expenses) => {
@@ -100,8 +103,7 @@ export class ExpensesCollection {
                 );
                 if (expenseIndex < 0) return;
 
-                this.groupsCol.groupHasUpdated(expenses[expenseIndex].groupId)
-                    .pipe(first()).subscribe();
+                groupId = expenses[expenseIndex].groupId;
 
                 expensesCopy.splice(expenseIndex, 1, {
                     ...expensesCopy[expenseIndex],
@@ -115,11 +117,15 @@ export class ExpensesCollection {
                 return this.saveExpenses(newExpenses).pipe(
                     tap(() => this.expensesSbj.next(newExpenses))
                 );
+            }),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(groupId).pipe(first()).subscribe();
             })
         );
     }
 
     removeExpense(expenseId: string): Observable<void> {
+        let groupId: string;
         return this.expenses$.pipe(
             first(),
             map((expenses) => {
@@ -129,8 +135,7 @@ export class ExpensesCollection {
                 );
                 if (expenseIndex < 0) return;
 
-                this.groupsCol.groupHasUpdated(expenses[expenseIndex].groupId)
-                    .pipe(first()).subscribe();
+                groupId = expenses[expenseIndex].groupId;
 
                 expensesCopy.splice(expenseIndex, 1);
                 return expensesCopy;
@@ -141,6 +146,9 @@ export class ExpensesCollection {
                 return this.saveExpenses(newExpenses).pipe(
                     tap(() => this.expensesSbj.next(newExpenses))
                 );
+            }),
+            tap(() => {
+                this.groupsCol.groupHasUpdated(groupId).pipe(first()).subscribe();
             })
         );
     }
