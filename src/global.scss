@@ -91,3 +91,13 @@ ion-item.ion-focused .select-icon {
     text-overflow: ellipsis;
 }
 
+ion-select-popover {
+    --ion-item-background: var(--ion-modal-background);
+}
+
+ion-modal {
+    --background: var(--ion-modal-background);
+    ion-checkbox {
+        --background: var(--background);
+    }
+}

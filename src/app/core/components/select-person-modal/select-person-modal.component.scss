@@ -3,6 +3,12 @@
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
     padding: 0 20px;
+    --background: var(--ion-modal-background);
+}
+
+ion-list, ion-item {
+    background: var(--ion-modal-background);
+    --background: var(--ion-modal-background);
 }
 
 .action-button {
@@ -11,7 +17,7 @@
     justify-content: flex-end;
     align-items: center;
     padding-right: 16px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid var(--ion-border-color);
 }
 
 ion-avatar {
@@ -33,5 +39,5 @@ ion-avatar {
 }
 
 .selected {
-    --background: rgba(0, 0, 0, 0.15);
+    --background: var(--ion-item-selected);
 }

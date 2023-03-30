@@ -5,6 +5,12 @@
     padding: 0 20px;
 }
 
+ion-list, ion-item {
+    background: var(--ion-modal-background);
+    --background: var(--ion-modal-background);
+}
+
+
 cdk-virtual-scroll-viewport {
     height: 60vh;
 }
@@ -16,5 +22,5 @@ ion-item {
 }
 
 .selected {
-    --background: rgba(0, 0, 0, 0.15);
+    --background: var(--ion-item-selected);
 }

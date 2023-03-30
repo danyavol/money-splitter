@@ -22,6 +22,6 @@
     display: block;
 }
 
-ion-segment.ios {
-    margin: 10px;
+ion-segment {
+    --background: var(--ion-toolbar-background);
 }
