@@ -25,7 +25,7 @@ export class CreatePersonComponent {
         this.memberCol.createMember({
             name: this.personForm.getRawValue().name
         }).pipe(first()).subscribe(() => {
-            this.router.navigate([".."], { relativeTo: this.route });
+            this.router.navigate([".."], { relativeTo: this.route, replaceUrl: true });
         })
     }
 }

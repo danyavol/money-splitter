@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CheckboxCustomEvent, IonicModule } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Member } from 'src/app/database/storage.interface';
@@ -14,7 +15,7 @@ interface ViewMember extends Member {
     templateUrl: './select-person-modal.component.html',
     styleUrls: ['./select-person-modal.component.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule],
+    imports: [IonicModule, CommonModule, RouterModule],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
