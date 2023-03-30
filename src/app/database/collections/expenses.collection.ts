@@ -21,6 +21,7 @@ import {
     Member,
 } from '../storage.interface';
 import { StorageService } from '../storage.service';
+import { GroupsCollection } from './groups.collection';
 import { MembersCollection } from './members.collection';
 
 @Injectable({
@@ -32,13 +33,15 @@ export class ExpensesCollection {
 
     constructor(
         private storage: StorageService,
-        private membersCol: MembersCollection
+        private membersCol: MembersCollection,
+        private groupsCol: GroupsCollection
     ) {
         this.loadExpenses();
     }
 
     createExpense(expense: Omit<Expense, 'id'>): Observable<void> {
         const newExpense: Expense = { ...expense, id: uuid() };
+        this.groupsCol.groupHasUpdated(expense.groupId).pipe(first()).subscribe();
 
         return this.expenses$.pipe(
             first(),
@@ -97,6 +100,9 @@ export class ExpensesCollection {
                 );
                 if (expenseIndex < 0) return;
 
+                this.groupsCol.groupHasUpdated(expenses[expenseIndex].groupId)
+                    .pipe(first()).subscribe();
+
                 expensesCopy.splice(expenseIndex, 1, {
                     ...expensesCopy[expenseIndex],
                     ...expense,
@@ -123,6 +129,8 @@ export class ExpensesCollection {
                 );
                 if (expenseIndex < 0) return;
 
+                this.groupsCol.groupHasUpdated(expenses[expenseIndex].groupId)
+                    .pipe(first()).subscribe();
 
                 expensesCopy.splice(expenseIndex, 1);
                 return expensesCopy;

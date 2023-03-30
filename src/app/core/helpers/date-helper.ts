@@ -9,5 +9,8 @@ export const DateHelper = {
     },
     getCurrentLocalDate() {
         return DateTime.now().set({ millisecond: 0, second: 0}).toISO();
+    },
+    getUtcTimestamp(): string {
+        return DateTime.now().toUTC().toISO();
     }
 };

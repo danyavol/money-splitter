@@ -16,6 +16,7 @@ import { v4 as uuid } from 'uuid';
 import { FullTransfer } from '../storage-join.interface';
 import { Collection, Transfer } from '../storage.interface';
 import { StorageService } from '../storage.service';
+import { GroupsCollection } from './groups.collection';
 import { MembersCollection } from './members.collection';
 
 @Injectable({
@@ -25,12 +26,18 @@ export class TransfersCollection {
     private transferSbj = new ReplaySubject<Transfer[]>(1);
     transfers$ = this.transferSbj.asObservable();
 
-    constructor(private storage: StorageService, private membersCol: MembersCollection) {
+    constructor(
+        private storage: StorageService,
+        private membersCol: MembersCollection,
+        private groupsCol: GroupsCollection,
+    ) {
         this.loadTransfers();
     }
 
     createTransfer(transfer: Omit<Transfer, 'id'>): Observable<void> {
         const newTransfer: Transfer = { ...transfer, id: uuid() };
+
+        this.groupsCol.groupHasUpdated(transfer.groupId).pipe(first()).subscribe();
 
         return this.transfers$.pipe(
             first(),
@@ -88,6 +95,9 @@ export class TransfersCollection {
                 );
                 if (transferIndex < 0) return;
 
+                this.groupsCol.groupHasUpdated(transfers[transferIndex].groupId)
+                    .pipe(first()).subscribe();
+
                 transfersCopy.splice(transferIndex, 1, {
                     ...transfersCopy[transferIndex],
                     ...transfer,
@@ -113,6 +123,9 @@ export class TransfersCollection {
                     (t) => t.id === transferId
                 );
                 if (transferIndex < 0) return;
+
+                this.groupsCol.groupHasUpdated(transfers[transferIndex].groupId)
+                    .pipe(first()).subscribe();
 
                 transfersCopy.splice(transferIndex, 1);
                 return transfersCopy;

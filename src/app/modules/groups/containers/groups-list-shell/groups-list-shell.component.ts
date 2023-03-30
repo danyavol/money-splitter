@@ -7,7 +7,7 @@ import { GroupsCollection } from 'src/app/database/collections/groups.collection
     styleUrls: ['./groups-list-shell.component.scss'],
 })
 export class GroupsListShellComponent {
-    groups$ = this.groupsCol.groups$;
+    groups$ = this.groupsCol.getSortedGroups();
 
     constructor(private groupsCol: GroupsCollection) {}
 }

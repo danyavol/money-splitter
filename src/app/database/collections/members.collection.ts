@@ -34,7 +34,7 @@ export class MembersCollection {
 
         return this.members$.pipe(
             first(),
-            map((members) => [...members, newMember]),
+            map((members) => [newMember, ...members]),
             switchMap((newMembers) =>
                 this.saveMembers(newMembers).pipe(
                     tap(() => this.membersSbj.next(newMembers))

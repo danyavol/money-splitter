@@ -11,6 +11,7 @@ export interface Group {
     name: string;
     members: string[];
     currency: string;
+    updatedAt: string;
 }
 
 export interface Member {
