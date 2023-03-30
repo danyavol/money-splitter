@@ -10,7 +10,6 @@ export class ToastService {
     async error(message: string) {
         const toast = await this.toastController.create({
             message,
-            duration: 5000,
             buttons: [
                 {
                     text: 'Ok',

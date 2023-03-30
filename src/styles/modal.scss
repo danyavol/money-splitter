@@ -1,0 +1,22 @@
+.modal {
+    --height: auto;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    padding: 0 20px;
+}
+
+.modal-wrapper {
+    padding: 1rem;
+
+    .modal-title {
+        color: var(--ion-text-color);
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    .modal-buttons {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-around;
+    }
+}

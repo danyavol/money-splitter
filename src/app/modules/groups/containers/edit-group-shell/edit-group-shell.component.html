@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Edit Group</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="removeGroup()">
+            <ion-button id="delete-group-confirm-modal">
                 <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -26,3 +26,17 @@
         </ion-item>
     </ion-list>
 </ion-content>
+
+<ion-modal trigger="delete-group-confirm-modal" class="modal" #currencyModal>
+    <ng-template>
+        <div class="modal-wrapper">
+            <div class="modal-title">
+                Are you sure you want to permanently delete this group with all expenses and transfers?
+            </div>
+            <div class="modal-buttons">
+                <ion-button color="medium" (click)="currencyModal.dismiss()">Cancel</ion-button>
+                <ion-button (click)="removeGroup(currencyModal)">Yes</ion-button>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>

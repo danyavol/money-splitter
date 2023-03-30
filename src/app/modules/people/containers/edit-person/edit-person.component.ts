@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { first } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { MembersCollection } from 'src/app/database/collections/members.collection';
@@ -43,7 +44,8 @@ export class EditPersonComponent {
             });
     }
 
-    removePerson(): void {
+    removePerson(modal: IonModal): void {
+        modal.dismiss();
         this.memberCol.removeMember(this.memberId).pipe(first()).subscribe({
             next: () => {
                 this.navigateBack();

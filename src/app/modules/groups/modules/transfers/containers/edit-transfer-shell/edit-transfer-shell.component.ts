@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { first, map } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
@@ -68,7 +69,8 @@ export class EditTransferShellComponent implements OnInit {
             .subscribe(() => this.goBack());
     }
 
-    removeTransfer() {
+    removeTransfer(modal: IonModal) {
+        modal.dismiss();
         this.transfersCol.removeTransfer(this.transferId).pipe(first()).subscribe(() => this.goBack());
     }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { first, map, withLatestFrom } from 'rxjs';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
@@ -77,7 +78,8 @@ export class EditExpenseShellComponent implements OnInit {
             .subscribe(this.goBack.bind(this));
     }
 
-    removeExpense() {
+    removeExpense(modal: IonModal) {
+        modal.dismiss();
         this.expensesCol.removeExpense(this.expenseId).pipe(first()).subscribe(this.goBack.bind(this));
     }
 

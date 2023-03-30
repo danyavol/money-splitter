@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
 import { first, forkJoin } from 'rxjs';
 import { ExpensesCollection } from 'src/app/database/collections/expenses.collection';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
@@ -46,7 +47,8 @@ export class EditGroupShellComponent {
             });
     }
 
-    removeGroup(): void {
+    removeGroup(currencyModal: IonModal): void {
+        currencyModal.dismiss();
         forkJoin([
             this.transfersCol.removeAllGroupTransfers(this.groupId),
             this.expensesCol.removeAllGroupExpenses(this.groupId),

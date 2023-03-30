@@ -7,7 +7,7 @@
         </ion-buttons>
         <ion-title>Edit Transfer</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="removeTransfer()">
+            <ion-button id="remove-transfer-confirm-modal">
                 <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -31,3 +31,17 @@
         </ion-item>
     </ion-list>
 </ion-content>
+
+<ion-modal trigger="remove-transfer-confirm-modal" class="modal" #confirmModal>
+    <ng-template>
+        <div class="modal-wrapper">
+            <div class="modal-title">
+                Are you sure you want to delete this transfer?
+            </div>
+            <div class="modal-buttons">
+                <ion-button color="medium" (click)="confirmModal.dismiss()">Cancel</ion-button>
+                <ion-button (click)="removeTransfer(confirmModal)">Yes</ion-button>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>
