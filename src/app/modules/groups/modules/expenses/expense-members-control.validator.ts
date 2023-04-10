@@ -11,16 +11,23 @@ export function expenseMembersValidator(currencyCode: string, getTotalAmount: ()
         */
 
         const value = control.value;
+        const total = getTotalAmount() || 0;
 
         // #1
         if (!value || value.length === 0) {
-            return { expenseMembersLength: true };
+            return { expenseMembersLength: {
+                actual: Currency.format(currencyCode, 0),
+                total: Currency.format(currencyCode, total)
+            } };
         }
 
         // #2
         const sum = Currency.round(currencyCode, value.reduce((total, member) => (member.amount || 0) + total, 0));
-        if ((getTotalAmount() || 0) !== sum) {
-            return { expenseMembersSum: true };
+        if (total !== sum) {
+            return { expenseMembersSum: {
+                total: Currency.format(currencyCode, total),
+                actual: Currency.format(currencyCode, sum),
+            } };
         }
 
         return null;

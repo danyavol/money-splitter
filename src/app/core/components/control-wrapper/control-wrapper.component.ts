@@ -19,7 +19,7 @@ import { MsFormControl } from '../../helpers/ms-form';
 
 const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     expenseMembersLength: 'Select at least 1 person',
-    expenseMembersSum: 'Sum of expenses is not equal to the total amount',
+    expenseMembersSum: ({actual, total}) => `Sum of expenses is not equal to the total amount.<br>Actual - ${actual}, expected - ${total}`,
     required: 'This field is required',
     differentRecipient: 'Sender and Recipient must be different people',
     minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`,
@@ -33,7 +33,7 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
             <ng-content></ng-content>
         </div>
         <div class="line" [class.error]="errorVisible$ | async"></div>
-        <div class="error-message" *ngIf="errorMessage$ | async as errorMessage">{{ errorMessage }}</div>
+        <div class="error-message" *ngIf="errorMessage$ | async as errorMessage" [innerHTML]="errorMessage"></div>
     `,
     styleUrls: ["./control-wrapper.component.scss"],
     imports: [CommonModule],
@@ -67,8 +67,7 @@ export class ControlWrapperComponent
         ).pipe(
             takeUntil(this.destroy$),
             map(() => (control.invalid && control.touched) || !!this.extraErrorsSbj.value),
-            startWith((control.invalid && control.touched) || !!this.extraErrorsSbj.value),
-            distinctUntilChanged()
+            startWith((control.invalid && control.touched) || !!this.extraErrorsSbj.value)
         );
 
         this.errorMessage$ = this.errorVisible$.pipe(
