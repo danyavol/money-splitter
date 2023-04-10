@@ -82,6 +82,11 @@ export class CurrencyMaskDirective implements ControlValueAccessor, OnInit {
         if (typeof value === 'number' && this.mask.typedValue !== value) {
             this.skipNextValueChange = true;
             this.mask.typedValue = value;
+
+            if (value === 0) {
+                this.skipNextValueChange = true;
+                this.mask.value = '';
+            }
         } else if (value === null && this.mask.value !== '') {
             this.skipNextValueChange = true;
             this.mask.value = '';

@@ -123,7 +123,7 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
                             : {
                                   memberId: id,
                                   amount: null,
-                                  ration: null,
+                                  ration: 1,
                               };
                     })
                 ),
@@ -219,7 +219,6 @@ export class ExpenseMembersControlComponent implements ControlValueAccessor, OnI
             if (!ignoredMember || expenseMembers[0].memberId !== ignoredMember) {
                 expenseMembers[0].amount = totalAmount;
             }
-            expenseMembers[0].ration = null;
             this.expenseMembers$.next(expenseMembers);
             return;
         }
