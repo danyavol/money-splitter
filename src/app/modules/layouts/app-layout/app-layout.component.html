@@ -1,0 +1,18 @@
+<ion-router-outlet></ion-router-outlet>
+<!-- TODO: Hide tabs on auth pages -->
+<ion-tabs>
+    <ion-tab-bar slot="bottom" [style]="{display: ionTabsDisplay}">
+        <ion-tab-button tab="groups">
+            <ion-icon name="people"></ion-icon>
+            Groups
+        </ion-tab-button>
+        <ion-tab-button tab="people">
+            <ion-icon name="person"></ion-icon>
+            People
+        </ion-tab-button>
+        <ion-tab-button tab="settings">
+            <ion-icon name="settings"></ion-icon>
+            Settings
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { first } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { SettingsService } from 'src/app/core/services/settings.service';
 import { BackupsService } from 'src/app/database/backups.service';
 import { Theme } from 'src/app/database/storage.interface';
@@ -18,7 +19,8 @@ export class SettingsShellComponent {
 
     constructor(
         private settingsService: SettingsService,
-        private backups: BackupsService
+        private backups: BackupsService,
+        private authService: AuthService
     ) {}
 
     saveBackup() {
@@ -37,5 +39,9 @@ export class SettingsShellComponent {
 
     selectFile() {
         this.inputFile?.nativeElement.click();
+    }
+
+    signOut() {
+        this.authService.signOut().subscribe();
     }
 }

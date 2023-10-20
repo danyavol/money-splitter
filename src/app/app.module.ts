@@ -10,9 +10,17 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import { SettingsService } from './core/services/settings.service';
 import { GlobalErrorHandler } from './core/services/global-error.service';
+import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';
+import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
+import "./core/services/icons-registry";
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, AuthLayoutComponent, AppLayoutComponent],
     imports: [
         BrowserModule,
         IonicModule.forRoot({ mode: "md" }),
@@ -21,6 +29,10 @@ import { GlobalErrorHandler } from './core/services/global-error.service';
             name: 'money-splitter-db',
             driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
         }),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
+        provideDatabase(() => getDatabase()),
+        provideFirestore(() => getFirestore()),
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

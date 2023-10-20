@@ -1,0 +1,14 @@
+{
+    "targets": {
+        "money-splitter-cd4b3": {
+            "hosting": {
+                "app": [
+                    "money-splitter-cd4b3"
+                ]
+            }
+        }
+    },
+    "projects": {
+        "default": "money-splitter-cd4b3"
+    }
+}

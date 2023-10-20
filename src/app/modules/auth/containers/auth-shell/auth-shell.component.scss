@@ -1,0 +1,17 @@
+.sign-in-btn {
+    text-transform: none;
+    width: 100%;
+
+    &.google {
+        --background: white;
+    }
+
+    &.email {
+        --background: #db4437;
+        --color: white;
+    }
+
+    ion-icon {
+        margin-right: 16px;
+    }
+}

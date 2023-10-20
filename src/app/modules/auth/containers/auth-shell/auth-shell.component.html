@@ -1,0 +1,15 @@
+<ion-content><ion-list lines="none" class="ion-padding-top">
+        <ion-item>
+            <ion-button class="sign-in-btn email" size="default" routerLink="email">
+                <ion-icon slot="start" name="mail"></ion-icon>
+                Sign in with email
+            </ion-button>
+        </ion-item>
+        <ion-item>
+            <ion-button class="sign-in-btn google" size="default" (click)="signInWithGoogle()">
+                <ion-icon slot="start" name="google"></ion-icon>
+                Sign in with Google
+            </ion-button>
+        </ion-item>
+    </ion-list>
+</ion-content>
