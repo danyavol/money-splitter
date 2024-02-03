@@ -23,7 +23,7 @@ This is Android/IOS/browser app which helps to split bills in a group of people.
 
    - `npm run build`
    - `npx cap copy` - (Copy required files to android folder)
-   - `npx cap run android -l --external` - (Start emulator)
+   - `npx ionic capacitor run android -l --external` - (Start emulator)
 
 4) Also you may try to open project in Android Studio, build and run app from there:
    
@@ -38,13 +38,13 @@ This is Android/IOS/browser app which helps to split bills in a group of people.
 3) Open `Android Studio - Devices - Pair Devices Using Wi-Fi`
 4) Scan `QR code` with your mobile phone
 5) After pairing you may need to click `Connect`
-6) Deploy app to your mobile phone using `Run app` button in Android Studio or using command `npx cap run android -l --external`
+6) Deploy app to your mobile phone using `Run app` button in Android Studio or using command `npx ionic capacitor run android -l --external`
 
 ### Via USB
 
 1) Enable Debug mode at `Settings - System - Developer Options - USB debugging`
 2) Connect your phone to PC using `USB cable`
-3) Deploy app to your mobile phone using `Run app` button in Android Studio or using command `npx cap run android -l --external`
+3) Deploy app to your mobile phone using `Run app` button in Android Studio or using command `npx ionic capacitor run android -l --external`
 
 ## Environments
 
