@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core/core.module';
 import { GroupFormComponent } from './components/group-form/group-form.component';
 import { CreateGroupShellComponent } from './containers/create-group-shell/create-group-shell.component';
@@ -11,6 +11,7 @@ import { TotalsModule } from './modules/totals/totals.module';
 import { TransfersModule } from './modules/transfers/transfers.module';
 
 @NgModule({
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [
         GroupsListShellComponent,
         GroupShellComponent,
@@ -23,7 +24,7 @@ import { TransfersModule } from './modules/transfers/transfers.module';
         CoreModule,
         ExpensesModule,
         TransfersModule,
-        TotalsModule,
+        TotalsModule
     ]
 })
 export class GroupsModule {}

@@ -33,17 +33,17 @@
                 </ion-header>
             </ion-col>
             <ion-col class="swiper-slides">
-                <ion-slides class="swiper" [options]="slideOpts" (ionSlideWillChange)="slideChanged($event)">
-                    <ion-slide>
+                <swiper-container [modules]="swiperModules" [initialSlide]="defaultSlideIndex"  (swiperslidechange)="slideChanged($event)" class="swiper" #swiper>
+                    <swiper-slide>
                         <app-expenses-list-shell [currency]="group.currency"></app-expenses-list-shell>
-                    </ion-slide>
-                    <ion-slide>
+                    </swiper-slide>
+                    <swiper-slide>
                         <app-transfers-list-shell [currency]="group.currency"></app-transfers-list-shell>
-                    </ion-slide>
-                    <ion-slide>
+                    </swiper-slide>
+                    <swiper-slide>
                         <app-totals-shell [currency]="group.currency"></app-totals-shell>
-                    </ion-slide>
-                </ion-slides>
+                    </swiper-slide>
+                </swiper-container>
             </ion-col>
         </ion-row>
     </ion-content>

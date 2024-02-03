@@ -1,11 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
+import { IonicSlides } from '@ionic/angular';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, Observable } from 'rxjs';
 import { GroupsCollection } from 'src/app/database/collections/groups.collection';
 import { Group } from 'src/app/database/storage.interface';
+import Swiper from 'swiper';
 
 enum Slide {
     Expenses = 'expenses',
@@ -20,14 +21,17 @@ enum Slide {
     styleUrls: ['./group-shell.component.scss'],
 })
 export class GroupShellComponent {
-    @ViewChild(IonSlides) ionSlides?: IonSlides;
+    @ViewChild('swiper') swiperRef?: ElementRef;
+
+    get swiper(): Swiper {
+        return this.swiperRef?.nativeElement.swiper;
+    }
+
+    swiperModules = [IonicSlides];
 
     readonly Slide = Slide;
     readonly slides: Slide[] = [Slide.Expenses, Slide.Transfers, Slide.Totals];
     readonly defaultSlideIndex = 0;
-    readonly slideOpts = {
-        initialSlide: this.defaultSlideIndex,
-    };
 
     groupId = this.route.snapshot.paramMap.get('groupId') || '';
     group$ = this.groupsCol.getGroup(this.groupId).pipe(
@@ -47,15 +51,15 @@ export class GroupShellComponent {
         private groupsCol: GroupsCollection
     ) {
         this.control.valueChanges.pipe(untilDestroyed(this)).subscribe((activeSlide) => {
-            if (this.ionSlides) {
-                this.ionSlides.slideTo(this.slides.indexOf(activeSlide));
+            if (this.swiper) {
+                this.swiper.slideTo(this.slides.indexOf(activeSlide));
             }
         });
     }
 
     slideChanged(e: any) {
-        const { activeIndex } = e.target.swiper;
-        this.control.setValue(this.slides[activeIndex], { emitEvent: false });
+        const [swiper] = e.detail as [Swiper];
+        this.control.setValue(this.slides[swiper.activeIndex], { emitEvent: false });
     }
 
     private navigateBack() {
