@@ -46,6 +46,13 @@ This is Android/IOS/browser app which helps to split bills in a group of people.
 2) Connect your phone to PC using `USB cable`
 3) Deploy app to your mobile phone using `Run app` button in Android Studio or using command `npx cap run android -l --external`
 
+## Environments
 
+Note that there are two environments DEV and PROD. At your mobile phone you may install both of them and they will be treated as independent applications with separate storage and so on..
 
+It means that you can run `npm run start-android--win` (`--macOS`) and do what every you want with this app, production app with real data will be untouched.
+
+Just make sure that the application has "DEV" prefix in the name and "DEV" icon.
+
+![dev env](https://github.com/danyavol/money-splitter/assets/48417874/4e593384-aa49-4b0e-acc0-a0ed0b970295)
 
