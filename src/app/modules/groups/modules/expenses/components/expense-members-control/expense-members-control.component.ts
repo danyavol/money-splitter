@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import {
     ControlValueAccessor,
     FormControl,
@@ -29,7 +29,7 @@ interface ViewMember extends ExpenseMemberValue {
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: ExpenseMembersControlComponent,
+            useExisting: forwardRef(() => ExpenseMembersControlComponent),
         },
     ],
 })

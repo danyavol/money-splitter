@@ -5,6 +5,7 @@ import {
     OnInit,
     Output,
     ViewContainerRef,
+    forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -19,7 +20,7 @@ import { Currency } from '../constants/currencies.const';
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: CurrencyMaskDirective,
+            useExisting: forwardRef(() => CurrencyMaskDirective),
             multi: true,
         },
     ],

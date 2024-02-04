@@ -7,15 +7,16 @@ import {
 } from '@angular/forms';
 import {
     BehaviorSubject,
-    distinctUntilChanged,
     map,
     merge,
     Observable,
     startWith,
     Subject,
-    takeUntil
+    takeUntil,
+    tap
 } from 'rxjs';
 import { MsFormControl } from '../../helpers/ms-form';
+import { IonicModule } from '@ionic/angular';
 
 const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     expenseMembersLength: 'Select at least 1 person',
@@ -23,7 +24,9 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     required: 'This field is required',
     differentRecipient: 'Sender and Recipient must be different people',
     minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`,
-    maxlength: ({ actualLength, requiredLength}) => `Max length is ${requiredLength}`
+    maxlength: ({ actualLength, requiredLength}) => `Max length is ${requiredLength}`,
+    hasLinkedGoogleAccount: 'Please use your Google account to sign in',
+    email: 'Please enter valid email'
 };
 
 @Component({
@@ -31,12 +34,13 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     template: `
         <div class="wrapper">
             <ng-content></ng-content>
+            <ion-spinner *ngIf="withAsyncValidators" [class]="{ show: spinnerVisible$ | async }"></ion-spinner>
         </div>
         <div class="line" [class.error]="errorVisible$ | async"></div>
         <div class="error-message" *ngIf="errorMessage$ | async as errorMessage" [innerHTML]="errorMessage"></div>
     `,
     styleUrls: ["./control-wrapper.component.scss"],
-    imports: [CommonModule],
+    imports: [CommonModule, IonicModule],
     standalone: true,
 })
 export class ControlWrapperComponent
@@ -45,11 +49,15 @@ export class ControlWrapperComponent
     @Input() set extraErrors(value: ValidationErrors | null) {
         this.extraErrorsSbj.next(value);
     };
+
+    @Input() withAsyncValidators: boolean = false;
+
     private extraErrorsSbj = new BehaviorSubject<ValidationErrors | null>(null);
     private destroy$ = new Subject<void>();
 
     errorVisible$?: Observable<boolean>;
     errorMessage$?: Observable<string>;
+    spinnerVisible$?: Observable<boolean>;
 
     constructor(@Self() private control: NgControl) {
         this.control.valueAccessor = this;
@@ -58,11 +66,12 @@ export class ControlWrapperComponent
     ngOnInit(): void {
         const control = this.control.control as MsFormControl;
         if (!control) throw Error('Control not found');
-        if (!control.touchedChanges) throw Error("You must use wrapper over FormControl - MsFormControl");
+        if (!control.touchedChanges) throw Error("You must use MsFormControl instead of FormControl");
 
         this.errorVisible$ = merge(
             control.valueChanges,
             control.touchedChanges,
+            control.statusChanges,
             this.extraErrorsSbj.asObservable()
         ).pipe(
             takeUntil(this.destroy$),
@@ -76,6 +85,11 @@ export class ControlWrapperComponent
                 return '';
             }),
             startWith('')
+        );
+
+        this.spinnerVisible$ = this.control.statusChanges?.pipe(
+            startWith(this.control.status),
+            map(status => status === "PENDING"),
         );
     }
 

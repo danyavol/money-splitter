@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CheckboxCustomEvent, IonicModule } from '@ionic/angular';
@@ -20,7 +20,7 @@ interface ViewMember extends Member {
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: SelectPersonModalComponent,
+            useExisting: forwardRef(() => SelectPersonModalComponent),
         },
     ],
 })

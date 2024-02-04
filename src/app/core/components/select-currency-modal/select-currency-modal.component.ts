@@ -1,6 +1,6 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Currency } from 'src/app/core/constants/currencies.const';
@@ -15,7 +15,7 @@ import { Currency } from 'src/app/core/constants/currencies.const';
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: SelectCurrencyModalComponent,
+            useExisting: forwardRef(() => SelectCurrencyModalComponent),
         },
     ],
 })

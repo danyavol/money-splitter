@@ -4,6 +4,18 @@
 
     .wrapper {
         padding: 16px 16px 8px 16px;
+        display: flex;
+        gap: 15px;
+
+        ion-spinner {
+            visibility: hidden;
+            width: 20px;
+            height: 20px;
+
+            &.show {
+                visibility: visible;
+            }
+        }
     }
 
     .line {
