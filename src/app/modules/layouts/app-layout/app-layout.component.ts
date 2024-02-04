@@ -10,12 +10,10 @@ export class AppLayoutComponent implements ViewDidEnter, ViewDidLeave {
     ionTabsDisplay: 'flex' | 'none' = 'flex';
 
     ionViewDidEnter() {
-        console.log('ionViewDidEnter');
         this.ionTabsDisplay = 'flex';
     }
 
     ionViewDidLeave() {
-        console.log('ionViewDidLeave');
         this.ionTabsDisplay = 'none';
     }
 }

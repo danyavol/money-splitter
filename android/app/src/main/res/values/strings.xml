@@ -4,4 +4,5 @@
     <string name="title_activity_main">Money Splitter</string>
     <string name="package_name">danyavol.moneysplitter</string>
     <string name="custom_url_scheme">danyavol.moneysplitter</string>
+    <string name="server_client_id">993917050771-j3l0bldigd5b0coug08q1jhlsegaitc2.apps.googleusercontent.com</string>
 </resources>

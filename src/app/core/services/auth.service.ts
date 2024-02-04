@@ -1,8 +1,9 @@
 import { Injectable, inject } from "@angular/core";
-import { Auth, GoogleAuthProvider, User, UserCredential } from "@angular/fire/auth";
+import { Auth, GoogleAuthProvider, UserCredential, signInWithCredential } from "@angular/fire/auth";
 import { Router } from "@angular/router";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { Observable, ReplaySubject, from, of, tap } from "rxjs";
+import { Observable, ReplaySubject, from, of, switchMap, tap } from "rxjs";
 
 export type CheckEmailResponse = "free" | "taken" | "google";
 
@@ -14,7 +15,6 @@ export class AuthService {
     private router = inject(Router);
 
     isLoggedIn = this.getIsLoggedIn();
-    private googleProvider = new GoogleAuthProvider();
 
     registerUser() {
 
@@ -25,10 +25,21 @@ export class AuthService {
     }
 
     signInWithGoogle(): Observable<UserCredential> {
-        // TODO: Fix sign in on android
-        return from(signInWithPopup(this.auth, this.googleProvider)).pipe(tap(() => {
-            this.router.navigate(['/']);
-        }));
+        return from(GoogleAuth.signIn()).pipe(
+            switchMap(user => {
+                // Forward credentials to firebase
+                const credential = GoogleAuthProvider.credential(user.authentication.idToken);
+                return from(signInWithCredential(this.auth, credential));
+            }),
+            tap({
+                next: () => {
+                    this.router.navigate(['/']);
+                },
+                error: (err) => {
+                    throw Error(err);
+                }
+            })
+        );
     }
 
     signOut() {
