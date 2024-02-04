@@ -6,7 +6,7 @@ import { appLayoutGuard, authLayoutGuard } from './core/guards/layout.guard';
 
 const routes: Routes = [
     {
-        path: "",
+        path: "app",
         component: AppLayoutComponent,
         canMatch: [appLayoutGuard],
         children: [
@@ -31,20 +31,25 @@ const routes: Routes = [
         ]
     },
     {
-        path: "",
+        path: "auth",
         component: AuthLayoutComponent,
         canMatch: [authLayoutGuard],
         children: [
             {
-                path: "auth",
+                path: "",
                 loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
             },
             {
                 path: '**',
-                redirectTo: 'auth',
+                redirectTo: '',
                 pathMatch: 'full'
             },
         ]
+    },
+    {
+        path: '**',
+        redirectTo: 'app',
+        pathMatch: 'full'
     },
 ];
 

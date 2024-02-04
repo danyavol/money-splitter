@@ -1,12 +1,20 @@
 import { inject } from "@angular/core";
-import { CanMatchFn } from "@angular/router";
+import { CanMatchFn, Router } from "@angular/router";
 import { AuthService } from "../services/auth.service";
 import { map } from "rxjs";
 
 export const authLayoutGuard: CanMatchFn = () => {
-    return inject(AuthService).isLoggedIn.pipe(map(isLoggedIn => !isLoggedIn));
+    const router = inject(Router);
+    return inject(AuthService).isLoggedIn.pipe(map(isLoggedIn => {
+        if (!isLoggedIn) return true;
+        else return router.parseUrl('/app');
+    }));
 }
 
 export const appLayoutGuard: CanMatchFn = () => {
-    return inject(AuthService).isLoggedIn;
+    const router = inject(Router);
+    return inject(AuthService).isLoggedIn.pipe(map(isLoggedIn => {
+        if (isLoggedIn) return true;
+        else return router.parseUrl('/auth');
+    }));
 }
