@@ -6,7 +6,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, debounceTime, distinctUntilChanged, first, map, startWith, switchMap, tap } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, first, map, startWith, switchMap } from 'rxjs';
 import { MsFormControl } from 'src/app/core/helpers/ms-form';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -62,6 +62,8 @@ export class AuthShellComponent {
     }
 
     signInWithGoogle() {
+        // TODO: Investigate why error appears from time to time
+        // Cannot read property 'getAuthInstance' of undefined.
         this.authService.signInWithGoogle().subscribe();
     }
 
