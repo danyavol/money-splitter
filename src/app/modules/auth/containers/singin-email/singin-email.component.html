@@ -1,3 +1,24 @@
-<p>
-  singin-email works!
-</p>
+<ion-content *ngIf="form" [formGroup]="form">
+    <div class="wrapper">
+        <ion-list lines="none" class="ion-padding-top">
+            <ion-item>
+                <ms-control-wrapper formControlName="password" class="input">
+                    <input class="ms-input" formControlName="password" placeholder="Password" type="password" autocomplete="off">
+                </ms-control-wrapper>
+            </ion-item>
+            <ion-item *ngIf="form.controls.repeatPassword">
+                <ms-control-wrapper formControlName="repeatPassword" class="input" [extraErrors]="form.controls.repeatPassword.touched ? form.errors : null">
+                    <input class="ms-input" formControlName="repeatPassword" placeholder="Repeat password" type="password" autocomplete="off">
+                </ms-control-wrapper>
+            </ion-item>
+            <ion-item>
+                <ion-button class="submit-btn" size="default" (click)="submit()">
+                    {{ isNewAccount ? "Create Account" : "Sign In" }}
+                </ion-button>
+            </ion-item>
+            <ion-item>
+                <a routerLink="/auth" [queryParams]="{ email }">Go Back</a>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

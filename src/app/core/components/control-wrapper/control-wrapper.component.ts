@@ -26,7 +26,9 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`,
     maxlength: ({ actualLength, requiredLength}) => `Max length is ${requiredLength}`,
     hasLinkedGoogleAccount: 'Please use your Google account to sign in',
-    email: 'Please enter valid email'
+    email: 'Please enter valid email',
+    weekPassword: 'Password must be minimum 6 characters',
+    passwordsNotMatch: 'Passwords do not match'
 };
 
 @Component({
@@ -87,8 +89,8 @@ export class ControlWrapperComponent
             startWith('')
         );
 
-        this.spinnerVisible$ = this.control.statusChanges?.pipe(
-            startWith(this.control.status),
+        this.spinnerVisible$ = control.statusChanges?.pipe(
+            startWith(control.status),
             map(status => status === "PENDING"),
         );
     }

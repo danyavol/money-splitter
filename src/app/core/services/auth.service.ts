@@ -3,7 +3,7 @@ import { Auth, GoogleAuthProvider, UserCredential, signInWithCredential } from "
 import { Router } from "@angular/router";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
-import { Observable, ReplaySubject, from, map, switchMap, tap } from "rxjs";
+import { EMPTY, Observable, ReplaySubject, catchError, from, map, of, switchMap, tap, throwError } from "rxjs";
 
 export type CheckEmailResponse = "free" | "password" | "google";
 
@@ -45,13 +45,14 @@ export class AuthService {
                 const credential = GoogleAuthProvider.credential(user.authentication.idToken);
                 return from(signInWithCredential(this.auth, credential));
             }),
-            tap({
-                next: () => {
-                    this.router.navigate(['/']);
-                },
-                error: (err) => {
-                    throw Error(err);
+            tap(() => {
+                this.router.navigate(['/']);
+            }),
+            catchError(err => {
+                if (err.error === 'popup_closed_by_user') {
+                    return EMPTY;
                 }
+                return throwError(err);
             })
         );
     }
