@@ -1,6 +1,30 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+:root, .dark {
+    --ion-tab-bar-background: var(--color-neutral-3);
+
+    --ion-background-color: var(--color-neutral-1);
+    --ion-tab-bar-color-selected: var(--color-primary-11);
+    --ion-tab-bar-color: var(--color-neutral-11);
+
+    --ion-item-background: var(--color-neutral-1);
+
+    ion-tab-bar {
+        --border: none;
+    }
+
+    ion-toolbar {
+        --min-height: 64px
+    }
+
+    ion-header {
+        box-shadow: none;
+    }
+
+    --ion-toolbar-background: var(--color-neutral-1);
+}
+
 /** Ionic CSS Variables **/
 :root {
     /** primary **/
@@ -155,9 +179,6 @@ body.dark {
 */
 
 .md body.dark {
-    --ion-background-color: #1e1e1e;
-    --ion-background-color-rgb: 30, 30, 30;
-
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255, 255, 255;
 
@@ -182,12 +203,6 @@ body.dark {
     --ion-color-step-850: #dbdbdb;
     --ion-color-step-900: #e7e7e7;
     --ion-color-step-950: #f3f3f3;
-
-    --ion-item-background: #1e1e1e;
-
-    --ion-toolbar-background: #2a2a2a;
-
-    --ion-tab-bar-background: #2a2a2a;
 
     --ion-card-background: #1e1e1e;
 

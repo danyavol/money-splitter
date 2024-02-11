@@ -1,0 +1,23 @@
+.icon-bg {
+    width: 64px;
+    height: 32px;
+    border-radius: 16px;
+    margin-bottom: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-selected .icon-bg {
+    background-color: var(--color-primary-5);
+}
+
+ion-tab-bar {
+    height: 70px;
+
+}
+
+ion-tab-button {
+    --ripple-color: transparent;
+}
