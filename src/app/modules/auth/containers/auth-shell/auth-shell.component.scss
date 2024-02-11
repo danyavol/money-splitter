@@ -3,23 +3,19 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    padding-bottom: 50%;
 }
 
 .page-title {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+
+    h1 {
+        margin: 0;
+    }
 }
 
 .email-input {
-    // --padding-start: 16px !important;
     width: 100%;
     margin-bottom: 10px;
-
-    // ion-icon {
-    //     width: 1.3em;
-    //     height: 1.3em;
-    //     color: var(--ion-color-light-contrast);
-    // }
 }
 
 .sign-in-btn {
@@ -36,7 +32,7 @@
         --color: white;
     }
 
-    ion-icon {
+    ion-icon, span {
         margin-right: 16px;
     }
 }

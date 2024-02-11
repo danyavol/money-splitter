@@ -21,7 +21,7 @@ This is Android/IOS/browser app which helps to split bills in a group of people.
    
 3) I don't know exact steps to start the app, it is hell every time... Try to play with these commands:
 
-   - `npm run build`
+   - `npx ng build`
    - `npx cap copy` - (Copy required files to android folder)
    - `npx ionic capacitor run android -l --external` - (Start emulator)
 
@@ -55,4 +55,10 @@ It means that you can run `npm run start-android--win` (`--macOS`) and do what e
 Just make sure that the application has "DEV" prefix in the name and "DEV" icon.
 
 ![dev env](https://github.com/danyavol/money-splitter/assets/48417874/4e593384-aa49-4b0e-acc0-a0ed0b970295)
+
+## Release 
+
+1) `npm run build`
+2) Increment `versionCode` by 1 and minor version of `versionName` in `android/app/build.gradle`
+
 

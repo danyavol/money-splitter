@@ -1,0 +1,119 @@
+/*
+USAGE:
+
+  Backgrounds:
+1 - App background
+2 - Subtle background
+  Interactive components:
+3 - UI element background
+4 - Hovered UI element background
+5 - Active / Selected UI element background
+  Borders and separators:
+6 - Subtle borders and separators
+7 - UI element border and focus rings
+8 - Hovered UI element border
+  Solid colors:
+9 - Solid backgrounds
+10 - Hovered solid backgrounds
+  Accessible text:
+11 - Low-contrast text
+12 - High-contrast text
+*/
+
+@import '@radix-ui/colors/grass.css';
+@import '@radix-ui/colors/grass-dark.css';
+
+@import '@radix-ui/colors/yellow.css';
+@import '@radix-ui/colors/yellow-dark.css';
+
+@import '@radix-ui/colors/olive.css';
+@import '@radix-ui/colors/olive-dark.css';
+@import '@radix-ui/colors/olive-alpha.css';
+@import '@radix-ui/colors/olive-dark-alpha.css';
+
+@import '@radix-ui/colors/red.css';
+@import '@radix-ui/colors/red-dark.css';
+
+@import '@radix-ui/colors/sky.css';
+@import '@radix-ui/colors/sky-dark.css';
+
+
+:root, .dark {
+    --color-primary-1: var(--grass-1);
+    --color-primary-2: var(--grass-2);
+    --color-primary-3: var(--grass-3);
+    --color-primary-4: var(--grass-4);
+    --color-primary-5: var(--grass-5);
+    --color-primary-6: var(--grass-6);
+    --color-primary-7: var(--grass-7);
+    --color-primary-8: var(--grass-8);
+    --color-primary-9: var(--grass-9);
+    --color-primary-10: var(--grass-10);
+    --color-primary-11: var(--grass-11);
+    --color-primary-12: var(--grass-12);
+
+    --color-accent-1: var(--yellow-1);
+    --color-accent-2: var(--yellow-2);
+    --color-accent-3: var(--yellow-3);
+    --color-accent-4: var(--yellow-4);
+    --color-accent-5: var(--yellow-5);
+    --color-accent-6: var(--yellow-6);
+    --color-accent-7: var(--yellow-7);
+    --color-accent-8: var(--yellow-8);
+    --color-accent-9: var(--yellow-9);
+    --color-accent-10: var(--yellow-10);
+    --color-accent-11: var(--yellow-11);
+    --color-accent-12: var(--yellow-12);
+
+    --color-neutral-1: var(--olive-1);
+    --color-neutral-2: var(--olive-2);
+    --color-neutral-3: var(--olive-3);
+    --color-neutral-4: var(--olive-4);
+    --color-neutral-5: var(--olive-5);
+    --color-neutral-6: var(--olive-6);
+    --color-neutral-7: var(--olive-7);
+    --color-neutral-8: var(--olive-8);
+    --color-neutral-9: var(--olive-9);
+    --color-neutral-10: var(--olive-10);
+    --color-neutral-11: var(--olive-11);
+    --color-neutral-12: var(--olive-12);
+
+    --color-neutral-a1: var(--olive-a1);
+    --color-neutral-a2: var(--olive-a2);
+    --color-neutral-a3: var(--olive-a3);
+    --color-neutral-a4: var(--olive-a4);
+    --color-neutral-a5: var(--olive-a5);
+    --color-neutral-a6: var(--olive-a6);
+    --color-neutral-a7: var(--olive-a7);
+    --color-neutral-a8: var(--olive-a8);
+    --color-neutral-a9: var(--olive-a9);
+    --color-neutral-a10: var(--olive-a10);
+    --color-neutral-a11: var(--olive-a11);
+    --color-neutral-a12: var(--olive-a12);
+
+    --color-danger-1: var(--red-1);
+    --color-danger-2: var(--red-2);
+    --color-danger-3: var(--red-3);
+    --color-danger-4: var(--red-4);
+    --color-danger-5: var(--red-5);
+    --color-danger-6: var(--red-6);
+    --color-danger-7: var(--red-7);
+    --color-danger-8: var(--red-8);
+    --color-danger-9: var(--red-9);
+    --color-danger-10: var(--red-10);
+    --color-danger-11: var(--red-11);
+    --color-danger-12: var(--red-12);
+
+    --color-info-1: var(--sky-1);
+    --color-info-2: var(--sky-2);
+    --color-info-3: var(--sky-3);
+    --color-info-4: var(--sky-4);
+    --color-info-5: var(--sky-5);
+    --color-info-6: var(--sky-6);
+    --color-info-7: var(--sky-7);
+    --color-info-8: var(--sky-8);
+    --color-info-9: var(--sky-9);
+    --color-info-10: var(--sky-10);
+    --color-info-11: var(--sky-11);
+    --color-info-12: var(--sky-12);
+}
