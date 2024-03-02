@@ -3,8 +3,8 @@
     --icon-fill: 1; // can be 1 or 0
 
     font-variation-settings:
-    'FILL' var(--icon-fill),
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' var(--icon-optical-size)
+        "FILL" var(--icon-fill),
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" var(--icon-optical-size);
 }

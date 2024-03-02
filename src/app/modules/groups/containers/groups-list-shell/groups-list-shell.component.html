@@ -2,8 +2,8 @@
     <ion-toolbar>
         <ion-title class="font-title-l">Groups</ion-title>
         <ion-buttons slot="end">
-            <ion-button routerLink="new">
-                <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            <ion-button routerLink="new" size="large">
+                <span slot="icon-only" class="material-symbols-rounded new-group">add</span>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -13,15 +13,16 @@
     <ion-list lines="none" *ngIf="groups.length; else noGroups">
         <ion-item *ngFor="let group of groups" [routerLink]="[group.id]">
             <ion-avatar slot="start">
-                <img src="assets/group.svg" />
+                <span class="material-symbols-rounded">group</span>
             </ion-avatar>
-            <ion-label>{{group.name}}</ion-label>
+            <p class="font-title-s group-name">{{group.name}}</p>
         </ion-item>
     </ion-list>
 
     <ng-template #noGroups>
-        <div class="ion-margin-top ion-text-center">
-            <ion-text color="medium">You don't have any saved groups</ion-text>
+        <div class="no-groups-wrapper">
+            <ion-text class="no-groups-text font-title-s">You don't have any groups</ion-text>
+            <ion-text class="no-groups-text font-title-s">Press <span class="material-symbols-rounded plus-icon">add</span> to create</ion-text>
         </div>
     </ng-template>
 </ion-content>

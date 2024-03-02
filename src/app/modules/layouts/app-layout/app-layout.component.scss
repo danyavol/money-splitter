@@ -7,17 +7,57 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    transition: background-color .2s ease;
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-radius: inherit;
+        width: 100%;
+        height: 100%;
+        transition: background-color .2s ease;
+    }
 }
+
+@media (hover: hover) {
+    ion-tab-button:hover {
+        .icon-bg::after {
+            background-color: var(--color-neutral-a3);
+        }
+    }
+}
+
+ion-tab-button:active {
+    .icon-bg::after {
+        background-color: var(--color-neutral-a5);
+    }
+}
+
 
 .tab-selected .icon-bg {
     background-color: var(--color-primary-5);
 }
 
-ion-tab-bar {
-    height: 70px;
+.show ion-tab-bar {
+    height: 80px;
+}
 
+ion-tab-bar {
+    padding-bottom: var(--ion-safe-area-bottom);
+    height: 0;
+    transition: height .2s ease;
 }
 
 ion-tab-button {
     --ripple-color: transparent;
+
+    &:not(.tab-selected) {
+        --color-selected: var(--color-neutral-11);
+
+        .material-symbols-rounded {
+            --icon-fill: 0;
+        }
+    }
 }

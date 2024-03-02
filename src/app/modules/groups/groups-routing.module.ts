@@ -16,7 +16,10 @@ const routes: Routes = [
     },
     {
         path: 'new',
-        component: CreateGroupShellComponent
+        component: CreateGroupShellComponent,
+        data: {
+            hideTabs: true
+        }
     },
     {
         path: ':groupId',
@@ -27,25 +30,40 @@ const routes: Routes = [
         children: [
             {
                 path: 'edit',
-                component: EditGroupShellComponent
+                component: EditGroupShellComponent,
+                data: {
+                    hideTabs: true
+                }
             },
             // Expenses
             {
                 path: 'new-expense',
-                component: CreateExpenseShellComponent
+                component: CreateExpenseShellComponent,
+                data: {
+                    hideTabs: true
+                }
             },
             {
                 path: 'expense/:expenseId',
-                component: EditExpenseShellComponent
+                component: EditExpenseShellComponent,
+                data: {
+                    hideTabs: true
+                }
             },
             // Transfers
             {
                 path: 'new-transfer',
-                component: CreateTransferShellComponent
+                component: CreateTransferShellComponent,
+                data: {
+                    hideTabs: true
+                }
             },
             {
                 path: 'transfer/:transferId',
-                component: EditTransferShellComponent
+                component: EditTransferShellComponent,
+                data: {
+                    hideTabs: true
+                }
             },
         ]
     },

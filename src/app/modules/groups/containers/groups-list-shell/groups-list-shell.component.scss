@@ -2,6 +2,45 @@ ion-title {
     color: var(--color-neutral-12);
 }
 
-ion-icon {
+.new-group {
     color: var(--color-neutral-11);
+    --icon-optical-size: 40;
+}
+
+ion-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-accent-5);
+    color: var(--color-accent-11);
+    width: 45px;
+    height: 45px;
+}
+
+.no-groups-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.no-groups-text {
+    color: var(--color-neutral-10);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4px;
+
+    .plus-icon {
+        color: var(--color-neutral-11);
+    }
+}
+
+.group-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

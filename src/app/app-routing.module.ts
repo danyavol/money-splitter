@@ -13,7 +13,11 @@ const routes: Routes = [
 
             {
                 path: 'groups',
-                loadChildren: () => import('./modules/groups/groups.module').then(m => m.GroupsModule)
+                loadChildren: () => import('./modules/groups/groups.module').then(m => m.GroupsModule),
+            },
+            {
+                path: 'quick-split',
+                loadChildren: () => import('./modules/quick-split/quick-split.module').then(m => m.QuickSplitModule)
             },
             {
                 path: 'people',

@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { filter, switchMap } from 'rxjs';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { NavigationBar } from '@hugotomazi/capacitor-navigation-bar';
+import { BehaviorSubject, filter, switchMap } from 'rxjs';
 import {
     defaultSettings,
     SettingsCollection,
 } from 'src/app/database/collections/settings.collection';
 import { Theme } from 'src/app/database/storage.interface';
+import { SafeArea, SafeAreaInsets } from 'capacitor-plugin-safe-area';
+import { isPlatform } from '@ionic/angular';
+import { ActivatedRouteSnapshot, ResolveEnd, Router } from '@angular/router';
 
 export interface SettingsForm {
     theme: FormControl<Theme>;
@@ -19,12 +24,17 @@ export class SettingsService {
         theme: new FormControl(defaultSettings.theme, { nonNullable: true }),
     });
 
+    showTabs = new BehaviorSubject(true);
+
     // Use matchMedia to check the user preference
     private prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     private systemIsDark = this.prefersDark.matches;
     private ignoreNextSave = false;
 
-    constructor(private settingsCol: SettingsCollection) {
+    constructor(
+        private settingsCol: SettingsCollection,
+        private router: Router
+    ) {
         this.applySettingsHandlers();
         this.saveSettingsHandler();
 
@@ -34,6 +44,24 @@ export class SettingsService {
         this.prefersDark.addListener((mediaQuery) => {
             this.systemIsDark = mediaQuery.matches;
         });
+
+
+        if (isPlatform('capacitor')) StatusBar.setOverlaysWebView({ overlay: true });
+        NavigationBar.setTransparency({ isTransparent: true });
+
+        SafeArea.getSafeAreaInsets().then(this.updateSafeArea);
+        SafeArea.addListener('safeAreaChanged', this.updateSafeArea);
+
+        this.router.events.subscribe(data => {
+            if (data instanceof ResolveEnd) {
+                const route = getLastChild(data.state.root);
+
+                this.updateShowTabs(!route.data['hideTabs']);
+            }
+            function getLastChild(snapshot: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+                return snapshot.firstChild ? getLastChild(snapshot.firstChild) : snapshot;
+            }
+        })
     }
 
     private loadSettings(): void {
@@ -66,8 +94,10 @@ export class SettingsService {
         function toggleDarkTheme(isDark: boolean): void {
             if (isDark) {
                 document.body.classList.add('dark');
+                if (isPlatform('capacitor')) StatusBar.setStyle({ style: Style.Dark });
             } else {
                 document.body.classList.remove('dark');
+                if (isPlatform('capacitor')) StatusBar.setStyle({ style: Style.Light });
             }
         }
     }
@@ -81,5 +111,20 @@ export class SettingsService {
                 )
             )
             .subscribe();
+    }
+
+    private updateSafeArea({ insets }: SafeAreaInsets) {
+        for (const [key, value] of Object.entries(insets)) {
+            document.documentElement.style.setProperty(
+            `--ion-safe-area-${key}`,
+            `${value}px`,
+            );
+        }
+    }
+
+    private updateShowTabs(show: boolean) {
+        if (this.showTabs.value !== show) {
+            this.showTabs.next(show);
+        }
     }
 }

@@ -2,21 +2,27 @@
     <ion-router-outlet></ion-router-outlet>
 </ion-content>
 
-<ion-tabs>
+<ion-tabs [class.show]="showTabs$ | async">
     <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="groups" class="font-label-m">
+        <ion-tab-button tab="groups" class="font-body-l">
             <div class="icon-bg">
                 <span class="material-symbols-rounded">group</span>
             </div>
             Groups
         </ion-tab-button>
-        <ion-tab-button tab="people" class="font-label-m">
+        <ion-tab-button tab="quick-split" class="font-body-l">
+            <div class="icon-bg">
+                <span class="material-symbols-rounded">bolt</span>
+            </div>
+            Quick Split
+        </ion-tab-button>
+        <ion-tab-button tab="people" class="font-body-l">
             <div class="icon-bg">
                 <span class="material-symbols-rounded">person</span>
             </div>
             Friends
         </ion-tab-button>
-        <ion-tab-button tab="settings" class="font-label-m">
+        <ion-tab-button tab="settings" class="font-body-l">
             <div class="icon-bg">
                 <span class="material-symbols-rounded">account_circle</span>
             </div>

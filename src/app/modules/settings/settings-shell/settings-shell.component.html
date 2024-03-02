@@ -1,31 +1,33 @@
 <ion-content>
-    <h1 class="ion-text-center">Settings</h1>
-    <ion-list [formGroup]="settingsForm">
-        <ion-item>
-            <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
-                <ion-select-option [value]="Theme.System">System</ion-select-option>
-                <ion-select-option [value]="Theme.Light">Light</ion-select-option>
-                <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="item-interactive">
-            <div class="backups">
-                <ion-text>Backups</ion-text>
-                <div class="buttons">
-                    <ion-button size="medium" color="success" (click)="saveBackup()">
-                        <ion-icon slot="start" name="share-outline"></ion-icon>
-                        Export data
-                    </ion-button>
-                    <ion-button size="medium" color="secondary" (click)="selectFile()">
-                        <ion-icon slot="start" name="download-outline"></ion-icon>
-                        Import data
-                    </ion-button>
-                    <input hidden type="file" #inputFile accept="application/json" (input)="applyBackup($event)">
+    <div class="safe-area-top">
+        <h1 class="ion-text-center">Settings</h1>
+        <ion-list [formGroup]="settingsForm">
+            <ion-item>
+                <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
+                    <ion-select-option [value]="Theme.System">System</ion-select-option>
+                    <ion-select-option [value]="Theme.Light">Light</ion-select-option>
+                    <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="item-interactive">
+                <div class="backups">
+                    <ion-text>Backups</ion-text>
+                    <div class="buttons">
+                        <ion-button size="medium" color="success" (click)="saveBackup()">
+                            <ion-icon slot="start" name="share-outline"></ion-icon>
+                            Export data
+                        </ion-button>
+                        <ion-button size="medium" color="secondary" (click)="selectFile()">
+                            <ion-icon slot="start" name="download-outline"></ion-icon>
+                            Import data
+                        </ion-button>
+                        <input hidden type="file" #inputFile accept="application/json" (input)="applyBackup($event)">
+                    </div>
                 </div>
-            </div>
-        </ion-item>
-        <ion-item class="item-interactive">
-            <ion-button size="medium" color="light" (click)="signOut()">Sign Out</ion-button>
-        </ion-item>
-    </ion-list>
+            </ion-item>
+            <ion-item class="item-interactive">
+                <ion-button size="medium" color="light" (click)="signOut()">Sign Out</ion-button>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

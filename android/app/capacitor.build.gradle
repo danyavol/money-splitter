@@ -15,6 +15,8 @@ dependencies {
     implementation project(':capacitor-keyboard')
     implementation project(':capacitor-status-bar')
     implementation project(':codetrix-studio-capacitor-google-auth')
+    implementation project(':hugotomazi-capacitor-navigation-bar')
+    implementation project(':capacitor-plugin-safe-area')
 
 }
 
