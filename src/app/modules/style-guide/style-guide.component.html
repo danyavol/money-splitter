@@ -1,0 +1,76 @@
+<div class="safe-area-top">
+    <div class="header">
+        <app-button variant="text" color="light" icon routerLink="/app/settings">
+            <span class="material-symbols-rounded">arrow_back</span>
+        </app-button>
+        <ion-item>
+            <ion-select interface="popover" placeholder="Select theme" [formControl]="settingsForm.controls.theme" label="Theme">
+                <ion-select-option [value]="Theme.System">System</ion-select-option>
+                <ion-select-option [value]="Theme.Light">Light</ion-select-option>
+                <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </div>
+
+    <h2 class="section-title">Typography:</h2>
+    <div class="section">
+        <h1>Headline L (H1)</h1>
+        <h2>Lorem Ipsum - Title L (H2)</h2>
+        <h3>Lorem Ipsum - Title M (H3)</h3>
+        <h4>Lorem Ipsum - Title S (H4)</h4>
+        <h5>Lorem Ipsum - Label L (H5)</h5>
+        <h6>Lorem Ipsum - Label M (H6)</h6>
+        <p class="font-label-s">Lorem Ipsum - Label S</p>
+        <p class="font-body-l">Lorem Ipsum - Body L</p>
+        <p class="font-body-m">Lorem Ipsum - Body M</p>
+        <p class="font-body-s">Lorem Ipsum - Body S</p>
+    </div>
+
+    <h2 class="section-title">Buttons:</h2>
+    <div class="buttons section">
+        <app-button>Primary</app-button>
+        <app-button color="accent">Accent</app-button>
+        <app-button color="light">Light</app-button>
+
+        <app-button variant="soft">Soft</app-button>
+        <app-button color="accent" variant="soft">Soft</app-button>
+        <app-button color="light" variant="soft">Soft</app-button>
+
+        <app-button variant="text">Text</app-button>
+        <app-button color="accent" variant="text">Text</app-button>
+        <app-button color="light" variant="text">Text</app-button>
+
+        <app-button>
+            <span class="material-symbols-rounded">save</span>
+            Save
+        </app-button>
+        <app-button color="accent" variant="soft">
+            <span class="material-symbols-rounded">save</span>
+            Save
+        </app-button>
+        <app-button color="light" variant="text">
+            <span class="material-symbols-rounded">save</span>
+            Save
+        </app-button>
+
+        <app-button icon>
+            <span class="material-symbols-rounded">person_add</span>
+        </app-button>
+        <app-button variant="soft" color="accent" icon>
+            <span class="material-symbols-rounded">save</span>
+        </app-button>
+        <app-button variant="text" color="light" icon>
+            <span class="material-symbols-rounded">clear</span>
+        </app-button>
+
+        <app-button color="danger">Danger</app-button>
+        <app-button color="danger" variant="soft">Danger</app-button>
+        <app-button color="danger" variant="text">Danger</app-button>
+
+        <app-button color="info">Info</app-button>
+        <app-button color="info" variant="soft">Info</app-button>
+        <app-button color="info" variant="text">Info</app-button>
+    </div>
+</div>
+
+

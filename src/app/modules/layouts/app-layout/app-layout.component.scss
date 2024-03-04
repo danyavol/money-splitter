@@ -42,12 +42,13 @@ ion-tab-button:active {
 
 .show ion-tab-bar {
     height: 80px;
+    padding-bottom: var(--ion-safe-area-bottom);
 }
 
 ion-tab-bar {
-    padding-bottom: var(--ion-safe-area-bottom);
+    padding-bottom: 0;
     height: 0;
-    transition: height .2s ease;
+    transition: height .2s ease, padding .2s ease;
 }
 
 ion-tab-button {

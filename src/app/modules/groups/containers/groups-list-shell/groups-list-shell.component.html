@@ -1,12 +1,10 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title class="font-title-l">Groups</ion-title>
-        <ion-buttons slot="end">
-            <ion-button routerLink="new" size="large">
-                <span slot="icon-only" class="material-symbols-rounded new-group">add</span>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+    <div class="toolbar">
+        <h2 class="toolbar-title">Groups</h2>
+        <app-button variant="text" color="light" icon routerLink="new">
+            <span class="material-symbols-rounded">add</span>
+        </app-button>
+    </div>
 </ion-header>
 
 <ion-content *ngIf="groups$ | async as groups">

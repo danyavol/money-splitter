@@ -1,23 +1,15 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button routerLink="/app/groups" routerDirection="back">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Create Group</ion-title>
-    </ion-toolbar>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <app-button variant="text" color="light" icon routerLink="/app/groups" routerDirection="back">
+                <span class="material-symbols-rounded">close</span>
+            </app-button>
+            <h2 class="toolbar-title">Create Group</h2>
+        </div>
+        <app-button (click)="createGroup()">Save</app-button>
+    </div>
 </ion-header>
 
 <ion-content>
     <app-group-form [form]="groupForm" [members$]="members$"></app-group-form>
-
-    <ion-list lines="none" class="ion-padding-top">
-        <ion-item>
-            <ion-button size="default" slot="end" (click)="createGroup()">
-                <ion-icon slot="start" name="add-outline"></ion-icon>
-                Create group
-            </ion-button>
-        </ion-item>
-    </ion-list>
 </ion-content>

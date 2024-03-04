@@ -1,12 +1,13 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button routerLink=".." routerDirection="back">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>New Transfer</ion-title>
-    </ion-toolbar>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <app-button variant="text" color="light" icon routerLink=".." routerDirection="back">
+                <span class="material-symbols-rounded">close</span>
+            </app-button>
+            <h2 class="toolbar-title">New Transfer</h2>
+        </div>
+        <app-button (click)="createTransfer()">Save</app-button>
+    </div>
 </ion-header>
 
 <ion-content>
@@ -16,13 +17,4 @@
         [members$]="members$"
         [currency]="currency"
     ></app-transfer-form>
-
-    <ion-list lines="none" class="ion-padding-top">
-        <ion-item>
-            <ion-button size="default" slot="end" (click)="createTransfer()">
-                <ion-icon slot="start" name="add-outline"></ion-icon>
-                Add transfer
-            </ion-button>
-        </ion-item>
-    </ion-list>
 </ion-content>

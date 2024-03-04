@@ -1,90 +1,149 @@
-.font-display-l {
+@mixin fontDisplayL {
     font-weight: 400;
     font-size: 57px;
     line-height: 64px;
 }
 
-.font-display-m {
+@mixin fontDisplayM {
     font-weight: 400;
     font-size: 45px;
     line-height: 52px;
 }
 
-.font-display-s {
+@mixin fontDisplayS {
     font-weight: 400;
     font-size: 36px;
     line-height: 44px;
 }
 
-.font-headline-l {
+@mixin fontHeadlineL {
     font-weight: 400;
     font-size: 32px;
     line-height: 40px;
 }
 
-.font-headline-m {
+@mixin fontHeadlineM {
     font-weight: 400;
     font-size: 28px;
     line-height: 36px;
 }
 
-.font-headline-s {
+@mixin fontHeadlineS {
     font-weight: 400;
     font-size: 24px;
     line-height: 32px;
 }
 
-.font-title-l {
+@mixin fontTitleL {
     font-weight: 700;
     font-size: 22px;
     line-height: 30px;
 }
 
-.font-title-m {
+@mixin fontTitleM {
     font-weight: 700;
     font-size: 17px;
     line-height: 23px;
 }
 
-.font-title-s {
+@mixin fontTitleS {
     font-weight: 400;
     font-size: 17px;
     line-height: 23px;
 }
 
-.font-label-l {
+@mixin fontLabelL {
     font-weight: 600;
     font-size: 16px;
     line-height: 22px;
 }
 
-.font-label-m {
+@mixin fontLabelM {
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
 }
 
-.font-label-s {
+@mixin fontLabelS {
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
 }
 
-.font-body-l {
+@mixin fontBodyL {
     font-weight: 600;
     font-size: 14px;
     line-height: 19px;
 }
 
-.font-body-m {
+@mixin fontBodyM {
     font-weight: 400;
     font-size: 14px;
     line-height: 19px;
 }
 
-.font-body-s {
+@mixin fontBodyS {
     font-weight: 400;
     font-size: 13px;
     line-height: 18px;
 }
 
+.font-display-l {
+    @include fontDisplayL;
+}
+
+.font-display-m {
+    @include fontDisplayM;
+}
+
+.font-display-s {
+    @include fontDisplayS;
+}
+
+.font-headline-l {
+    @include fontHeadlineL;
+}
+
+.font-headline-m {
+    @include fontHeadlineM;
+}
+
+.font-headline-s {
+    @include fontHeadlineS;
+}
+
+.font-title-l {
+    @include fontTitleL;
+}
+
+.font-title-m {
+    @include fontTitleM;
+}
+
+.font-title-s {
+    @include fontTitleS;
+}
+
+.font-label-l {
+    @include fontLabelL;
+}
+
+.font-label-m {
+    @include fontLabelM;
+}
+
+.font-label-s {
+    @include fontLabelS;
+}
+
+.font-body-l {
+    @include fontBodyL;
+}
+
+.font-body-m {
+    @include fontBodyM;
+}
+
+.font-body-s {
+    @include fontBodyS;
+}

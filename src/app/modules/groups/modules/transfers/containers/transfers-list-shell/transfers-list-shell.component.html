@@ -1,4 +1,4 @@
-<ion-content *ngIf="fullTransfers$ | async as transfers">
+<ng-container *ngIf="fullTransfers$ | async as transfers">
     <ion-list lines="none" *ngIf="transfers.length; else noTransfers">
         <ion-item *ngFor="let transfer of transfers" [routerLink]="['transfer', transfer.id]">
             <ion-icon slot="start" name="swap-horizontal-outline"></ion-icon>
@@ -16,11 +16,11 @@
     </ion-list>
 
     <ng-template #noTransfers>
-        <div class="ion-margin-top ion-text-center">
+        <div class="position-center">
             <ion-text color="medium">You don't have any transfers yet</ion-text>
         </div>
     </ng-template>
-</ion-content>
+</ng-container>
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="add-transfer-wrapper" routerLink="new-transfer">
     <ion-fab-button class="add-transfer-btn">

@@ -1,17 +1,18 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button routerLink="../.." routerDirection="back">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Edit Transfer</ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="remove-transfer-confirm-modal">
-                <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <app-button variant="text" color="light" icon routerLink="../.." routerDirection="back">
+                <span class="material-symbols-rounded">close</span>
+            </app-button>
+            <h2 class="toolbar-title">Edit Transfer</h2>
+        </div>
+        <div class="toolbar-group">
+            <app-button (click)="saveTransfer()">Save</app-button>
+            <app-button variant="text" color="danger" icon id="remove-transfer-confirm-modal">
+                <span class="material-symbols-rounded not-filled">delete</span>
+            </app-button>
+        </div>
+    </div>
 </ion-header>
 
 <ion-content>
@@ -21,15 +22,6 @@
         [members$]="members$"
         [currency]="currency"
     ></app-transfer-form>
-
-    <ion-list lines="none" class="ion-padding-top">
-        <ion-item>
-            <ion-button size="default" slot="end" (click)="saveTransfer()">
-                <ion-icon slot="start" name="add-outline"></ion-icon>
-                Save transfer
-            </ion-button>
-        </ion-item>
-    </ion-list>
 </ion-content>
 
 <ion-modal trigger="remove-transfer-confirm-modal" class="modal" #confirmModal>

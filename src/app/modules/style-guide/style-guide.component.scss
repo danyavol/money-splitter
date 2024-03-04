@@ -1,0 +1,27 @@
+:host {
+    background-color: var(--color-neutral-1);
+    margin: 16px
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 10px;
+    justify-items: center;
+}
+
+.section:has(+ *) {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    margin-bottom: 10px;
+}

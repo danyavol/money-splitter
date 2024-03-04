@@ -1,0 +1,38 @@
+.toolbar {
+    margin-top: var(--ion-safe-area-top);
+    margin-left: var(--ion-safe-area-left);
+    margin-right: var(--ion-safe-area-right);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 8px;
+    height: 64px;
+    gap: 8px;
+    background-color: var(--color-neutral-1);
+
+    > * {
+        flex: 0 1 auto;
+    }
+
+    .toolbar-group {
+        flex: 0 1 auto;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .toolbar-title {
+        @include fontTitleL;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+
+        &:first-child {
+            padding-left: 8px;
+        }
+    }
+}

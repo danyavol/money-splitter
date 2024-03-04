@@ -1,17 +1,18 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button routerLink="../.." routerDirection="back">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Edit Expense</ion-title>
-        <ion-buttons slot="end">
-            <ion-button id="remove-expense-confirm-modal">
-                <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <app-button variant="text" color="light" icon routerLink="../.." routerDirection="back">
+                <span class="material-symbols-rounded">close</span>
+            </app-button>
+            <h2 class="toolbar-title">Edit Expense</h2>
+        </div>
+        <div class="toolbar-group">
+            <app-button (click)="saveExpense()">Save</app-button>
+            <app-button variant="text" color="danger" icon id="remove-expense-confirm-modal">
+                <span class="material-symbols-rounded not-filled">delete</span>
+            </app-button>
+        </div>
+    </div>
 </ion-header>
 
 <ion-content>

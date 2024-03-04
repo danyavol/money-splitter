@@ -1,6 +1,6 @@
 <ion-content>
     <div class="safe-area-top">
-        <h1 class="ion-text-center">Settings</h1>
+        <h2 class="ion-text-center">Settings</h2>
         <ion-list [formGroup]="settingsForm">
             <ion-item>
                 <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
@@ -11,22 +11,31 @@
             </ion-item>
             <ion-item class="item-interactive">
                 <div class="backups">
-                    <ion-text>Backups</ion-text>
+                    <h4>Backups</h4>
                     <div class="buttons">
-                        <ion-button size="medium" color="success" (click)="saveBackup()">
-                            <ion-icon slot="start" name="share-outline"></ion-icon>
+                        <app-button (click)="saveBackup()">
+                            <span class="material-symbols-rounded">upload</span>
                             Export data
-                        </ion-button>
-                        <ion-button size="medium" color="secondary" (click)="selectFile()">
-                            <ion-icon slot="start" name="download-outline"></ion-icon>
+                        </app-button>
+                        <app-button color="accent" (click)="selectFile()">
+                            <span class="material-symbols-rounded">download</span>
                             Import data
-                        </ion-button>
+                        </app-button>
                         <input hidden type="file" #inputFile accept="application/json" (input)="applyBackup($event)">
                     </div>
                 </div>
             </ion-item>
             <ion-item class="item-interactive">
-                <ion-button size="medium" color="light" (click)="signOut()">Sign Out</ion-button>
+                <app-button color="light" variant="text" routerLink="/style-guide">
+                    <span class="material-symbols-rounded">palette</span>
+                    Style Guide
+                </app-button>
+            </ion-item>
+            <ion-item class="item-interactive">
+                <app-button color="danger" variant="text" (click)="signOut()">
+                    <span class="material-symbols-rounded">logout</span>
+                    Sign Out
+                </app-button>
             </ion-item>
         </ion-list>
     </div>

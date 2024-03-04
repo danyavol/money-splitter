@@ -51,6 +51,10 @@ const routes: Routes = [
         ]
     },
     {
+        path: "style-guide",
+        loadChildren: () => import('./modules/style-guide/style-guide.module').then(m => m.StyleGuideModule)
+    },
+    {
         path: '**',
         redirectTo: 'app',
         pathMatch: 'full'

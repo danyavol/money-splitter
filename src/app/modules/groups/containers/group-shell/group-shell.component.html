@@ -1,19 +1,17 @@
 <ng-container *ngIf="group$ | async as group">
-    <div class="safe-area-top">
-        <ion-toolbar>
-            <ion-buttons slot="start">
-                <ion-button routerLink=".." routerDirection="back">
-                    <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-            <ion-title>{{group.name}}</ion-title>
-            <ion-buttons slot="end">
-                <ion-button routerLink="edit">
-                    <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-                </ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-    </div>
+    <ion-header>
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <app-button variant="text" color="light" icon routerLink=".." routerDirection="back">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                </app-button>
+                <h2 class="toolbar-title">{{group.name}}</h2>
+            </div>
+            <app-button variant="text" color="light" icon routerLink="edit">
+                <span class="material-symbols-rounded not-filled">edit</span>
+            </app-button>
+        </div>
+    </ion-header>
 
     <ion-content>
         <ion-row class="swiper-wrapper">

@@ -1,0 +1,127 @@
+@import "/src/theme/typography.scss";
+
+:host {
+    @include fontTitleM;
+    height: 40px;
+    padding: 8.5px 24px;
+    border-radius: 100px;
+    background-color: var(--background);
+    user-select: none;
+    color: var(--color);
+    transition: background-color .1s linear, filter .1s linear;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @media (hover: hover) {
+        &:hover {
+            background-color: var(--background-hover);
+        }
+    }
+
+    &[variant="solid"] {
+        &[color="primary"] {
+            --background: var(--color-primary-9);
+            --background-hover: var(--color-primary-10);
+            --color: var(--primary-9-contrast);
+        }
+        &[color="accent"] {
+            --background: var(--color-accent-9);
+            --background-hover: var(--color-accent-10);
+            --color: var(--accent-9-contrast);
+        }
+        &[color="light"] {
+            --background: var(--color-neutral-9);
+            --background-hover: var(--color-neutral-10);
+            --color: var(--neutral-9-contrast);
+        }
+        &[color="danger"] {
+            --background: var(--color-danger-9);
+            --background-hover: var(--color-danger-10);
+            --color: var(--danger-9-contrast);
+        }
+        &[color="info"] {
+            --background: var(--color-info-9);
+            --background-hover: var(--color-info-10);
+            --color: var(--info-9-contrast);
+        }
+
+        &:active {
+            filter: var(--base-button-solid-active-filter);
+        }
+    }
+
+    &[variant="soft"] {
+        &[color="primary"] {
+            --background: var(--color-primary-a3);
+            --background-hover: var(--color-primary-a4);
+            --background-active: var(--color-primary-a5);
+            --color: var(--color-primary-a11);
+        }
+        &[color="accent"] {
+            --background: var(--color-accent-a3);
+            --background-hover: var(--color-accent-a4);
+            --background-active: var(--color-accent-a5);
+            --color: var(--color-accent-a11);
+        }
+        &[color="light"] {
+            --background: var(--color-neutral-a3);
+            --background-hover: var(--color-neutral-a4);
+            --background-active: var(--color-neutral-a5);
+            --color: var(--color-neutral-a11);
+        }
+        &[color="danger"] {
+            --background: var(--color-danger-a3);
+            --background-hover: var(--color-danger-a4);
+            --background-active: var(--color-danger-a5);
+            --color: var(--color-danger-a11);
+        }
+        &[color="info"] {
+            --background: var(--color-info-a3);
+            --background-hover: var(--color-info-a4);
+            --background-active: var(--color-info-a5);
+            --color: var(--color-info-a11);
+        }
+
+        &:active {
+            background-color: var(--background-active);
+        }
+    }
+
+    &[variant="text"] {
+        &[color="primary"] {
+            --background-hover: var(--color-primary-a2);
+            --background-active: var(--color-primary-a3);
+            --color: var(--color-primary-a11);
+        }
+        &[color="accent"] {
+            --background-hover: var(--color-accent-a2);
+            --background-active: var(--color-accent-a3);
+            --color: var(--color-accent-a11);
+        }
+        &[color="light"] {
+            --background-hover: var(--color-neutral-a2);
+            --background-active: var(--color-neutral-a3);
+            --color: var(--color-neutral-12);
+        }
+        &[color="danger"] {
+            --background-hover: var(--color-danger-a2);
+            --background-active: var(--color-danger-a3);
+            --color: var(--color-danger-a11);
+        }
+        &[color="info"] {
+            --background-hover: var(--color-info-a2);
+            --background-active: var(--color-info-a3);
+            --color: var(--color-info-a11);
+        }
+
+        &:active {
+            background-color: var(--background-active);
+        }
+    }
+
+    &[icon] {
+        padding: 8.5px;
+        width: 40px;
+    }
+}
