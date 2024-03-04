@@ -1,9 +1,5 @@
 <ng-container [formGroup]="form">
-    <div class="group-background">
-        <ion-avatar slot="start">
-            <img src="assets/group.svg" />
-        </ion-avatar>
-    </div>
+    <app-upload-photo formControlName="photo"></app-upload-photo>
 
     <div>
         <ms-control-wrapper formControlName="name">

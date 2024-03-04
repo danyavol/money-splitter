@@ -1,0 +1,40 @@
+:host {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.placeholder-wrapper {
+    width: 120px;
+    height: 120px;
+    background-color: var(--color-primary-5);
+    color: var(--color-primary-11);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .material-symbols-rounded {
+        --icon-optical-size: 48;
+        font-size: 48px;
+    }
+}
+
+.selected-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.add-label {
+   color: var(--color-primary-11);
+}
+
+.buttons-wrapper {
+    display: flex;
+}

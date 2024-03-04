@@ -1,0 +1,28 @@
+<ng-container *ngIf="{ image: imageUrl$ | async } as vm">
+    <ng-container *ngIf="!vm.image; else selectedImage">
+        <div class="placeholder-wrapper" (click)="inputFile.click()">
+            <span class="material-symbols-rounded not-filled">add_photo_alternate</span>
+        </div>
+        <app-button variant="text" (click)="inputFile.click()">Add picture</app-button>
+    </ng-container>
+
+    <ng-template #selectedImage>
+        <img [src]="vm.image" class="selected-image" (click)="inputFile.click()">
+        <div class="buttons-wrapper">
+            <app-button color="accent" variant="text" (click)="inputFile.click()">
+                <span class="material-symbols-rounded not-filled">edit</span>
+                Change
+            </app-button>
+            <app-button color="danger" variant="text" (click)="deleteFile(inputFile)">
+                <span class="material-symbols-rounded not-filled">delete</span>
+                Remove
+            </app-button>
+        </div>
+    </ng-template>
+
+    <input hidden type="file" #inputFile accept="image/*" (change)="onFileSelect($event)">
+</ng-container>
+
+
+
+

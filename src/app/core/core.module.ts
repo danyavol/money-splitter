@@ -11,6 +11,7 @@ import { MembersListPipe } from "./pipes/members-list.pipe";
 import { NgLetModule } from "ng-let";
 import { SelectCurrencyModalComponent } from "./components/select-currency-modal/select-currency-modal.component";
 import { ButtonComponent } from "./components/button/button.component";
+import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.component";
 
 @NgModule({
     imports: [
@@ -27,6 +28,7 @@ import { ButtonComponent } from "./components/button/button.component";
         NgLetModule,
         SelectCurrencyModalComponent,
         ButtonComponent,
+        UploadPhotoComponent,
     ],
     exports: [
         CommonModule,
@@ -42,6 +44,7 @@ import { ButtonComponent } from "./components/button/button.component";
         NgLetModule,
         SelectCurrencyModalComponent,
         ButtonComponent,
+        UploadPhotoComponent,
     ],
     providers: [
         MembersListPipe
