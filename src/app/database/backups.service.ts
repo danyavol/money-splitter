@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { StorageService } from "./storage.service";
+import { LocalStorageService } from "./local-storage.service";
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { from, map, Observable, of, switchMap, tap } from "rxjs";
 import { ToastService } from "../core/services/toast.service";
@@ -10,7 +10,7 @@ import { Platform } from "@ionic/angular";
 })
 export class BackupsService {
     constructor(
-        private storage: StorageService,
+        private storage: LocalStorageService,
         private toast: ToastService,
         public platform: Platform
     ) {

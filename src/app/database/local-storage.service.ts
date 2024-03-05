@@ -17,7 +17,7 @@ import { Collection } from './storage.interface';
 @Injectable({
     providedIn: 'root',
 })
-export class StorageService {
+export class LocalStorageService {
     private storageReady = new BehaviorSubject(false);
     refresh$ = new Subject<void>(); // Emits when new data available in storage
 

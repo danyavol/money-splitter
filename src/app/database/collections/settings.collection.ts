@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { first, map, Observable, ReplaySubject, startWith, switchMap, tap } from "rxjs";
 import { Collection, Settings, Theme } from "../storage.interface";
-import { StorageService } from "../storage.service";
+import { LocalStorageService } from "../local-storage.service";
 
 export const defaultSettings: Settings = {
     theme: Theme.System
@@ -14,7 +14,7 @@ export class SettingsCollection {
     private settingsSbj = new ReplaySubject<Settings>(1);
     settings$ = this.settingsSbj.asObservable();
 
-    constructor(private storage: StorageService) {
+    constructor(private storage: LocalStorageService) {
         this.loadSettings();
     }
 

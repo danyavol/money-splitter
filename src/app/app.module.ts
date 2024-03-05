@@ -1,23 +1,21 @@
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore, } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
-import { SettingsService } from './core/services/settings.service';
-import { GlobalErrorHandler } from './core/services/global-error.service';
-import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';
-import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
-import "./core/services/icons-registry";
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { IonicStorageModule } from '@ionic/storage-angular';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { GlobalErrorHandler } from './core/services/global-error.service';
+import "./core/services/icons-registry";
+import { SettingsService } from './core/services/settings.service';
+import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
+import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';
 
 @NgModule({
     declarations: [AppComponent, AuthLayoutComponent, AppLayoutComponent],
@@ -31,8 +29,12 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
         }),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideAuth(() => getAuth()),
-        provideDatabase(() => getDatabase()),
-        provideFirestore(() => getFirestore()),
+        provideFirestore(() => initializeFirestore(getApp(), {
+            localCache: persistentLocalCache({
+                tabManager: persistentMultipleTabManager(),
+            })
+        })),
+        provideStorage(() => getStorage()),
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -3,7 +3,7 @@ import { first, map, Observable, of, ReplaySubject, startWith, switchMap, tap } 
 import { DateHelper } from "src/app/core/helpers/date-helper";
 import { v4 as uuid } from "uuid";
 import { Collection, Group } from "../storage.interface";
-import { StorageService } from "../storage.service";
+import { LocalStorageService } from "../local-storage.service";
 
 @Injectable({
     providedIn: "root"
@@ -12,7 +12,7 @@ export class GroupsCollection {
     private groupsSbj = new ReplaySubject<Group[]>(1);
     groups$ = this.groupsSbj.asObservable();
 
-    constructor(private storage: StorageService) {
+    constructor(private storage: LocalStorageService) {
         this.loadGroups();
     }
 

@@ -23,6 +23,7 @@
     }
 
     --ion-toolbar-background: var(--color-neutral-1);
+    --ion-modal-background: var(--color-neutral-2);
 }
 
 /** Ionic CSS Variables **/
@@ -100,7 +101,6 @@
     --ion-color-light-tint: #f5f6f9;
 
     --ion-border-color: rgba(0, 0, 0, 0.13);
-    --ion-modal-background: white;
 }
 
 /*
@@ -203,8 +203,6 @@ body.dark {
     --ion-color-step-950: #f3f3f3;
 
     --ion-card-background: #1e1e1e;
-
-    --ion-modal-background: #2a2a2a;
 
     --ion-item-selected: rgba(var(--ion-color-primary-rgb), 0.08);
 }

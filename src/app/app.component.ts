@@ -14,6 +14,5 @@ export class AppComponent {
         if (!isPlatform('capacitor')) {
             GoogleAuth.initialize();
         }
-
     }
 }

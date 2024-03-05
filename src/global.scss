@@ -178,9 +178,19 @@ swiper-slide img {
     margin-top: var(--ion-safe-area-top);
 }
 
+.safe-area-sides {
+    margin-left: var(--ion-safe-area-left);
+    margin-right: var(--ion-safe-area-right);
+}
+
 .position-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+ion-modal {
+    --border-radius: 28px;
+    padding: calc(26px + var(--ion-safe-area-top)) calc(26px + var(--ion-safe-area-right)) calc(26px + var(--ion-safe-area-bottom)) calc(26px + var(--ion-safe-area-left));
 }

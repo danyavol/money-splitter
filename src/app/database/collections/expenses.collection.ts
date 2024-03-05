@@ -20,7 +20,7 @@ import {
     ExpenseMember,
     Member,
 } from '../storage.interface';
-import { StorageService } from '../storage.service';
+import { LocalStorageService } from '../local-storage.service';
 import { GroupsCollection } from './groups.collection';
 import { MembersCollection } from './members.collection';
 
@@ -32,7 +32,7 @@ export class ExpensesCollection {
     expenses$ = this.expensesSbj.asObservable();
 
     constructor(
-        private storage: StorageService,
+        private storage: LocalStorageService,
         private membersCol: MembersCollection,
         private groupsCol: GroupsCollection
     ) {

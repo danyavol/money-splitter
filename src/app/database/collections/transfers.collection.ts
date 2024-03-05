@@ -15,7 +15,7 @@ import { sortByDate } from 'src/app/core/helpers/helpers';
 import { v4 as uuid } from 'uuid';
 import { FullTransfer } from '../storage-join.interface';
 import { Collection, Transfer } from '../storage.interface';
-import { StorageService } from '../storage.service';
+import { LocalStorageService } from '../local-storage.service';
 import { GroupsCollection } from './groups.collection';
 import { MembersCollection } from './members.collection';
 
@@ -27,7 +27,7 @@ export class TransfersCollection {
     transfers$ = this.transferSbj.asObservable();
 
     constructor(
-        private storage: StorageService,
+        private storage: LocalStorageService,
         private membersCol: MembersCollection,
         private groupsCol: GroupsCollection,
     ) {

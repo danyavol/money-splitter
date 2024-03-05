@@ -1,9 +1,28 @@
 <ng-container [formGroup]="form">
-    <app-upload-photo formControlName="photo"></app-upload-photo>
+    <div class="form-wrapper safe-area-sides">
+        <app-upload-photo formControlName="photo"></app-upload-photo>
 
-    <div>
         <ms-control-wrapper formControlName="name">
-            <input class="group-name ms-input" formControlName="name" placeholder="Group name">
+            <input class="ms-input" formControlName="name" placeholder="Group name">
+        </ms-control-wrapper>
+
+        <ms-control-wrapper formControlName="currency" id="select-currency">
+            <div class="select-currency-wrapper">
+                <div class="select-value">
+                    <ng-container *ngIf="selectedCurrency$ | async as selectedCurrency; else placeholder">
+                        <span class="currency-flag">
+                            <img *ngIf="selectedCurrency.iconUrl$ | async as iconUrl" [src]="iconUrl" />
+                        </span>
+                        <span>{{selectedCurrency.code}} - {{selectedCurrency.name}} ({{selectedCurrency.symbol}})</span>
+                    </ng-container>
+
+                    <ng-template #placeholder>
+                        <p class="placeholder">Main currency</p>
+                    </ng-template>
+                </div>
+
+                <span class="material-symbols-rounded expand-icon">expand_more</span>
+            </div>
         </ms-control-wrapper>
 
         <ms-control-wrapper formControlName="members">
@@ -11,18 +30,6 @@
                 <ion-label>Members</ion-label>
                 <div class="select-value" slot="end">
                     <span>{{selectedMembers$ | async}}</span>
-                    <div class="select-icon" role="presentation" part="icon">
-                        <div class="select-icon-inner"></div>
-                    </div>
-                </div>
-            </div>
-        </ms-control-wrapper>
-
-        <ms-control-wrapper formControlName="currency">
-            <div class="select-currency-wrapper" id="select-currency">
-                <ion-label>Currency</ion-label>
-                <div class="select-value" slot="end">
-                    <span>{{form.controls.currency.value}}</span>
                     <div class="select-icon" role="presentation" part="icon">
                         <div class="select-icon-inner"></div>
                     </div>
@@ -44,6 +51,7 @@
     <ion-modal trigger="select-currency" class="select-currency-modal" #currencyModal>
         <ng-template>
             <app-select-currency-modal
+                [currencies$]="currencies$"
                 formControlName="currency"
                 (close)="currencyModal.dismiss()"
             ></app-select-currency-modal>

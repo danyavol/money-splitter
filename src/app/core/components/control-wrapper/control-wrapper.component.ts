@@ -34,11 +34,10 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
 @Component({
     selector: 'ms-control-wrapper',
     template: `
-        <div class="wrapper">
+        <div class="wrapper" [class.error]="errorVisible$ | async">
             <ng-content></ng-content>
             <ion-spinner *ngIf="withAsyncValidators" [class]="{ show: spinnerVisible$ | async }"></ion-spinner>
         </div>
-        <div class="line" [class.error]="errorVisible$ | async"></div>
         <div class="error-message" *ngIf="errorMessage$ | async as errorMessage" [innerHTML]="errorMessage"></div>
     `,
     styleUrls: ["./control-wrapper.component.scss"],

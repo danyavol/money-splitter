@@ -1,8 +1,17 @@
+@import "/src/theme/typography.scss";
+
+.search-bar {
+    padding: 10px;
+    height: 60px;
+    border-bottom: 1px solid var(--color-neutral-6);
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
 ::ng-deep .select-currency-modal {
     --height: auto;
-    --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-    padding: 0 20px;
 }
 
 ion-list, ion-item {
@@ -23,4 +32,24 @@ ion-item {
 
 .selected {
     --background: var(--ion-item-selected);
+}
+
+.currency-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.label-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .code {
+        @include fontBodyL;
+        color: var(--color-neutral-11);
+    }
+
+    .name {
+        @include fontBodyL;
+    }
 }

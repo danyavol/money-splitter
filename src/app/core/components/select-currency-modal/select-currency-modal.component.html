@@ -1,12 +1,25 @@
+<div class="search-bar">
+    <app-button variant="text" color="light" icon (click)="close.emit()">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </app-button>
+    <input class="ms-input" [formControl]="search" placeholder="Search currency" appAutofocus />
+</div>
+
 <cdk-virtual-scroll-viewport itemSize="59" minBufferPx="900" maxBufferPx="1350">
     <ion-list lines="none">
         <ion-item class="item-interactive" [button]="true"
-            [class.selected]="currency.value === selectedCurrency"
-            *cdkVirtualFor="let currency of currencies; trackBy: trackByFn" (click)="currencySelected(currency.value)"
+            [class.selected]="currency.code === selectedCurrency"
+            *cdkVirtualFor="let currency of filteredCurrencies$ | async; trackBy: trackByFn" (click)="currencySelected(currency.code)"
         >
-            <ion-label>
-                <h2>{{currency.title}}</h2>
-            </ion-label>
+            <div class="currency-wrapper">
+                <span class="currency-flag">
+                    <img *ngIf="currency.iconUrl$ | async as iconUrl" [src]="iconUrl" />
+                </span>
+                <div class="label-wrapper">
+                    <p class="name">{{currency.name}} ({{currency.symbol}})</p>
+                    <p class="code">{{currency.code}}</p>
+                </div>
+            </div>
         </ion-item>
     </ion-list>
 </cdk-virtual-scroll-viewport>

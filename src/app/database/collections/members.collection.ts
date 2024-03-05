@@ -12,7 +12,7 @@ import {
 } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { Collection, Member } from '../storage.interface';
-import { StorageService } from '../storage.service';
+import { LocalStorageService } from '../local-storage.service';
 import { GroupsCollection } from './groups.collection';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class MembersCollection {
     members$ = this.membersSbj.asObservable();
 
     constructor(
-        private storage: StorageService,
+        private storage: LocalStorageService,
         private groupsCol: GroupsCollection
     ) {
         this.loadMembers();
