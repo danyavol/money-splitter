@@ -7,6 +7,7 @@ import { GroupForm } from '../../group-form.interface';
 import {} from "@angular/fire"
 import { DatabaseService } from 'src/app/database/database.service';
 import { ExtendedCurrency } from 'src/app/types/currency.type';
+import { ModalAnimation } from 'src/app/core/animations/modal.animation';
 
 @Component({
     selector: 'app-group-form',
@@ -21,7 +22,7 @@ export class GroupFormComponent {
     selectedMembers$!: Observable<string | null>;
     selectedCurrency$!: Observable<ExtendedCurrency | null>;
 
-    constructor(private memberListPipe: MembersListPipe) {}
+    constructor(private memberListPipe: MembersListPipe, public anim: ModalAnimation) {}
 
     ngOnInit() {
         this.selectedMembers$ = combineLatest([

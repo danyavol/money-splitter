@@ -48,7 +48,7 @@
         </ng-template>
     </ion-modal>
 
-    <ion-modal trigger="select-currency" class="select-currency-modal" #currencyModal>
+    <ion-modal trigger="select-currency" class="select-currency-modal" #currencyModal [enterAnimation]="anim.enterAnimation" [leaveAnimation]="anim.leaveAnimation">
         <ng-template>
             <app-select-currency-modal
                 [currencies$]="currencies$"

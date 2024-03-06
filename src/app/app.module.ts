@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GlobalErrorHandler } from './core/services/global-error.service';
 import "./core/services/icons-registry";
+import "./core/services/keyboard.service";
 import { SettingsService } from './core/services/settings.service';
 import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
 import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';

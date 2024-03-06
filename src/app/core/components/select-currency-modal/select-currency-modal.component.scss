@@ -1,5 +1,19 @@
 @import "/src/theme/typography.scss";
 
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    cdk-virtual-scroll-viewport {
+        flex-grow: 1;
+    }
+}
+
+::ng-deep .select-currency-modal {
+    --height: 60vh;
+}
+
 .search-bar {
     padding: 10px;
     height: 60px;
@@ -9,19 +23,9 @@
     align-items: center;
 }
 
-::ng-deep .select-currency-modal {
-    --height: auto;
-    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-}
-
 ion-list, ion-item {
     background: var(--ion-modal-background);
     --background: var(--ion-modal-background);
-}
-
-
-cdk-virtual-scroll-viewport {
-    height: 60vh;
 }
 
 ion-item {

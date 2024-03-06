@@ -37,6 +37,7 @@ html {
 
 body {
     color: var(--color-neutral-12);
+    --keyboard-height: 0px;
 }
 
 h1 {
@@ -191,6 +192,22 @@ swiper-slide img {
 }
 
 ion-modal {
+    --height: auto;
+    --max-height: 100%;
     --border-radius: 28px;
     padding: calc(26px + var(--ion-safe-area-top)) calc(26px + var(--ion-safe-area-right)) calc(26px + var(--ion-safe-area-bottom)) calc(26px + var(--ion-safe-area-left));
+    transition: padding .2s ease;
+    --box-shadow: none;
+}
+
+ion-app.ion-page {
+    transition: margin .2s ease;
+}
+
+.keyboard-visible ion-app.ion-page:not(:has(ion-modal.show-modal)) {
+    margin-bottom: calc(var(--keyboard-height) + var(--ion-safe-area-bottom));
+}
+
+.keyboard-visible ion-modal.show-modal {
+    padding-bottom: calc(26px + var(--keyboard-height) + var(--ion-safe-area-bottom));
 }
