@@ -1,12 +1,12 @@
 <ng-container *ngIf="fullTransfers$ | async as transfers">
     <ion-list lines="none" *ngIf="transfers.length; else noTransfers">
         <ion-item *ngFor="let transfer of transfers" [routerLink]="['transfer', transfer.id]">
-            <ion-icon slot="start" name="swap-horizontal-outline"></ion-icon>
+            <span slot="start" class="material-symbols-rounded">sync_alt</span>
             <div class="title-wrapper">
                 <ion-text class="title ellipsis">{{transfer.title}}</ion-text>
                 <div class="members">
                     <ion-text color="tertiary">{{transfer.sender}}</ion-text>
-                    <ion-icon name="arrow-forward-outline" color="tertiary"></ion-icon>
+                    <span class="material-symbols-rounded" color="tertiary">arrow_forward</span>
                     <ion-text color="tertiary">{{transfer.recipient}}</ion-text>
                 </div>
                 <ion-text class="date" color="medium">{{transfer.date | date: "MMM d, y, HH:mm"}}</ion-text>
@@ -24,7 +24,7 @@
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="add-transfer-wrapper" routerLink="new-transfer">
     <ion-fab-button class="add-transfer-btn">
-        <ion-icon name="add-outline"></ion-icon>
+        <span class="material-symbols-rounded">add</span>
         <ion-text>Add Transfer</ion-text>
     </ion-fab-button>
 </ion-fab>

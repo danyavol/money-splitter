@@ -1,15 +1,15 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button routerLink="/people" routerDirection="back">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
+            <app-button variant="text" color="light" icon routerLink="/people" routerDirection="back">
+                <span class="material-symbols-rounded">arrow_back</span>
+            </app-button>
         </ion-buttons>
         <ion-title>Edit Person</ion-title>
         <ion-buttons slot="end">
-            <ion-button id="remove-person-confirm-modal">
-                <ion-icon slot="icon-only" name="trash-outline" color="danger"></ion-icon>
-            </ion-button>
+            <app-button variant="text" color="danger" icon id="remove-person-confirm-modal">
+                <span class="material-symbols-rounded not-filled">delete</span>
+            </app-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -19,10 +19,10 @@
 
     <ion-list lines="none" class="ion-padding-top">
         <ion-item>
-            <ion-button size="default" slot="end" (click)="savePerson()">
-                <ion-icon slot="start" name="save-outline"></ion-icon>
+            <app-button slot="end" (click)="savePerson()">
+                <span class="material-symbols-rounded">add</span>
                 Save person
-            </ion-button>
+            </app-button>
         </ion-item>
     </ion-list>
 </ion-content>

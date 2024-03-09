@@ -8,9 +8,12 @@
     "start-browser": "ng serve",
     "start-android--macOS": "NODE_ENV=dev ionic capacitor run android -l --external",
     "start-android--win": "set NODE_ENV=dev&& ionic capacitor run android -l --external",
-    "build": "ng build && cap copy",
+    "build": "ng build && npm run build-sw && cap copy",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "build-sw": "npm run bundle-sw && workbox injectManifest workbox-config.js",
+    "bundle-sw": "esbuild service-worker.ts --bundle --minify --outfile=www/service-worker.js",
+    "serve-www": ""
   },
   "private": true,
   "dependencies": {
@@ -49,6 +52,12 @@
     "swiper": "^11.0.5",
     "tslib": "^2.3.0",
     "uuid": "^9.0.0",
+    "workbox-core": "^7.0.0",
+    "workbox-expiration": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0",
+    "workbox-window": "^7.0.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -66,8 +75,10 @@
     "@types/jasmine": "~4.0.0",
     "@types/luxon": "^3.2.0",
     "@types/node": "^12.11.1",
+    "@types/serviceworker": "^0.0.83",
     "@typescript-eslint/eslint-plugin": "5.3.0",
     "@typescript-eslint/parser": "5.3.0",
+    "esbuild": "^0.20.1",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",

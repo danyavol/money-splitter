@@ -24,15 +24,6 @@
             [currency]="currency"
         ></app-expense-form>
     </ng-container>
-
-    <ion-list lines="none" class="ion-padding-top">
-        <ion-item>
-            <ion-button size="default" slot="end" (click)="saveExpense()">
-                <ion-icon slot="start" name="save-outline"></ion-icon>
-                Save expense
-            </ion-button>
-        </ion-item>
-    </ion-list>
 </ion-content>
 
 <ion-modal trigger="remove-expense-confirm-modal" class="modal" #confirmModal>

@@ -18,11 +18,11 @@
                 </div>
                 <div class="ration-wrapper" *ngIf="members.length > 1">
                     <ion-button shape="round" size="small" slot="icon-only" class="round-icon-button" [disabled]="member.ration === null" (click)="decreaseRation(member.memberId)">
-                        <ion-icon name="remove-outline"></ion-icon>
+                        <span class="material-symbols-rounded">remove</span>
                     </ion-button>
                     <span class="ration">{{member.ration ? member.ration + "x" : ""}}</span>
                     <ion-button shape="round" size="small" slot="icon-only" class="round-icon-button" [disabled]="member.ration === 99" (click)="increaseRation(member.memberId)">
-                        <ion-icon name="add-outline"></ion-icon>
+                        <span class="material-symbols-rounded">add</span>
                     </ion-button>
                 </div>
             </div>
@@ -30,10 +30,10 @@
     </div>
 
     <div class="add-member-btn">
-        <ion-button style="margin: 0" fill="outline" size="small" [id]="'select-members' + controlId">
-            <ion-icon slot="start" name="people"></ion-icon>
+        <app-button variant="soft" [id]="'select-members' + controlId">
+            <span class="material-symbols-rounded">group</span>
             Select People
-        </ion-button>
+        </app-button>
     </div>
 
     <ion-modal [trigger]="'select-members' + controlId" class="select-person-modal" #modal>

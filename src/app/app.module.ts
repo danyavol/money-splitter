@@ -17,6 +17,7 @@ import "./core/services/keyboard.service";
 import { SettingsService } from './core/services/settings.service';
 import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
 import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';
+import { AppServiceWorker } from './core/services/service-worker.service';
 
 @NgModule({
     declarations: [AppComponent, AuthLayoutComponent, AppLayoutComponent],
@@ -43,7 +44,7 @@ import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.c
         {
             provide: APP_INITIALIZER,
             useFactory: () => () => {},
-            deps: [SettingsService], // To initialize a service on startup
+            deps: [SettingsService, AppServiceWorker], // To initialize a service on startup
             multi: true,
         },
         {

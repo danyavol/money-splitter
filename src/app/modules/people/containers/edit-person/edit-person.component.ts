@@ -57,6 +57,6 @@ export class EditPersonComponent {
     }
 
     private navigateBack(): void {
-        this.router.navigate(['/people']);
+        this.router.navigate(['/app/people']);
     }
 }
