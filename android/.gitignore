@@ -103,3 +103,4 @@ app/src/main/res/xml/config.xml
 # Built APK
 app/dev
 app/prod
+app/release
