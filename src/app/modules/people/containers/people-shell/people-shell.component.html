@@ -13,7 +13,7 @@
     <ion-list lines="none" *ngIf="members.length; else noMembers">
         <ion-item *ngFor="let member of members" [routerLink]="[member.id]">
             <ion-avatar slot="start">
-                <img src="assets/avatar.svg" />
+                <img src="assets/icons/avatar.svg" />
             </ion-avatar>
             <ion-label>{{member.name}}</ion-label>
         </ion-item>
