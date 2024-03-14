@@ -114,12 +114,10 @@ export class GroupsCollection {
     }
 
     private loadGroups(): void {
-        this.storage.refresh$.pipe(
-            startWith(undefined),
-            switchMap(() => this.storage.get<Group[]>(Collection.Groups))
-        ).subscribe(groups => {
-            this.groupsSbj.next(groups || []);
-        });
+        this.storage.get<Group[]>(Collection.Groups)
+            .subscribe(groups => {
+                this.groupsSbj.next(groups || []);
+            });
     }
 
     private saveGroups(groups: Group[]): Observable<void> {

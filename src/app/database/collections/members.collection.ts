@@ -116,12 +116,10 @@ export class MembersCollection {
     }
 
     private loadMembers(): void {
-        this.storage.refresh$.pipe(
-            startWith(undefined),
-            switchMap(() => this.storage.get<Member[]>(Collection.Members))
-        ).subscribe(members => {
-            this.membersSbj.next(members || []);
-        });
+        this.storage.get<Member[]>(Collection.Members)
+            .subscribe(members => {
+                this.membersSbj.next(members || []);
+            });
     }
 
     private saveMembers(members: Member[]): Observable<void> {

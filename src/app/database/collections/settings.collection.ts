@@ -33,12 +33,10 @@ export class SettingsCollection {
     }
 
     private loadSettings(): void {
-        this.storage.refresh$.pipe(
-            startWith(undefined),
-            switchMap(() => this.storage.get<Settings>(Collection.Settings))
-        ).subscribe(settings => {
-            this.settingsSbj.next(settings || defaultSettings);
-        });
+        this.storage.get<Settings>(Collection.Settings)
+            .subscribe(settings => {
+                this.settingsSbj.next(settings || defaultSettings);
+            });
     }
 
     private saveSettings(settings: Settings): Observable<void> {

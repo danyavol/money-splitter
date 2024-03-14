@@ -162,13 +162,7 @@ export class TransfersCollection {
     }
 
     private loadTransfers(): void {
-        this.storage.refresh$
-            .pipe(
-                startWith(undefined),
-                switchMap(() =>
-                    this.storage.get<Transfer[]>(Collection.Transfers)
-                )
-            )
+        this.storage.get<Transfer[]>(Collection.Transfers)
             .subscribe((transfers) => {
                 const mappedTransfers = (transfers || []).map((transfer) => ({
                     ...transfer,

@@ -178,13 +178,7 @@ export class ExpensesCollection {
     }
 
     private loadExpenses(): void {
-        this.storage.refresh$
-            .pipe(
-                startWith(undefined),
-                switchMap(() =>
-                    this.storage.get<Expense[]>(Collection.Expenses)
-                )
-            )
+        this.storage.get<Expense[]>(Collection.Expenses)
             .subscribe((expenses) => {
                 const mappedExpenses = (expenses || []).map((expense) => ({
                     ...expense,
