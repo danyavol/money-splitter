@@ -17,7 +17,7 @@ import "./core/services/keyboard.service";
 import { SettingsService } from './core/services/settings.service';
 import { AppLayoutComponent } from './modules/layouts/app-layout/app-layout.component';
 import { AuthLayoutComponent } from './modules/layouts/auth-layout/auth-layout.component';
-import { AppServiceWorker } from './core/services/service-worker.service';
+import { cacheInterceptorProvider } from './caching/caching.interceptor';
 
 @NgModule({
     declarations: [AppComponent, AuthLayoutComponent, AppLayoutComponent],
@@ -44,13 +44,14 @@ import { AppServiceWorker } from './core/services/service-worker.service';
         {
             provide: APP_INITIALIZER,
             useFactory: () => () => {},
-            deps: [SettingsService, AppServiceWorker], // To initialize a service on startup
+            deps: [SettingsService], // To initialize a service on startup
             multi: true,
         },
         {
             provide: ErrorHandler,
             useClass: GlobalErrorHandler,
         },
+        cacheInterceptorProvider
     ],
     bootstrap: [AppComponent],
 })

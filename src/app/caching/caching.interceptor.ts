@@ -1,20 +1,30 @@
-import { Injectable, Provider } from '@angular/core';
+import { Injectable, Provider, inject } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HTTP_INTERCEPTORS
+    HttpEvent,
+    HttpInterceptor,
+    HttpHandler,
+    HttpRequest,
+    HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-
 import { Observable } from 'rxjs';
-
-
+import { CacheService } from './caching-service';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-    Observable<HttpEvent<any>> {
-    return next.handle(req);
-  }
+    cacheService = inject(CacheService);
+
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
+        // TODO: Interceptor not called for non HttpClient requests
+        return this.cacheService.matchRule(req, next);
+    }
 }
 
-export const noopInterceptorProvider: Provider =
-  { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true };
+export const cacheInterceptorProvider: Provider = {
+    provide: HTTP_INTERCEPTORS,
+    useClass: CacheInterceptor,
+    multi: true,
+};
