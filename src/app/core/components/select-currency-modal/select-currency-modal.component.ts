@@ -1,13 +1,13 @@
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { Observable, combineLatest, first, map, shareReplay, startWith } from 'rxjs';
 import { ExtendedCurrency } from 'src/app/types/currency.type';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { MsFormControl } from '../../helpers/ms-form';
 import { ButtonComponent } from '../button/button.component';
-import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 @Component({
     selector: 'app-select-currency-modal',
@@ -25,16 +25,14 @@ import { AutofocusDirective } from '../../directives/autofocus.directive';
 })
 export class SelectCurrencyModalComponent implements OnInit, AfterViewInit, ControlValueAccessor {
     @Input() currencies$!: Observable<ExtendedCurrency[]>;
-
     @Output() close = new EventEmitter<void>();
+    @ViewChild(CdkVirtualScrollViewport) list!: CdkVirtualScrollViewport;
 
     search = MsFormControl('');
     filteredCurrencies$!: Observable<ExtendedCurrency[]>;
     selectedCurrency: string | null = null;
     onChange = (value: string | null | string[]) => {};
     onTouched = () => {};
-
-    constructor(private elementRef: ElementRef) {}
 
     ngOnInit(): void {
         this.filteredCurrencies$ = combineLatest([
@@ -49,14 +47,17 @@ export class SelectCurrencyModalComponent implements OnInit, AfterViewInit, Cont
                     c.code.toLowerCase().includes(searchValue) ||
                     c.name.toLowerCase().includes(searchValue)
                 );
-            })
+            }),
+            shareReplay(1)
         );
     }
 
     ngAfterViewInit() {
         setTimeout(() => {
-            const selected = this.elementRef.nativeElement.querySelector(".selected");
-            if (selected) selected.scrollIntoView({ block: "center" });
+            this.filteredCurrencies$.pipe(first()).subscribe(c => {
+                const index = c.findIndex(cur => cur.code === this.selectedCurrency);
+                this.list.scrollToIndex(index);
+            });
         });
     }
 

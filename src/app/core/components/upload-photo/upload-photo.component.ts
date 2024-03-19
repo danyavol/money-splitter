@@ -36,7 +36,8 @@ export class UploadPhotoComponent implements ControlValueAccessor {
 
     onFileSelect(event: Event) {
         const target = event.target as HTMLInputElement;
-        this.file.next(target.files?.[0] ? target.files[0] : null);
+        if (!target.files?.[0]) return;
+        this.file.next(target.files[0]);
         this.onChange(this.file.value);
         this.onTouched();
     }
