@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:allowBackup="true" android:icon="${appIcon}" android:label="${displayName}" android:roundIcon="${appIconRound}" android:supportsRtl="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
+    <application android:allowBackup="true" android:icon="${appIcon}" android:label="${displayName}" android:networkSecurityConfig="@xml/network_security_config" android:roundIcon="${appIconRound}" android:supportsRtl="true" android:theme="@style/AppTheme" android:usesCleartextTraffic="true">
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode" android:exported="true" android:label="${displayName}" android:launchMode="singleTask" android:name="danyavol.moneysplitter.MainActivity" android:theme="@style/AppTheme.NoActionBarLaunch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

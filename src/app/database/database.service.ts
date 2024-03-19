@@ -13,12 +13,7 @@ export class DatabaseService {
         collectionData(collection(this.firestore, 'currencies'), { idField: 'code' }) as Observable<ExtendedCurrency[]>
     ).pipe(
         map(currencies => {
-            getMetadata(ref(this.storage, `currencies/USD.svg`))
-                .then((metadata) => {
-                    console.log(metadata);
-                });
             return currencies.map(c => {
-
                 return {
                     ...c,
                     iconUrl$: defer(() => getBlob(ref(this.storage, `currencies/${c.icon}`))).pipe(

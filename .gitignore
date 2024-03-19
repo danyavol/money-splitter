@@ -72,3 +72,9 @@ Thumbs.db
 *-debug.log
 .runtimeconfig.json
 /src/environments
+
+#SSL
+localhost.crt
+localhost.key
+
+src/service-worker.js

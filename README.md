@@ -8,6 +8,7 @@ This is Android/IOS/browser app which helps to split bills in a group of people.
 
 - `Android Studio`. Don't try to install all android-related drivers manually, just install Android Studio, it doesn't worth it.. Without Android Studio you will only be able to debug the app in browser.
 - `Node 14.20.x, 16.13.x or 18.10.x`
+- `Java 17`
 - `Android Debug Bridge (ADB)` if you would like to test the app on your own phone, not just emulator
 
 ## Start application
