@@ -1,10 +1,11 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, collectionData, doc, setDoc } from "@angular/fire/firestore";
-import { ExtendedCurrency } from "../types/currency.type";
-import { Observable, defer, distinctUntilChanged, from, map, shareReplay, tap } from "rxjs";
-import { getBlob, ref, Storage, uploadBytes } from "@angular/fire/storage";
+import { Firestore, collection, collectionData, doc, docData, setDoc } from "@angular/fire/firestore";
+import { Storage, UploadResult, getBlob, ref, uploadBytes } from "@angular/fire/storage";
 import { isEqual } from 'lodash-es';
 import mime from "mime";
+import { Observable, defer, distinctUntilChanged, from, map, shareReplay } from "rxjs";
+import { ExtendedCurrency } from "../types/currency.type";
+import { User, UserPreferences, UserWithId } from "../types/user.type";
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
@@ -28,10 +29,20 @@ export class DatabaseService {
         shareReplay(1),
     );
 
-    setUser(data: { userId: string, name: string | null, photo: string | null, email: string | null }) {
-        return defer(() => setDoc(doc(this.firestore, 'users', data.userId), {
-            name: data.name, email: data.email, photo: data.photo
-        }));
+    getUser(userId: string): Observable<UserWithId> {
+        return defer(() => docData(doc(this.firestore, 'users', userId), { idField: 'userId' }) as Observable<UserWithId>)
+    }
+
+    getUserPreferences(userId: string): Observable<UserPreferences> {
+        return defer(() => docData(doc(this.firestore, 'users', userId, 'settings', 'preferences')) as Observable<UserPreferences>)
+    }
+
+    setUser(userId: string, data: User): Observable<void> {
+        return defer(() => setDoc(doc(this.firestore, 'users', userId), data));
+    }
+
+    setUserPreferences(userId: string, data: UserPreferences): Observable<void> {
+        return defer(() => setDoc(doc(this.firestore, 'users', userId, 'settings', 'preferences'), data))
     }
 
     getUserPhotoFromUrl(url: string): Observable<{ blob: Blob, name: string }> {
@@ -43,7 +54,11 @@ export class DatabaseService {
         }));
     }
 
-    addUserPhoto(userId: string, fileName: string, data: Blob) {
+    addUserPhoto(userId: string, fileName: string, data: Blob): Observable<UploadResult> {
         return defer(() => uploadBytes(ref(this.storage, `users/${userId}/${fileName}`), data));
+    }
+
+    getUserPhoto(userId: string, fileName: string) {
+        return defer(() => getBlob(ref(this.storage, `users/${userId}/${fileName}`)).then(blob => URL.createObjectURL(blob)));
     }
 }

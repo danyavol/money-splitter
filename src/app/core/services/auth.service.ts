@@ -1,9 +1,10 @@
 import { Injectable, inject } from "@angular/core";
-import { Auth, GoogleAuthProvider, UserCredential, signInWithCredential } from "@angular/fire/auth";
+import { Auth, GoogleAuthProvider, User, UserCredential, signInWithCredential } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
-import { EMPTY, Observable, ReplaySubject, catchError, from, map, of, switchMap, tap, throwError } from "rxjs";
+import { EMPTY, Observable, ReplaySubject, catchError, forkJoin, from, map, of, shareReplay, switchMap, tap, throwError } from "rxjs";
+import { getDefaultPreferences } from "src/app/constants/default-pref";
 import { DatabaseService } from "src/app/database/database.service";
 
 export type CheckEmailResponse = "free" | "password" | "google";
@@ -16,8 +17,30 @@ export class AuthService {
     private router = inject(Router);
     private db = inject(DatabaseService);
 
+    readonly currentUser$ = this.getCurrentUserObs();
+    readonly isLoggedIn = this.currentUser$.pipe(map(user => !!user));
+
     lastRequestedSignInMethod: CheckEmailResponse | null = null;
-    readonly isLoggedIn = this.getIsLoggedIn();
+
+    getCurrentUserData() {
+        return this.currentUser$.pipe(
+            switchMap(user => {
+                if (!user) return of(null);
+                return this.db.getUser(user.uid)
+            }),
+            shareReplay(1)
+        );
+    }
+
+    getCurrentUserPreferences() {
+        return this.currentUser$.pipe(
+            switchMap(user => {
+                if (!user) return of(null);
+                return this.db.getUserPreferences(user.uid)
+            }),
+            shareReplay(1)
+        );
+    }
 
     getSignInMethods(email: string): Observable<CheckEmailResponse> {
         return from(fetchSignInMethodsForEmail(this.auth, email)).pipe(
@@ -68,9 +91,9 @@ export class AuthService {
         }));
     }
 
-    private getIsLoggedIn(): Observable<boolean> {
-        const sbj = new ReplaySubject<boolean>(1);
-        this.auth.onAuthStateChanged(user => sbj.next(!!user));
+    private getCurrentUserObs(): Observable<User | null> {
+        const sbj = new ReplaySubject<User | null>(1);
+        this.auth.onAuthStateChanged(user => sbj.next(user));
 
         return sbj.asObservable();
     }
@@ -84,32 +107,29 @@ export class AuthService {
 
         const { uid, photoURL, displayName, email } = userCredentials.user;
 
-        if (photoURL) {
-            // If photoURL exists - save this photo in own storage
-            return this.db.getUserPhotoFromUrl(photoURL).pipe(
-                switchMap(data => {
-                    return this.db.addUserPhoto(uid, data.name, data.blob).pipe(
-                        map(() => data.name)
-                    );
+        return this.saveNewUserPhoto(uid, photoURL).pipe(
+            switchMap((fileName) => forkJoin([
+                this.db.setUser(uid, {
+                    email: email || "",
+                    name: name || displayName || "",
+                    photo: fileName
                 }),
-                catchError(e => of(null)),
-                switchMap(fileName => {
-                    return this.db.setUser({
-                        userId: uid,
-                        email: email || null,
-                        name: name || displayName || null,
-                        photo: fileName
-                    });
-                })
-            )
-        } else {
-            // Otherwise jut create new user without photo
-            return this.db.setUser({
-                userId: uid,
-                email: email || null,
-                name: name || displayName || null,
-                photo: null
-            });
-        }
+                this.db.setUserPreferences(uid, getDefaultPreferences())
+            ])),
+            map(() => undefined)
+        );
+    }
+
+    private saveNewUserPhoto(uid: string, photoURL: string | null): Observable<string | null> {
+        if (!photoURL) return of(null);
+
+        return this.db.getUserPhotoFromUrl(photoURL).pipe(
+            switchMap(data => {
+                return this.db.addUserPhoto(uid, data.name, data.blob).pipe(
+                    map(() => data.name)
+                );
+            }),
+            catchError(e => of(null)),
+        );
     }
 }

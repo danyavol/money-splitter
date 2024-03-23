@@ -1,6 +1,11 @@
 <ion-content>
     <div class="safe-area-top">
         <h2 class="ion-text-center">Settings</h2>
+        <div>{{ userData$ | async | json }}</div>
+        <div>{{ userPreferences$ | async | json }}</div>
+        <div *ngIf="userPhotoUrl$ | async as photoUrl">
+            <img [src]="photoUrl">
+        </div>
         <ion-list [formGroup]="settingsForm">
             <ion-item>
                 <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
@@ -8,22 +13,6 @@
                     <ion-select-option [value]="Theme.Light">Light</ion-select-option>
                     <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
                 </ion-select>
-            </ion-item>
-            <ion-item class="item-interactive">
-                <div class="backups">
-                    <h4>Backups</h4>
-                    <div class="buttons">
-                        <app-button (click)="saveBackup()">
-                            <span class="material-symbols-rounded">upload</span>
-                            Export data
-                        </app-button>
-                        <app-button color="accent" (click)="selectFile()">
-                            <span class="material-symbols-rounded">download</span>
-                            Import data
-                        </app-button>
-                        <input hidden type="file" #inputFile accept="application/json" (input)="applyBackup($event)">
-                    </div>
-                </div>
             </ion-item>
             <ion-item class="item-interactive">
                 <app-button color="light" variant="text" routerLink="/style-guide">
