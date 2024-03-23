@@ -25,7 +25,7 @@
             </div>
         </ms-control-wrapper>
 
-        <ms-control-wrapper formControlName="members">
+        <!-- <ms-control-wrapper formControlName="members">
             <div class="select-members-wrapper" id="select-members">
                 <ion-label>Members</ion-label>
                 <div class="select-value" slot="end">
@@ -35,7 +35,23 @@
                     </div>
                 </div>
             </div>
-        </ms-control-wrapper>
+        </ms-control-wrapper> -->
+
+        <div class="members-list-wrapper">
+            <div class="members-list-header">
+                <p class="font-label-m">Group members</p>
+                <app-button color="light" variant="text" icon id="select-members">
+                    <span class="material-symbols-rounded">person_add</span>
+                </app-button>
+            </div>
+            <div class="error font-body-s" [appErrorMsg]="form.controls.members" (showError)="showMembersError = $event"></div>
+            <div class="members-list-content" *ngIf="selectedMembers$ | async as selectedMembers; else noFriends">
+                TODO: {{ selectedMembers }}
+            </div>
+            <ng-template #noFriends>
+                <div class="nothing-selected font-body-s" *ngIf="!showMembersError">No friends selected</div>
+            </ng-template>
+        </div>
     </div>
 
     <ion-modal trigger="select-members" class="select-person-modal" #modal>

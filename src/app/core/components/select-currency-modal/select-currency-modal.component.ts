@@ -8,13 +8,15 @@ import { ExtendedCurrency } from 'src/app/types/currency.type';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { MsFormControl } from '../../helpers/ms-form';
 import { ButtonComponent } from '../button/button.component';
+import { StaticVirtualScrollDirective } from '../../directives/static-virtual-scroll.directive';
+import { StaticVirtualScrollStrategy } from '../../helpers/static-virtual-scroll-strategy';
 
 @Component({
     selector: 'app-select-currency-modal',
     templateUrl: './select-currency-modal.component.html',
     styleUrls: ['./select-currency-modal.component.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, ScrollingModule, ButtonComponent, ReactiveFormsModule, AutofocusDirective],
+    imports: [IonicModule, CommonModule, ScrollingModule, ButtonComponent, ReactiveFormsModule, AutofocusDirective, StaticVirtualScrollDirective],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -26,7 +28,7 @@ import { ButtonComponent } from '../button/button.component';
 export class SelectCurrencyModalComponent implements OnInit, AfterViewInit, ControlValueAccessor {
     @Input() currencies$!: Observable<ExtendedCurrency[]>;
     @Output() close = new EventEmitter<void>();
-    @ViewChild(CdkVirtualScrollViewport) list!: CdkVirtualScrollViewport;
+    @ViewChild(StaticVirtualScrollStrategy) list!: StaticVirtualScrollStrategy;
 
     search = MsFormControl('');
     filteredCurrencies$!: Observable<ExtendedCurrency[]>;
@@ -56,7 +58,7 @@ export class SelectCurrencyModalComponent implements OnInit, AfterViewInit, Cont
         setTimeout(() => {
             this.filteredCurrencies$.pipe(first()).subscribe(c => {
                 const index = c.findIndex(cur => cur.code === this.selectedCurrency);
-                this.list.scrollToIndex(index);
+                this.list.scrollToIndex(index, undefined, 'center');
             });
         });
     }

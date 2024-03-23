@@ -19,7 +19,6 @@ export class DatabaseService {
                 return {
                     ...c,
                     iconUrl$: from(getBlob(ref(this.storage, `currencies/${c.icon}`)).then(blob => URL.createObjectURL(blob))).pipe(
-                        tap((u) => console.log(u)),
                         shareReplay(1)
                     )
                 }

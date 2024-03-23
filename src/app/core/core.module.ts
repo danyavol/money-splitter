@@ -12,6 +12,8 @@ import { NgLetModule } from "ng-let";
 import { SelectCurrencyModalComponent } from "./components/select-currency-modal/select-currency-modal.component";
 import { ButtonComponent } from "./components/button/button.component";
 import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.component";
+import { ErrorMessageDirective } from "./directives/error-message.directive";
+import { StaticVirtualScrollDirective } from "./directives/static-virtual-scroll.directive";
 
 @NgModule({
     imports: [
@@ -29,6 +31,8 @@ import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.com
         SelectCurrencyModalComponent,
         ButtonComponent,
         UploadPhotoComponent,
+        ErrorMessageDirective,
+        StaticVirtualScrollDirective,
     ],
     exports: [
         CommonModule,
@@ -45,6 +49,8 @@ import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.com
         SelectCurrencyModalComponent,
         ButtonComponent,
         UploadPhotoComponent,
+        ErrorMessageDirective,
+        StaticVirtualScrollDirective,
     ],
     providers: [
         MembersListPipe

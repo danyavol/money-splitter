@@ -21,6 +21,7 @@ export class GroupFormComponent {
     currencies$ = inject(DatabaseService).currencies$;
     selectedMembers$!: Observable<string | null>;
     selectedCurrency$!: Observable<ExtendedCurrency | null>;
+    showMembersError = false;
 
     constructor(private memberListPipe: MembersListPipe, public anim: ModalAnimation) {}
 

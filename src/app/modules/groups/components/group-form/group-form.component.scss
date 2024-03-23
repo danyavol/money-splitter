@@ -1,3 +1,5 @@
+@import "/src/theme/typography.scss";
+
 .form-wrapper {
     padding: 16px;
     display: flex;
@@ -45,4 +47,28 @@
 
 .placeholder, .expand-icon {
     opacity: 0.5;
+}
+
+.members-list-wrapper {
+    width: 100%;
+
+    .members-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 24px;
+        margin-right: -8.5px;
+    }
+
+    .nothing-selected {
+        margin-top: 15px;
+        text-align: center;
+        color: var(--color-neutral-9);
+    }
+}
+
+.error {
+    margin-top: 15px;
+    text-align: center;
+    color: var(--color-danger-9);
 }
