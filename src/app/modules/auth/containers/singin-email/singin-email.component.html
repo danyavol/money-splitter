@@ -1,6 +1,11 @@
 <ion-content *ngIf="form" [formGroup]="form">
     <div class="wrapper">
         <ion-list lines="none" class="ion-padding-top">
+            <ion-item *ngIf="form.controls.name">
+                <ms-control-wrapper formControlName="name" class="input">
+                    <input class="ms-input" formControlName="name" placeholder="Name" type="text" autocomplete="off">
+                </ms-control-wrapper>
+            </ion-item>
             <ion-item>
                 <ms-control-wrapper formControlName="password" class="input">
                     <input class="ms-input" formControlName="password" placeholder="Password" type="password" autocomplete="off">

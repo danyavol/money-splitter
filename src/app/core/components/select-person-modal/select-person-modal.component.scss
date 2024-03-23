@@ -1,14 +1,14 @@
 ::ng-deep .select-person-modal {
-    --height: auto;
-    --border-radius: 6px;
-    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-    padding: 0 20px;
-    --background: var(--ion-modal-background);
+    --height: 60vh;
 }
 
-ion-list, ion-item {
-    background: var(--ion-modal-background);
-    --background: var(--ion-modal-background);
+.search-bar {
+    padding: 10px;
+    height: 60px;
+    border-bottom: 1px solid var(--color-neutral-6);
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }
 
 .action-button {

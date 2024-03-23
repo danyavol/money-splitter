@@ -25,21 +25,6 @@
     align-items: center;
 }
 
-ion-list, ion-item {
-    background: var(--ion-modal-background);
-    --background: var(--ion-modal-background);
-}
-
-ion-item {
-    --inner-border-width: 0;
-    --padding-top: 5.5px;
-    --padding-bottom: 5.5px;
-}
-
-.selected {
-    --background: var(--ion-item-selected);
-}
-
 .currency-wrapper {
     display: flex;
     align-items: center;

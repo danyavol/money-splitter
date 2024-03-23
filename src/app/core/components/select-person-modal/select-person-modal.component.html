@@ -1,3 +1,11 @@
+<div class="search-bar">
+    <app-button variant="text" color="light" icon (click)="close.emit()">
+        <span class="material-symbols-rounded">arrow_back</span>
+    </app-button>
+    <input class="ms-input" [formControl]="search" placeholder="Search your friends" appAutofocus />
+</div>
+
+
 <ion-list class="people" lines="none">
     <ion-item class="item-interactive" [button]="!multi"
         [class.selected]="member.id === selectedId"

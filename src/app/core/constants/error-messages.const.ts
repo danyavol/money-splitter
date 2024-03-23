@@ -6,6 +6,7 @@ const ERROR_MESSAGES: { [key: string]: string | ((params: any) => string) } = {
     required: 'This field is required',
     differentRecipient: 'Sender and Recipient must be different people',
     minPeople: (min) => `Select at least ${min} ${min === 1 ? "person" : "people"}`,
+    minlength: ({ actualLength, requiredLength}) => `Min length is ${requiredLength}`,
     maxlength: ({ actualLength, requiredLength}) => `Max length is ${requiredLength}`,
     hasLinkedGoogleAccount: 'Please use your Google account to sign in',
     email: 'Please enter valid email',

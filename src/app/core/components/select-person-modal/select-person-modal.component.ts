@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CheckboxCustomEvent, IonicModule } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import { Member } from 'src/app/database/storage.interface';
+import { ButtonComponent } from '../button/button.component';
+import { MsFormControl } from '../../helpers/ms-form';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 interface ViewMember extends Member {
     checked: boolean;
@@ -15,7 +18,7 @@ interface ViewMember extends Member {
     templateUrl: './select-person-modal.component.html',
     styleUrls: ['./select-person-modal.component.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, RouterModule],
+    imports: [IonicModule, CommonModule, RouterModule, ButtonComponent, ReactiveFormsModule, AutofocusDirective],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
@@ -32,6 +35,7 @@ export class SelectPersonModalComponent implements OnInit, ControlValueAccessor 
 
     @Output() close = new EventEmitter<void>();
 
+    search = MsFormControl('');
     selectedIds = new Set<string>();
     selectedIds$ = new BehaviorSubject<Set<string>>(this.selectedIds);
     people$ = new BehaviorSubject<Member[]>([]);

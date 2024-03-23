@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ViewDidEnter, ViewWillEnter } from '@ionic/angular';
+import { ViewWillEnter } from '@ionic/angular';
 import { MsFormControl, MsFormGroup } from 'src/app/core/helpers/ms-form';
 import { AuthService, CheckEmailResponse } from 'src/app/core/services/auth.service';
 import { ToastService } from 'src/app/core/services/toast.service';
@@ -29,6 +29,7 @@ export class SinginEmailComponent implements ViewWillEnter {
     isNewAccount = this.type === "free";
 
     form?: MsFormGroup<{
+        name?: MsFormControl<string>;
         password: MsFormControl<string>;
         repeatPassword?: MsFormControl<string>;
     }>;
@@ -47,6 +48,7 @@ export class SinginEmailComponent implements ViewWillEnter {
         this.form = MsFormGroup({
             password: MsFormControl<string>("", [Validators.required, ...(this.isNewAccount ? [passwordComplexity]: [])]),
             ...(this.isNewAccount && {
+                name: MsFormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
                 repeatPassword: MsFormControl<string>("", [Validators.required])
             }),
         }, this.isNewAccount ? [passwordsMatch] : null);
@@ -56,10 +58,10 @@ export class SinginEmailComponent implements ViewWillEnter {
         this.form?.markAllAsTouched();
         if (!this.form?.valid) return;
 
-        const { password } = this.form.getRawValue();
+        const { password, name } = this.form.getRawValue();
 
         const obs = this.isNewAccount
-            ? this.authService.createUserWithEmailAndPassword(this.email!, password)
+            ? this.authService.createUserWithEmailAndPassword(this.email!, password, name!)
             : this.authService.signInWithEmailAndPassword(this.email!, password);
 
         obs.subscribe({

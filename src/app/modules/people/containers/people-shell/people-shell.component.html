@@ -1,12 +1,10 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>People</ion-title>
-        <ion-buttons slot="end">
-            <app-button color="light" variant="text" icon routerLink="new">
-                <span class="material-symbols-rounded">person_add</span>
-            </app-button>
-        </ion-buttons>
-    </ion-toolbar>
+    <div class="toolbar">
+        <h2 class="toolbar-title">Friends</h2>
+        <app-button variant="text" color="light" icon routerLink="new">
+            <span class="material-symbols-rounded">person_add</span>
+        </app-button>
+    </div>
 </ion-header>
 
 <ion-content *ngIf="members$ | async as members">

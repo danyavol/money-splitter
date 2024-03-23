@@ -8,10 +8,10 @@
 <ng-container *ngIf="{ itemsList: filteredCurrencies$ | async } as vm">
     <cdk-virtual-scroll-viewport msStaticVirtualScroll [itemSize]="50">
         <div class="list">
-            <div class="list-item currency-wrapper"
-                (click)="currencySelected(currency.code)"
+            <div *cdkVirtualFor="let currency of vm.itemsList; trackBy: trackByFn; templateCacheSize: 200"
+                class="list-item currency-wrapper"
                 [class.active]="currency.code === selectedCurrency"
-                *cdkVirtualFor="let currency of vm.itemsList; trackBy: trackByFn; templateCacheSize: 0"
+                (click)="currencySelected(currency.code)"
             >
                     <span class="currency-flag">
                         <img *ngIf="currency.iconUrl$ | async as iconUrl" [src]="iconUrl" />
@@ -29,5 +29,3 @@
         <p>No results found</p>
     </div>
 </ng-container>
-
-
