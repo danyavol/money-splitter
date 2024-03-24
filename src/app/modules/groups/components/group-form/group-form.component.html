@@ -2,9 +2,9 @@
     <div class="form-wrapper safe-area-sides">
         <app-upload-photo formControlName="photo"></app-upload-photo>
 
-        <ms-control-wrapper formControlName="name">
-            <input class="ms-input" formControlName="name" placeholder="Group name">
-        </ms-control-wrapper>
+        <ion-input label-placement="floating" fill="outline" formControlName="name"
+            label="Group name" ionErrorMessage
+        ></ion-input>
 
         <ms-control-wrapper formControlName="currency" id="select-currency">
             <div class="select-currency-wrapper">

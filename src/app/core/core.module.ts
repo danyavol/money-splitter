@@ -14,6 +14,7 @@ import { ButtonComponent } from "./components/button/button.component";
 import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.component";
 import { ErrorMessageDirective } from "./directives/error-message.directive";
 import { StaticVirtualScrollDirective } from "./directives/static-virtual-scroll.directive";
+import { IonErrorMessageDirective } from "./directives/ion-error-message.directive";
 
 @NgModule({
     imports: [
@@ -33,6 +34,7 @@ import { StaticVirtualScrollDirective } from "./directives/static-virtual-scroll
         UploadPhotoComponent,
         ErrorMessageDirective,
         StaticVirtualScrollDirective,
+        IonErrorMessageDirective,
     ],
     exports: [
         CommonModule,
@@ -51,6 +53,7 @@ import { StaticVirtualScrollDirective } from "./directives/static-virtual-scroll
         UploadPhotoComponent,
         ErrorMessageDirective,
         StaticVirtualScrollDirective,
+        IonErrorMessageDirective,
     ],
     providers: [
         MembersListPipe

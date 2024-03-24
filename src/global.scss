@@ -68,6 +68,10 @@ h1,h2,h3,h4,h5,h6,p {
     margin: 0;
 }
 
+hr {
+    background-color: var(--color-neutral-6);
+}
+
 .round-icon-button {
     --padding-start: 0.285rem;
     --padding-end: 0.285rem;

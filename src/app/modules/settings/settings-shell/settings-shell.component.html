@@ -1,31 +1,51 @@
+<ion-header>
+    <div class="toolbar">
+        <h2 class="toolbar-title"></h2>
+        <app-button variant="text" color="light" icon routerLink="edit">
+            <span class="material-symbols-rounded">edit</span>
+        </app-button>
+    </div>
+</ion-header>
+
 <ion-content>
-    <div class="safe-area-top">
-        <h2 class="ion-text-center">Settings</h2>
-        <div>{{ userData$ | async | json }}</div>
-        <div>{{ userPreferences$ | async | json }}</div>
-        <div *ngIf="userPhotoUrl$ | async as photoUrl">
+    <div class="profile-photo">
+        <div *ngIf="userPhotoUrl$ | async as photoUrl; else defaultPhoto">
             <img [src]="photoUrl">
         </div>
-        <ion-list [formGroup]="settingsForm">
-            <ion-item>
-                <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
-                    <ion-select-option [value]="Theme.System">System</ion-select-option>
-                    <ion-select-option [value]="Theme.Light">Light</ion-select-option>
-                    <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item class="item-interactive">
-                <app-button color="light" variant="text" routerLink="/style-guide">
-                    <span class="material-symbols-rounded">palette</span>
-                    Style Guide
-                </app-button>
-            </ion-item>
-            <ion-item class="item-interactive">
-                <app-button color="danger" variant="text" (click)="signOut()">
-                    <span class="material-symbols-rounded">logout</span>
-                    Sign Out
-                </app-button>
-            </ion-item>
-        </ion-list>
+        <ng-template #defaultPhoto>
+            <div class="icon-wrapper">
+                <span class="material-symbols-rounded">person</span>
+            </div>
+        </ng-template>
     </div>
+    <div class="user-data" *ngIf="userData$ | async as userData">
+        <h2>{{ userData.name }}</h2>
+        <h3>{{ userData.email }}</h3>
+    </div>
+
+    <hr>
+
+    <!-- <div>{{ userPreferences$ | async | json }}</div> -->
+
+    <ion-list [formGroup]="settingsForm">
+        <ion-item>
+            <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
+                <ion-select-option [value]="Theme.System">System</ion-select-option>
+                <ion-select-option [value]="Theme.Light">Light</ion-select-option>
+                <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item class="item-interactive">
+            <app-button color="light" variant="text" routerLink="/style-guide">
+                <span class="material-symbols-rounded">palette</span>
+                Style Guide
+            </app-button>
+        </ion-item>
+        <ion-item class="item-interactive">
+            <app-button color="danger" variant="text" (click)="signOut()">
+                <span class="material-symbols-rounded">logout</span>
+                Sign Out
+            </app-button>
+        </ion-item>
+    </ion-list>
 </ion-content>
