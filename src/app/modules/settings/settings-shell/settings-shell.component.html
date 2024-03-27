@@ -27,25 +27,20 @@
 
     <!-- <div>{{ userPreferences$ | async | json }}</div> -->
 
-    <ion-list [formGroup]="settingsForm">
-        <ion-item>
-            <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme">
-                <ion-select-option [value]="Theme.System">System</ion-select-option>
-                <ion-select-option [value]="Theme.Light">Light</ion-select-option>
-                <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
-            </ion-select>
-        </ion-item>
-        <ion-item class="item-interactive">
-            <app-button color="light" variant="text" routerLink="/style-guide">
-                <span class="material-symbols-rounded">palette</span>
-                Style Guide
-            </app-button>
-        </ion-item>
-        <ion-item class="item-interactive">
-            <app-button color="danger" variant="text" (click)="signOut()">
-                <span class="material-symbols-rounded">logout</span>
-                Sign Out
-            </app-button>
-        </ion-item>
-    </ion-list>
+    <div class="controls" [formGroup]="settingsForm">
+
+        <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme" label-placement="floating" fill="outline">
+            <ion-select-option [value]="Theme.System">System</ion-select-option>
+            <ion-select-option [value]="Theme.Light">Light</ion-select-option>
+            <ion-select-option [value]="Theme.Dark">Dark</ion-select-option>
+        </ion-select>
+        <app-button color="light" variant="text" routerLink="/style-guide">
+            <span class="material-symbols-rounded">palette</span>
+            Style Guide
+        </app-button>
+        <app-button color="danger" variant="text" (click)="signOut()">
+            <span class="material-symbols-rounded">logout</span>
+            Sign Out
+        </app-button>
+    </div>
 </ion-content>

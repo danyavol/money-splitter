@@ -36,3 +36,14 @@
         color: var(--color-neutral-11);
     }
 }
+
+.controls {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    app-button {
+        justify-content: flex-start;
+    }
+}

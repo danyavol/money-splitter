@@ -14,6 +14,10 @@
     }
 }
 
+
+// label-floating ion-focusable select-ltr select-fill-outline select-label-placement-floating hydrated ng-touched ion-pristine ion-valid ion-touched
+
+.select-fill-outline.select-label-placement-floating,
 .input-fill-outline.input-label-placement-floating.md {
     --padding-start: 16px;
     --padding-end: 16px;
@@ -84,7 +88,7 @@
         --border-color: var(--color-danger-9);
     }
 
-    &.has-focus, &.has-focus.ion-valid {
+    &.has-focus, &.has-focus.ion-valid, &.select-expanded, &.ion-focused {
         --border-color: var(--color-primary-9);
     }
 }
