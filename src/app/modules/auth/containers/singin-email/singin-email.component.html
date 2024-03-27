@@ -1,29 +1,25 @@
 <ion-content *ngIf="form" [formGroup]="form">
     <div class="wrapper">
-        <ion-list lines="none" class="ion-padding-top">
-            <ion-item *ngIf="form.controls.name">
-                <ms-control-wrapper formControlName="name" class="input">
-                    <input class="ms-input" formControlName="name" placeholder="Name" type="text" autocomplete="off">
-                </ms-control-wrapper>
-            </ion-item>
-            <ion-item>
-                <ms-control-wrapper formControlName="password" class="input">
-                    <input class="ms-input" formControlName="password" placeholder="Password" type="password" autocomplete="off">
-                </ms-control-wrapper>
-            </ion-item>
-            <ion-item *ngIf="form.controls.repeatPassword">
-                <ms-control-wrapper formControlName="repeatPassword" class="input" [extraErrors]="form.controls.repeatPassword.touched ? form.errors : null">
-                    <input class="ms-input" formControlName="repeatPassword" placeholder="Repeat password" type="password" autocomplete="off">
-                </ms-control-wrapper>
-            </ion-item>
-            <ion-item>
-                <ion-button class="submit-btn" size="default" (click)="submit()">
-                    {{ isNewAccount ? "Create Account" : "Sign In" }}
-                </ion-button>
-            </ion-item>
-            <ion-item>
-                <a routerLink="/auth" [queryParams]="{ email }">Go Back</a>
-            </ion-item>
-        </ion-list>
+            <ion-input *ngIf="form.controls.name" label-placement="floating" fill="outline"
+                formControlName="name" label="Your name" placeholder="This name will be displayed for your friends"
+                ionErrorMessage type="text"
+            ></ion-input>
+
+            <ion-input label-placement="floating" fill="outline"
+                formControlName="password" label="Password" autocomplete="off"
+                ionErrorMessage type="password"
+            ></ion-input>
+
+            <ion-input *ngIf="form.controls.repeatPassword" label-placement="floating" fill="outline"
+                formControlName="repeatPassword" label="Repeat password" autocomplete="off"
+                ionErrorMessage type="password"
+            ></ion-input>
+
+            <app-button class="submit-btn" (click)="submit()">
+                {{ isNewAccount ? "Create Account" : "Sign In" }}
+            </app-button>
+            <app-button color="light" variant="text" routerLink="/auth" [queryParams]="{ email }">
+                Go Back
+            </app-button>
     </div>
 </ion-content>

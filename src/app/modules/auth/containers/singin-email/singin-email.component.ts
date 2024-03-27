@@ -14,7 +14,20 @@ function passwordComplexity({ value }: AbstractControl): ValidationErrors | null
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
     const { password, repeatPassword } = (group  as FormGroup).controls;
 
-    if (password.value !== repeatPassword.value) return { passwordsNotMatch: true };
+    if (password.value !== repeatPassword.value) {
+        const errors = { ...repeatPassword.errors, passwordsNotMatch: true }
+        repeatPassword.setErrors(errors);
+    } else {
+        const errors = { ...repeatPassword.errors };
+        delete errors['passwordsNotMatch'];
+
+        if (Object.keys(errors).length) {
+            repeatPassword.setErrors(errors);
+        } else {
+            repeatPassword.setErrors(null);
+        }
+    }
+
     return null;
 }
 

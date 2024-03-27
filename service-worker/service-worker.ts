@@ -37,6 +37,11 @@ registerRoute(
 );
 
 registerRoute(
+    /https?:\/\/firebasestorage\.googleapis\.com\/.+\/users%2F.+\?alt=media/,
+    new CustomSWR({ cacheName: getName('user-photos'), maxAge: 0 })
+);
+
+registerRoute(
     /https?:\/\/fonts.gstatic.com\/s\/materialsymbolsrounded/,
     new CacheFirst({ cacheName: getName('material-symbols') })
 );

@@ -1,34 +1,25 @@
 <ion-content>
     <div class="wrapper">
-        <ion-list lines="none">
-            <ion-item>
-                <h1 class="page-title">Sign in</h1>
-            </ion-item>
-            <ion-item>
-                <ms-control-wrapper [formControl]="email" [withAsyncValidators]="true" class="email-input">
-                    <input class="ms-input" [formControl]="email" placeholder="Email address" type="email">
-                </ms-control-wrapper>
-            </ion-item>
+        <h1 class="page-title">Sign in</h1>
+        
+        <ion-input label-placement="floating" fill="outline" [formControl]="email"
+            label="Email address" ionErrorMessage type="email"
+        ></ion-input>
 
-            <ion-item>
-                <ion-button class="sign-in-btn email font-title-m" size="default" (click)="continueWithEmail()">
-                    <span class="material-symbols-rounded">mail</span>
-                    Continue with email
-                </ion-button>
-            </ion-item>
+        <ion-button class="sign-in-btn email font-title-m" size="default" (click)="continueWithEmail()">
+            <span class="material-symbols-rounded">mail</span>
+            Continue with email
+        </ion-button>
 
-            <ion-item class="divider">
-                <hr />
-                <span class="font-body-l">OR</span>
-                <hr />
-            </ion-item>
+        <div class="divider">
+            <hr />
+            <span class="font-body-l">OR</span>
+            <hr />
+        </div>
 
-            <ion-item>
-                <ion-button class="sign-in-btn google font-title-m" size="default" (click)="signInWithGoogle()">
-                    <ion-icon slot="start" name="google"></ion-icon>
-                    Sign in with Google
-                </ion-button>
-            </ion-item>
-        </ion-list>
+        <ion-button class="sign-in-btn google font-title-m" size="default" (click)="signInWithGoogle()">
+            <ion-icon slot="start" name="google"></ion-icon>
+            Sign in with Google
+        </ion-button>
     </div>
 </ion-content>

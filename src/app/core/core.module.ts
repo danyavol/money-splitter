@@ -15,6 +15,7 @@ import { UploadPhotoComponent } from "./components/upload-photo/upload-photo.com
 import { ErrorMessageDirective } from "./directives/error-message.directive";
 import { StaticVirtualScrollDirective } from "./directives/static-virtual-scroll.directive";
 import { IonErrorMessageDirective } from "./directives/ion-error-message.directive";
+import { AutofocusDirective } from "./directives/autofocus.directive";
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { IonErrorMessageDirective } from "./directives/ion-error-message.directi
         ErrorMessageDirective,
         StaticVirtualScrollDirective,
         IonErrorMessageDirective,
+        AutofocusDirective,
     ],
     exports: [
         CommonModule,
@@ -54,6 +56,7 @@ import { IonErrorMessageDirective } from "./directives/ion-error-message.directi
         ErrorMessageDirective,
         StaticVirtualScrollDirective,
         IonErrorMessageDirective,
+        AutofocusDirective,
     ],
     providers: [
         MembersListPipe

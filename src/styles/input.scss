@@ -51,16 +51,13 @@
         transform: translateY(-50%) scale(1);
     }
 
-    &:not(.has-focus).ion-invalid.ion-touched .label-text-wrapper {
-        color: var(--color-neutral-12);
-    }
-
     &.has-focus .label-text-wrapper, &.has-focus.ion-valid .label-text-wrapper {
         color: var(--color-primary-9);
     }
 
     &.ion-invalid.ion-touched .label-text-wrapper {
         color: var(--color-danger-9);
+        opacity: 1;
     }
 
     &.label-floating {
