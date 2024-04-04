@@ -135,6 +135,11 @@ ion-select-popover {
     --ion-item-background: var(--ion-modal-background);
 }
 
+.item-radio-checked.sc-ion-select-popover-md {
+    --background-focused-opacity: 0;
+    --background: var(--color-primary-4);
+}
+
 ion-modal {
     --background: var(--ion-modal-background);
     ion-checkbox {
