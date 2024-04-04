@@ -1,16 +1,19 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, collectionData, doc, docData, setDoc } from "@angular/fire/firestore";
+import { Firestore, collection, collectionData, doc, docData, setDoc, updateDoc } from "@angular/fire/firestore";
 import { Storage, UploadResult, getBlob, ref, uploadBytes } from "@angular/fire/storage";
 import { isEqual } from 'lodash-es';
 import mime from "mime";
-import { Observable, defer, distinctUntilChanged, from, map, shareReplay } from "rxjs";
+import { Observable, defer, distinctUntilChanged, filter, first, from, map, shareReplay, switchMap } from "rxjs";
 import { ExtendedCurrency } from "../types/currency.type";
 import { User, UserPreferences, UserWithId } from "../types/user.type";
+import { CURRENT_USER } from "../core/services/current-user.injector";
+import { notNull } from "../core/helpers/not-null";
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
     firestore = inject(Firestore);
     storage = inject(Storage);
+    currentUser$$ = inject(CURRENT_USER);
 
     currencies$ = (
         collectionData(collection(this.firestore, 'currencies'), { idField: 'code' }) as Observable<ExtendedCurrency[]>
@@ -33,16 +36,28 @@ export class DatabaseService {
         return defer(() => docData(doc(this.firestore, 'users', userId), { idField: 'userId' }) as Observable<UserWithId>)
     }
 
-    getUserPreferences(userId: string): Observable<UserPreferences> {
-        return defer(() => docData(doc(this.firestore, 'users', userId, 'settings', 'preferences')) as Observable<UserPreferences>)
+    getUserPreferences(): Observable<UserPreferences> {
+        return this.getUserId().pipe(
+            switchMap(userId => from(docData(doc(this.firestore, 'users', userId, 'settings', 'preferences')) as Observable<UserPreferences>))
+        );
     }
 
-    setUser(userId: string, data: User): Observable<void> {
-        return defer(() => setDoc(doc(this.firestore, 'users', userId), data));
+    setUser(data: User): Observable<void> {
+        return this.getUserId().pipe(
+            switchMap(userId => from(setDoc(doc(this.firestore, 'users', userId), data)))
+        );
     }
 
-    setUserPreferences(userId: string, data: UserPreferences): Observable<void> {
-        return defer(() => setDoc(doc(this.firestore, 'users', userId, 'settings', 'preferences'), data))
+    setUserPreferences(data: UserPreferences): Observable<void> {
+        return this.getUserId().pipe(
+            switchMap(userId => from(setDoc(doc(this.firestore, 'users', userId, 'settings', 'preferences'), data)))
+        );
+    }
+
+    updateUserPreferences(data: Partial<UserPreferences>): Observable<void> {
+        return this.getUserId().pipe(
+            switchMap(userId => from(updateDoc(doc(this.firestore, 'users', userId, 'settings', 'preferences'), data)))
+        );
     }
 
     getUserPhotoFromUrl(url: string): Observable<{ blob: Blob, name: string }> {
@@ -54,11 +69,21 @@ export class DatabaseService {
         }));
     }
 
-    addUserPhoto(userId: string, fileName: string, data: Blob): Observable<UploadResult> {
-        return defer(() => uploadBytes(ref(this.storage, `users/${userId}/${fileName}`), data));
+    addUserPhoto(fileName: string, data: Blob): Observable<UploadResult> {
+        return this.getUserId().pipe(
+            switchMap(userId => from(uploadBytes(ref(this.storage, `users/${userId}/${fileName}`), data)))
+        );
     }
 
     getUserPhoto(userId: string, fileName: string) {
         return defer(() => getBlob(ref(this.storage, `users/${userId}/${fileName}`)).then(blob => URL.createObjectURL(blob)));
+    }
+
+    private getUserId(): Observable<string> {
+        return this.currentUser$$.pipe(
+            filter(notNull),
+            map(user => user.uid),
+            first()
+        );
     }
 }

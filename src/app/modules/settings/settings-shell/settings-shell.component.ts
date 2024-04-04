@@ -16,7 +16,6 @@ export class SettingsShellComponent {
     settingsForm = this.settingsService.settingsForm;
 
     userData$ = this.authService.getCurrentUserData();
-    userPreferences$ = this.authService.getCurrentUserPreferences();
     userPhotoUrl$ = this.userData$.pipe(
         switchMap(user => {
             if (!user?.photo) return of(null);

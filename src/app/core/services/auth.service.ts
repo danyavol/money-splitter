@@ -1,11 +1,12 @@
 import { Injectable, inject } from "@angular/core";
-import { Auth, GoogleAuthProvider, User, UserCredential, signInWithCredential } from "@angular/fire/auth";
+import { Auth, GoogleAuthProvider, UserCredential, signInWithCredential } from "@angular/fire/auth";
 import { Router } from "@angular/router";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
-import { EMPTY, Observable, ReplaySubject, catchError, forkJoin, from, map, of, shareReplay, switchMap, tap, throwError } from "rxjs";
+import { EMPTY, Observable, catchError, forkJoin, from, map, of, shareReplay, switchMap, tap, throwError } from "rxjs";
 import { getDefaultPreferences } from "src/app/constants/default-pref";
 import { DatabaseService } from "src/app/database/database.service";
+import { CURRENT_USER } from "./current-user.injector";
 
 export type CheckEmailResponse = "free" | "password" | "google";
 
@@ -16,27 +17,23 @@ export class AuthService {
     private auth = inject(Auth);
     private router = inject(Router);
     private db = inject(DatabaseService);
+    private currentUser$$ = inject(CURRENT_USER);
 
-    readonly currentUser$ = this.getCurrentUserObs();
-    readonly isLoggedIn = this.currentUser$.pipe(map(user => !!user));
+    readonly isLoggedIn = this.currentUser$$.pipe(map(user => !!user));
 
     lastRequestedSignInMethod: CheckEmailResponse | null = null;
 
+    constructor() {
+        this.auth.onAuthStateChanged(user => {
+            this.currentUser$$.next(user)
+        });
+    }
+
     getCurrentUserData() {
-        return this.currentUser$.pipe(
+        return this.currentUser$$.pipe(
             switchMap(user => {
                 if (!user) return of(null);
                 return this.db.getUser(user.uid)
-            }),
-            shareReplay(1)
-        );
-    }
-
-    getCurrentUserPreferences() {
-        return this.currentUser$.pipe(
-            switchMap(user => {
-                if (!user) return of(null);
-                return this.db.getUserPreferences(user.uid)
             }),
             shareReplay(1)
         );
@@ -91,13 +88,6 @@ export class AuthService {
         }));
     }
 
-    private getCurrentUserObs(): Observable<User | null> {
-        const sbj = new ReplaySubject<User | null>(1);
-        this.auth.onAuthStateChanged(user => sbj.next(user));
-
-        return sbj.asObservable();
-    }
-
     private createUserInFirestore(userCredentials: UserCredential, name?: string): Observable<void> {
         const { creationTime, lastSignInTime } = userCredentials.user.metadata;
 
@@ -109,12 +99,12 @@ export class AuthService {
 
         return this.saveNewUserPhoto(uid, photoURL).pipe(
             switchMap((fileName) => forkJoin([
-                this.db.setUser(uid, {
+                this.db.setUser({
                     email: email || "",
                     name: name || displayName || "",
                     photo: fileName
                 }),
-                this.db.setUserPreferences(uid, getDefaultPreferences())
+                this.db.setUserPreferences(getDefaultPreferences())
             ])),
             map(() => undefined)
         );
@@ -125,7 +115,7 @@ export class AuthService {
 
         return this.db.getUserPhotoFromUrl(photoURL).pipe(
             switchMap(data => {
-                return this.db.addUserPhoto(uid, data.name, data.blob).pipe(
+                return this.db.addUserPhoto(data.name, data.blob).pipe(
                     map(() => data.name)
                 );
             }),

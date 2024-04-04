@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { NavigationBar } from '@hugotomazi/capacitor-navigation-bar';
 import { BehaviorSubject, filter, switchMap } from 'rxjs';
-import {
-    defaultSettings,
-    SettingsCollection,
-} from 'src/app/database/collections/settings.collection';
 import { Theme } from 'src/app/database/storage.interface';
 import { SafeArea, SafeAreaInsets } from 'capacitor-plugin-safe-area';
 import { isPlatform } from '@ionic/angular';
 import { ActivatedRouteSnapshot, ResolveEnd, Router } from '@angular/router';
+import { DatabaseService } from 'src/app/database/database.service';
+import { getDefaultPreferences } from 'src/app/constants/default-pref';
 
 export interface SettingsForm {
     theme: FormControl<Theme>;
@@ -21,7 +19,7 @@ export interface SettingsForm {
 })
 export class SettingsService {
     settingsForm = new FormGroup<SettingsForm>({
-        theme: new FormControl(defaultSettings.theme, { nonNullable: true }),
+        theme: new FormControl(getDefaultPreferences().theme, { nonNullable: true }),
     });
 
     showTabs = new BehaviorSubject(true);
@@ -31,8 +29,9 @@ export class SettingsService {
     private systemIsDark = this.prefersDark.matches;
     private ignoreNextSave = false;
 
+    private db = inject(DatabaseService);
+
     constructor(
-        private settingsCol: SettingsCollection,
         private router: Router
     ) {
         this.applySettingsHandlers();
@@ -65,7 +64,7 @@ export class SettingsService {
     }
 
     private loadSettings(): void {
-        this.settingsCol.settings$.subscribe((settings) => {
+        this.db.getUserPreferences().subscribe((settings) => {
             this.ignoreNextSave = true;
             this.settingsForm.setValue({
                 theme: settings.theme,
@@ -107,7 +106,7 @@ export class SettingsService {
             .pipe(
                 filter(() => !this.ignoreNextSave),
                 switchMap((settings) =>
-                    this.settingsCol.updateSettings(settings)
+                    this.db.updateUserPreferences(settings)
                 )
             )
             .subscribe();

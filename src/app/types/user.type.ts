@@ -1,3 +1,5 @@
+import { Theme } from "../database/storage.interface";
+
 export type UserWithId = User & {
     userId: string;
 }
@@ -9,6 +11,6 @@ export type User = {
 }
 
 export type UserPreferences = {
-    theme: 'system' | 'light' | 'dark';
+    theme: Theme;
     recentCurrencies: string[];
 }

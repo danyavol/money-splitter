@@ -25,10 +25,7 @@
 
     <hr>
 
-    <!-- <div>{{ userPreferences$ | async | json }}</div> -->
-
     <div class="controls" [formGroup]="settingsForm">
-
         <ion-select interface="popover" placeholder="Select theme" formControlName="theme" label="Theme" label-placement="floating" fill="outline">
             <ion-select-option [value]="Theme.System">System</ion-select-option>
             <ion-select-option [value]="Theme.Light">Light</ion-select-option>
