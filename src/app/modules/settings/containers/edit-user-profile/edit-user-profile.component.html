@@ -1,0 +1,22 @@
+<ion-header>
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <app-button variant="text" color="light" icon routerLink=".." routerDirection="back">
+                <span class="material-symbols-rounded">close</span>
+            </app-button>
+            <h2 class="toolbar-title">Edit Profile</h2>
+        </div>
+        <div class="toolbar-group">
+            <app-button (click)="saveProfile()">Save</app-button>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content>
+    <div class="form-wrapper safe-area-sides" [formGroup]="form">
+        <app-upload-photo formControlName="photo"></app-upload-photo>
+        <ion-input label-placement="floating" fill="outline" formControlName="name"
+            label="Your name" ionErrorMessage
+        ></ion-input>
+    </div>
+</ion-content>

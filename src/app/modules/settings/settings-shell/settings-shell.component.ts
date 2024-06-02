@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { SettingsService } from 'src/app/core/services/settings.service';
 import { DatabaseService } from 'src/app/database/database.service';
 import { Theme } from 'src/app/database/storage.interface';
+import { UserPhotoDatabase } from 'src/app/database/user-photo.database';
 
 @Component({
     selector: 'app-settings-shell',
@@ -16,18 +17,12 @@ export class SettingsShellComponent {
     settingsForm = this.settingsService.settingsForm;
 
     userData$ = this.authService.getCurrentUserData();
-    userPhotoUrl$ = this.userData$.pipe(
-        switchMap(user => {
-            if (!user?.photo) return of(null);
-
-            return this.db.getUserPhoto(user.userId, user.photo)
-        })
-    );
+    userPhotoUrl$ = this.db.getCurrentUserPhotoUrl();
 
     constructor(
         private settingsService: SettingsService,
         private authService: AuthService,
-        private db: DatabaseService
+        private db: UserPhotoDatabase
     ) {}
 
     signOut() {

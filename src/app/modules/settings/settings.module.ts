@@ -5,9 +5,10 @@ import { IonicModule } from '@ionic/angular';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsShellComponent } from './settings-shell/settings-shell.component';
 import { CoreModule } from 'src/app/core/core.module';
+import { EditUserProfileComponent } from './containers/edit-user-profile/edit-user-profile.component';
 
 @NgModule({
-    declarations: [SettingsShellComponent],
+    declarations: [SettingsShellComponent, EditUserProfileComponent],
     imports: [
         CommonModule,
         SettingsRoutingModule,

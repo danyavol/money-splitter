@@ -7,6 +7,7 @@ import { EMPTY, Observable, catchError, forkJoin, from, map, of, shareReplay, sw
 import { getDefaultPreferences } from "src/app/constants/default-pref";
 import { DatabaseService } from "src/app/database/database.service";
 import { CURRENT_USER } from "./current-user.injector";
+import { UserPhotoDatabase } from "src/app/database/user-photo.database";
 
 export type CheckEmailResponse = "free" | "password" | "google";
 
@@ -17,6 +18,7 @@ export class AuthService {
     private auth = inject(Auth);
     private router = inject(Router);
     private db = inject(DatabaseService);
+    private userPhotoDb = inject(UserPhotoDatabase);
     private currentUser$$ = inject(CURRENT_USER);
 
     readonly isLoggedIn = this.currentUser$$.pipe(map(user => !!user));
@@ -95,9 +97,9 @@ export class AuthService {
         // This check is necessary for google signIn
         if (creationTime !== lastSignInTime) return of(undefined);
 
-        const { uid, photoURL, displayName, email } = userCredentials.user;
+        const { photoURL, displayName, email } = userCredentials.user;
 
-        return this.saveNewUserPhoto(uid, photoURL).pipe(
+        return this.saveNewUserPhoto(photoURL).pipe(
             switchMap((fileName) => forkJoin([
                 this.db.setUser({
                     email: email || "",
@@ -110,13 +112,13 @@ export class AuthService {
         );
     }
 
-    private saveNewUserPhoto(uid: string, photoURL: string | null): Observable<string | null> {
+    private saveNewUserPhoto(photoURL: string | null): Observable<string | null> {
         if (!photoURL) return of(null);
 
-        return this.db.getUserPhotoFromUrl(photoURL).pipe(
-            switchMap(data => {
-                return this.db.addUserPhoto(data.name, data.blob).pipe(
-                    map(() => data.name)
+        return this.userPhotoDb.getPhotoDataFromUrl(photoURL).pipe(
+            switchMap(file => {
+                return this.userPhotoDb.updateCurrentUserPhoto(file).pipe(
+                    map(() => file.name)
                 );
             }),
             catchError(e => of(null)),
