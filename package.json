@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "db-push": "supabase db push",
     "create-migration": "supabase migrations new",
-    "supabase-start": "supabase starty",
+    "supabase-start": "supabase start",
     "gen-types": "supabase gen types --lang=typescript --local > utils/database.types.ts"
   },
   "dependencies": {
